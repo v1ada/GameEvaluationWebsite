@@ -5,7 +5,7 @@ const path = require('path');
 // 根目录
 const rootDir = path.join(__dirname + '../../../');
 
-// 删除文件
+// 删除文件函数
 function delFile(imgPath, dirName) {
   const imgName = path.basename(imgPath);
   fs.unlink(`${rootDir}public/img/${dirName}/${imgName}`, (err) => {

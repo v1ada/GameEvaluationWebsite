@@ -1,5 +1,6 @@
 <template>
   <div class="home-container">
+    <!-- 轮播图 -->
     <el-card class="carousel-card" :body-style="{ padding: '5px' }">
       <el-carousel trigger="click">
         <el-carousel-item v-for="item in carouselImg" :key="item">

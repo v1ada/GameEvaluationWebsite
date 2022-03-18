@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <el-container style="height: 100vh; border: 1px solid #eee">
+      <!-- 侧边栏 -->
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu router :default-openeds="['1']" :default-active="$route.path">
           <el-submenu index="1">
@@ -29,10 +30,11 @@
       </el-aside>
 
       <el-container>
+        <!-- 头部 -->
         <el-header style="text-align: right; font-size: 12px">
           <span>Ming</span>
         </el-header>
-
+        <!-- 主内容 -->
         <el-main style="padding: 20px 100px">
           <router-view />
         </el-main>

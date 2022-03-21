@@ -10,15 +10,17 @@
         <template #img-box>
           <img class="new-cover" :src="item.cover" />
         </template>
-        <template #item-title>
+        <template #item-header>
           <p class="new-title" :title="item">
             {{ item.title }}
           </p>
         </template>
-        <template #item-info>
+        <template #item-main>
           <p class="new-abstract">
             {{ item.content }}
           </p>
+        </template>
+        <template #item-footer>
           <div class="new-footer">
             <p class="new-author">资讯作者</p>
             <p class="new-date">{{ item.publishTime }}</p>
@@ -79,7 +81,7 @@ export default {
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
-  .item-info {
+  .item-main {
     p {
       margin: 5px 0;
     }
@@ -91,6 +93,8 @@ export default {
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
     }
+  }
+  .item-footer {
     .new-footer {
       display: flex;
       justify-content: space-between;

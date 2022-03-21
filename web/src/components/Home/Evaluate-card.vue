@@ -13,10 +13,10 @@
                 <template #img-box>
                   <img class="game-cover" src="../../assets/img/图片.png" alt="" />
                 </template>
-                <template #item-title>
+                <template #item-header>
                   <p class="game-name">游戏名 {{ item }}</p>
                 </template>
-                <template #item-info>
+                <template #item-main>
                   <p class="evaluate-content">
                     【索尼已成功为《死亡搁浅》中的道路构建功能申请到了专利】
                     索尼已成功为《死亡搁浅》中的道路构建功能申请到了专利，该功能允许玩家在游戏中根据实时的网络数据使用其他玩家搭建的...
@@ -73,12 +73,12 @@ export default {
           height: 108px;
         }
       }
-      .item-title {
+      .item-header {
         p {
           margin: 5px 0;
         }
       }
-      .item-info {
+      .item-main {
         p {
           margin: 5px 0;
         }

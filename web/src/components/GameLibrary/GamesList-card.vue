@@ -6,11 +6,11 @@
           <template #img-box>
             <img class="game-cover" src="@/assets/img/图片.png" alt="" />
           </template>
-          <template #item-title>
+          <template #item-header>
             <p class="china-name">塞尔达传说：旷野之息{{ item }}</p>
             <p class="origin-name">The Legend of Zelda：Breath of the Wild{{ item }}</p>
           </template>
-          <template #item-info>
+          <template #item-main>
             <p class="platform">
               游戏平台
               <span>Switch</span>
@@ -56,17 +56,16 @@ export default {
       font-weight: 100;
       margin: 5px 0 10px 0;
     }
-    // .platform,
-    // .game-type,
-    // .game-date {
-    //   font-size: 14px;
-    //   margin: 20px 0 0 0;
-    //   color: #646464;
-    //   span {
-    //     margin-left: 15px;
-    //     color: #333;
-    //   }
-    // }
+    .platform,
+    .game-type,
+    .game-date {
+      margin: 20px 0 0 0;
+      color: #646464;
+      span {
+        margin-left: 15px;
+        color: #333;
+      }
+    }
     .platform {
       span {
         padding: 0 5px;

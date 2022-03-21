@@ -1,5 +1,6 @@
 <template>
   <div class="gameDetail-container">
+    <!-- 游戏信息 -->
     <el-card class="game-main" :body-style="{ display: 'flex', justifyContent: 'space-between' }">
       <div slot="header" class="game-title">
         <h2>塞尔达传说：旷野之息</h2>
@@ -59,8 +60,8 @@
             type="textarea"
             v-model="form_content"
             placeholder="请输入内容"
-            maxlength="100"
-            rows="3"
+            maxlength="200"
+            rows="6"
             :show-word-limit="true"
             resize="none"
             @input="changeInput($event)"
@@ -77,11 +78,51 @@
         </div>
       </el-form>
     </el-card>
+    <!-- 评价列表 -->
+    <el-card class="evaluate-list-card">
+      <div slot="header">
+        <h2 class="card-title">游戏评价</h2>
+      </div>
+      <div class="evaluate-list-body">
+        <item-card v-for="item in 5" :key="item" path="">
+          <template #img-box>
+            <img
+              src="https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132"
+              alt=""
+            />
+          </template>
+          <template #item-header>
+            <span class="username">用户名</span>
+            <el-rate class="user-rate" value="4" disabled />
+          </template>
+          <template #item-main>
+            <p class="evaluate-content">
+              评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容
+            </p>
+          </template>
+          <template #item-footer>
+            <span class="evaluate-time">2022/3/21</span>
+
+            <i
+              class="iconfont icon-dianzan_kuai"
+              :style="{ color: dianzanColor }"
+              @click="dianzanClick"
+            >
+              {{ dianzanNum }}
+            </i>
+          </template>
+        </item-card>
+      </div>
+    </el-card>
   </div>
 </template>
 
 <script>
+import ItemCard from '@/components/Item-card.vue';
 export default {
+  components: {
+    ItemCard,
+  },
   name: 'GameDetail',
   data() {
     return {
@@ -93,6 +134,9 @@ export default {
         content: [{ required: true, message: '请输入评价内容', trigger: 'blur' }],
         rate: [{ required: true, message: '请选择游戏评分', trigger: 'blur' }],
       },
+      dianzanColor: '#ddd',
+      dianzanState: false,
+      dianzanNum: 0,
     };
   },
   computed: {
@@ -103,6 +147,17 @@ export default {
   methods: {
     changeInput($event) {
       this.$forceUpdate();
+    },
+    dianzanClick() {
+      if (!this.dianzanState) {
+        this.dianzanColor = '#f7ba2a';
+        this.dianzanState = true;
+        this.dianzanNum++;
+      } else {
+        this.dianzanColor = '#ddd';
+        this.dianzanState = false;
+        this.dianzanNum--;
+      }
     },
   },
 };
@@ -166,11 +221,15 @@ export default {
         margin: 0;
       }
       .form-content {
-        width: 600px;
-        height: 120px;
+        width: 800px;
+        height: 150px;
+        font-size: 16px;
       }
       .box {
         margin-left: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         .rate-title {
           font-size: 18px;
         }
@@ -180,7 +239,6 @@ export default {
             font-size: 30px;
           }
         }
-        /* el-button */
         .el-button {
           color: #fff;
           background-color: #333;
@@ -191,6 +249,40 @@ export default {
           background: #3d3d3d;
           border-color: #646464;
           color: #fff;
+        }
+      }
+    }
+  }
+  .evaluate-list-card {
+    .card-title {
+      margin: 0;
+    }
+    .evaluate-list-body {
+      /deep/ .img-box {
+        img {
+          border-radius: 50%;
+          width: 64px;
+        }
+      }
+      /deep/ .item-header {
+        display: flex;
+        padding: 10px 0;
+        font-size: 18px;
+        .username {
+          margin-right: 10px;
+        }
+        .user-rate {
+          .el-rate__icon {
+            font-size: 24px;
+          }
+        }
+      }
+      /deep/ .item-footer {
+        display: flex;
+        justify-content: space-between;
+        .icon-dianzan_kuai {
+          font-size: 24px;
+          // color: #f7ba2a;
         }
       }
     }

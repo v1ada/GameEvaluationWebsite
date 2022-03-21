@@ -55,10 +55,10 @@
                     <template #img-box>
                       <img class="game-cover" src="../../assets/img/图片.png" alt="" />
                     </template>
-                    <template #item-title>
+                    <template #item-header>
                       <p class="game-name">游戏名 {{ item }}</p>
                     </template>
-                    <template #item-info>
+                    <template #item-main>
                       <p class="game-platform">PS4 iOS</p>
                       <p class="game-gene">动作 角色扮演 沙箱</p>
                     </template>
@@ -150,12 +150,12 @@ export default {
           height: 108px;
         }
       }
-      .item-title {
+      .item-header {
         p {
           margin: 10px 0;
         }
       }
-      .item-info {
+      .item-main {
         p {
           margin: 5px 0;
         }

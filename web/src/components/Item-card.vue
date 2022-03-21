@@ -1,21 +1,40 @@
 <template>
   <div class="item-card-container">
-    <el-card class="item-card" shadow="hover" :body-style="{ padding: '10px' }">
-      <router-link :to="path" class="router-link">
+    <el-card class="item-card" :shadow="hover" :body-style="{ padding: '10px' }">
+      <router-link :to="path" class="router-link" v-if="path">
         <div class="item-card-body">
           <div class="img-box">
             <slot name="img-box"></slot>
           </div>
           <div class="item-text">
-            <div class="item-title">
-              <slot name="item-title"></slot>
+            <div class="item-header">
+              <slot name="item-header"></slot>
             </div>
-            <div class="item-info">
-              <slot name="item-info"></slot>
+            <div class="item-main">
+              <slot name="item-main"></slot>
+            </div>
+            <div class="item-footer">
+              <slot name="item-footer"></slot>
             </div>
           </div>
         </div>
       </router-link>
+      <div class="item-card-body" v-else>
+        <div class="img-box">
+          <slot name="img-box"></slot>
+        </div>
+        <div class="item-text">
+          <div class="item-header">
+            <slot name="item-header"></slot>
+          </div>
+          <div class="item-main">
+            <slot name="item-main"></slot>
+          </div>
+          <div class="item-footer">
+            <slot name="item-footer"></slot>
+          </div>
+        </div>
+      </div>
     </el-card>
   </div>
 </template>
@@ -24,6 +43,16 @@
 export default {
   name: 'ItemCard',
   props: ['path'],
+  data() {
+    return {
+      hover: 'never',
+    };
+  },
+  created() {
+    if (this.path) {
+      this.hover = 'hover';
+    }
+  },
 };
 </script>
 
@@ -43,12 +72,12 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
-    .item-title {
+    color: #333;
+    .item-header {
       font-size: 18px;
       font-weight: 600;
-      color: #333;
     }
-    .item-info {
+    .item-main {
       display: flex;
       flex-direction: column;
       justify-content: space-between;

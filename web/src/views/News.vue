@@ -21,7 +21,7 @@
           </p>
           <div class="new-footer">
             <p class="new-author">资讯作者</p>
-            <p class="new-date">2021-12-12</p>
+            <p class="new-date">{{ item.publishTime }}</p>
           </div>
         </template>
       </item-card>

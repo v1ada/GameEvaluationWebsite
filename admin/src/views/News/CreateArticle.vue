@@ -1,6 +1,7 @@
 <template>
   <div class="CreateArticle-container">
     <h1>新建文章</h1>
+    <!-- 表单组件 -->
     <el-form
       ref="article"
       :model="article"
@@ -19,7 +20,7 @@
           :action="$http.defaults.baseURL + '/upload/article_cover'"
           :show-file-list="false"
           :on-change="handleChange"
-          :on-success="afterUpload"
+          :on-success="afterCoverUpload"
           :auto-upload="false"
         >
           <img v-if="tempImgUrl" :src="tempImgUrl" class="cover" />
@@ -63,13 +64,17 @@ export default {
   name: 'CreateArticle',
   data() {
     return {
+      // 封面上传临时预览图
       tempImgUrl: '',
+      // 文章信息对象
       article: {
         title: '',
         cover: '',
         content: '',
         pictureList: [],
+        publish: '',
       },
+      // 校验规则
       rules: {
         title: [{ required: true, message: '请输入文章标题', trigger: 'blur' }],
         cover: [{ required: true, message: '请上传文章封面', trigger: 'blur' }],
@@ -78,25 +83,30 @@ export default {
     };
   },
   methods: {
+    // 封面只显示预览
     handleChange(file, fileList) {
       if (fileList.length > 1) {
         fileList.shift(); // 这一步，是 展示最后一次选择的文件
       }
       this.tempImgUrl = URL.createObjectURL(file.raw);
     },
+    // 封面上传
     coverUpload() {
       this.$refs.cover_uploader.submit();
     },
+    // 图片上传
     pictureUpload() {
       this.$refs.picture_uploader.submit();
     },
-    afterUpload(res) {
+    // 封面上传完成后
+    afterCoverUpload(res) {
       this.article.cover = res.url;
       this.$message({
         message: '上传成功',
         type: 'success',
       });
     },
+    // 图片上传完成后
     afterPicUpload(res) {
       console.log(res);
       this.article.pictureList.push({
@@ -104,19 +114,21 @@ export default {
       });
       console.log(this.article.pictureList);
     },
+    // 提交表单
     saveArticle(formName) {
+      // 表单校验，返回valid是否通过校验
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
             await this.$http.post('/rest/articles', this.article);
+            this.$message({
+              message: '保存成功文章成功',
+              type: 'success',
+            });
+            this.$router.push('/articles/list');
           } catch (err) {
             console.log(err);
           }
-          this.$message({
-            message: '保存成功文章成功',
-            type: 'success',
-          });
-          this.$router.push('/articles/list');
         } else {
           console.log('error submit!!');
           return false;
@@ -162,9 +174,6 @@ export default {
     width: 700px;
   }
   /deep/.el-upload-list--picture {
-    // i {
-    //   display: none;
-    // }
     .el-upload-list__item-thumbnail,
     .el-upload-list__item {
       width: 60%;

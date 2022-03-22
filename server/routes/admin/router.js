@@ -41,8 +41,6 @@ router.post('/', (req, res) => {
 });
 // 获取对应ID的文档
 router.get('/:id', (req, res) => {
-  console.log(req.params);
-  console.log(req.params.id);
   req.Model.findById(req.params.id)
     .then((result) => {
       console.log(`成功查询: ${result}`);

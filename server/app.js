@@ -17,12 +17,13 @@ app.use('/public', express.static(__dirname + '/public')); // 静态资源
 
 //挂载通用路由
 app.use(
+  // 路由路径
   '/admin/api/rest/:resource',
   //中间件函数，先执行这个再挂载路由
   (req, res, next) => {
     // 转换成首字母大写单数的单词
     const modelName = inflection.classify(req.params.resource);
-
+    // 获取相应的模型
     req.Model = require(`./models/${modelName}`);
     next();
   },

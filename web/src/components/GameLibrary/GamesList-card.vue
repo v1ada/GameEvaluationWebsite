@@ -2,26 +2,34 @@
   <div class="gamesList-card-container">
     <el-card class="gamesList-card">
       <div class="gameList-item">
-        <item-card v-for="item in 5" :key="item" path="/game/123">
+        <item-card v-for="item in gamesData" :key="item.game_id" :path="`/game/${item._id}`">
           <template #img-box>
-            <img class="game-cover" src="@/assets/img/图片.png" alt="" />
+            <img class="game-cover" :src="item.game_logo" alt="" />
           </template>
           <template #item-header>
-            <p class="china-name">塞尔达传说：旷野之息{{ item }}</p>
-            <p class="origin-name">The Legend of Zelda：Breath of the Wild{{ item }}</p>
+            <p class="game-name">{{ item.game_name }}</p>
+            <p class="origin-name">{{ item.origin_name }}</p>
           </template>
           <template #item-main>
             <p class="platform">
               游戏平台
-              <span>Switch</span>
+              <!-- <span v-for="platform in item.platform" :key="platform">{{ platform }}</span> -->
+              <el-tag
+                v-for="platform in item.platform"
+                :key="platform"
+                effect="plain"
+                size="medium "
+              >
+                {{ platform }}
+              </el-tag>
             </p>
             <p class="game-type">
-              游戏标签
-              <span>开放世界</span>
+              游戏类型
+              <span v-for="game_type in item.game_type" :key="game_type">{{ game_type }}</span>
             </p>
             <p class="game-date">
               发售时间
-              <span>2021-10-31</span>
+              <span>{{ item.game_date }}</span>
             </p>
           </template>
         </item-card>
@@ -33,8 +41,26 @@
 <script>
 import ItemCard from '../Item-card.vue';
 export default {
-  components: { ItemCard },
   name: 'GamesListCard',
+  components: { ItemCard },
+  data() {
+    return {
+      gamesData: [],
+    };
+  },
+  methods: {
+    async getGamesData() {
+      try {
+        const { data } = await this.$http.get('/rest/gameInfo');
+        this.gamesData = data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  created() {
+    this.getGamesData();
+  },
 };
 </script>
 
@@ -47,7 +73,7 @@ export default {
       border: 1px solid #111;
       margin-right: 10px;
     }
-    .china-name {
+    .game-name {
       font-size: 20px;
       margin: 5px 0;
     }

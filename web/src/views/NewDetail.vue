@@ -1,6 +1,7 @@
 <template>
   <div class="newDetail-container">
     <div class="main">
+      <!-- 新闻详情 -->
       <el-card class="newDetail-card">
         <div slot="header">
           <h1>{{ newDetail.title }}</h1>
@@ -19,7 +20,7 @@
     </div>
 
     <div class="side">
-      <!-- 新闻组件 -->
+      <!-- 新闻列表 -->
       <news>
         <template v-slot:show-more>
           <router-link class="show-more-link" to="/news">
@@ -45,8 +46,8 @@ export default {
       newDetail: {
         title: '',
         content: '',
+        pictureList: [],
       },
-      newsList: [],
     };
   },
   methods: {
@@ -54,14 +55,6 @@ export default {
       try {
         const result = await this.$http.get(`/rest/articles/${this.$route.params.id}`);
         this.newDetail = result.data;
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    async getNewList() {
-      try {
-        const result = await this.$http.get('/rest/articles');
-        this.newsList = result.data.reverse();
       } catch (err) {
         console.log(err);
       }
@@ -75,7 +68,6 @@ export default {
   },
   created() {
     this.getNewDetail();
-    this.getNewList();
   },
 };
 </script>

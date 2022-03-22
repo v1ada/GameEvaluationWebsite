@@ -9,4 +9,4 @@ const userSchema = new mongoose.Schema({
   isBan: { type: Boolean },
 });
 
-module.exports = mongoose.model('Article', userSchema);
+module.exports = mongoose.model('User', userSchema);

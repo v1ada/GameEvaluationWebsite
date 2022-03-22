@@ -11,8 +11,8 @@ const gameInfoSchema = new mongoose.Schema({
   game_date: { type: String },
   game_developer: { type: String },
   game_publisher: { type: String },
-  game_img_list: [{ url: String }],
+  game_img_list: [{ type: String }],
   game_brief: { type: String },
 });
 
-module.exports = mongoose.model('Article', gameInfoSchema);
+module.exports = mongoose.model('GameInfo', gameInfoSchema);

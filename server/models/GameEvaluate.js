@@ -7,4 +7,4 @@ const gameEvaluateSchema = new mongoose.Schema({
   evaluate_date: { type: String },
 });
 
-module.exports = mongoose.model('Article', gameEvaluateSchema);
+module.exports = mongoose.model('GameEvaluate', gameEvaluateSchema);

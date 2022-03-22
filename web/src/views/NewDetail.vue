@@ -53,8 +53,8 @@ export default {
   methods: {
     async getNewDetail() {
       try {
-        const result = await this.$http.get(`/rest/articles/${this.$route.params.id}`);
-        this.newDetail = result.data;
+        const { data } = await this.$http.get(`/rest/articles/${this.$route.params.id}`);
+        this.newDetail = data;
       } catch (err) {
         console.log(err);
       }

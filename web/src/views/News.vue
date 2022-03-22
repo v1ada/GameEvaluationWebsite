@@ -47,8 +47,8 @@ export default {
   methods: {
     async getNewsData() {
       try {
-        const result = await this.$http.get('/rest/articles');
-        this.articlesData = result.data.reverse();
+        const { data } = await this.$http.get('/rest/articles');
+        this.articlesData = data.reverse();
       } catch (err) {
         console.log(err);
       }

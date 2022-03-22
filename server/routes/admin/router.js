@@ -20,8 +20,14 @@ const router = express.Router({
 
 // 获取所有文档
 router.get('/', async (req, res) => {
-  const document = await req.Model.find();
-  res.send(document);
+  try {
+    console.log(req.Model);
+    const document = await req.Model.find();
+    console.log(`查询成功：${document}`);
+    res.send(document);
+  } catch (err) {
+    console.log(`查询失败：${err}`);
+  }
 });
 // 添加文档
 router.post('/', (req, res) => {
@@ -35,6 +41,8 @@ router.post('/', (req, res) => {
 });
 // 获取对应ID的文档
 router.get('/:id', (req, res) => {
+  console.log(req.params);
+  console.log(req.params.id);
   req.Model.findById(req.params.id)
     .then((result) => {
       console.log(`成功查询: ${result}`);
@@ -42,24 +50,24 @@ router.get('/:id', (req, res) => {
     })
     .catch((err) => console.log(`查询失败：${err}`));
 });
-// 获取对应游戏名的文档
-router.get('/game', (req, res) => {
-  req.Model.findOne(req.params.game_name)
-    .then((result) => {
-      console.log(`成功查询: ${result}`);
-      res.send(result);
-    })
-    .catch((err) => console.log(`查询失败：${err}`));
-});
-// 获取对应游戏平台和类型的文档
-router.get('/game', (req, res) => {
-  req.Model.find({ platform: req.params.platform, type: req.params.type })
-    .then((result) => {
-      console.log(`成功查询: ${result}`);
-      res.send(result);
-    })
-    .catch((err) => console.log(`查询失败：${err}`));
-});
+// // 获取对应游戏名的文档
+// router.get('/game', (req, res) => {
+//   req.Model.findOne(req.params.game_name)
+//     .then((result) => {
+//       console.log(`成功查询: ${result}`);
+//       res.send(result);
+//     })
+//     .catch((err) => console.log(`查询失败：${err}`));
+// });
+// // 获取对应游戏平台和类型的文档
+// router.get('/game', (req, res) => {
+//   req.Model.find({ platform: req.params.platform, type: req.params.type })
+//     .then((result) => {
+//       console.log(`成功查询: ${result}`);
+//       res.send(result);
+//     })
+//     .catch((err) => console.log(`查询失败：${err}`));
+// });
 // 保存修改完的文档
 router.put('/:id', (req, res) => {
   req.body.publishTime = new Date().toLocaleDateString();

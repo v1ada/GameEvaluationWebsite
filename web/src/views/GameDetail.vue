@@ -2,51 +2,57 @@
   <div class="gameDetail-container">
     <!-- 游戏信息 -->
     <el-card class="game-main" :body-style="{ display: 'flex', justifyContent: 'space-between' }">
-      <div slot="header" class="game-title">
-        <h2>塞尔达传说：旷野之息</h2>
-        <p>The Legend of Zelda：Breath of the Wild</p>
+      <div slot="header" class="game-title" ref="gameTitle">
+        <h2>{{ gameDetail.game_name }}</h2>
+        <p>{{ gameDetail.origin_name }}</p>
       </div>
       <div class="game-picture">
         <el-carousel trigger="click" height="500px">
-          <el-carousel-item v-for="item in 9" :key="item">
-            <img
-              src="https://img01.vgtime.com/photo/web/160616170441201.jpg?x-oss-process=image/resize,m_pad,color_000000,w_1050,h_660"
-              alt=""
-            />
+          <el-carousel-item v-for="item in gameDetail.game_img_list" :key="item">
+            <img :src="item" alt="" />
           </el-carousel-item>
         </el-carousel>
       </div>
 
       <div class="game-info">
-        <img
-          class="game-cover"
-          src="https://img01.vgtime.com/game/cover/2017/01/13/17011315401782.png?x-oss-process=image/resize,m_lfit,w_300"
-          alt=""
-        />
+        <img class="game-cover" :src="gameDetail.game_cover" alt="" />
         <div class="game-descri">
           <div class="game-score">
             <span>游戏评分</span>
             <span class="score">9.8</span>
           </div>
           <div class="platform">
-            <p>游戏平台</p>
+            <span>游戏平台</span>
             <div class="tag-box">
-              <el-tag v-for="item in platform" :key="item" effect="plain" size="medium ">
+              <el-tag v-for="item in gameDetail.platform" :key="item" effect="plain" size="medium ">
                 {{ item }}
               </el-tag>
             </div>
           </div>
           <div class="game-type">
-            <p>游戏类型</p>
+            <span>游戏类型</span>
             <div class="tag-box">
-              <el-tag v-for="item in game_type" :key="item" effect="plain" size="medium ">
+              <el-tag
+                v-for="item in gameDetail.game_type"
+                :key="item"
+                effect="plain"
+                size="medium "
+              >
                 {{ item }}
               </el-tag>
             </div>
           </div>
           <div class="game-date">
             <span>发售时间</span>
-            <span class="date">2021-10-31</span>
+            <span class="date">{{ gameDetail.game_date }}</span>
+          </div>
+          <div class="game-developer">
+            <span>开发厂商</span>
+            <span class="developer">{{ gameDetail.game_developer }}</span>
+          </div>
+          <div class="game-publisher">
+            <span>发行厂商</span>
+            <span class="publisher">{{ gameDetail.game_publisher }}</span>
           </div>
         </div>
       </div>
@@ -93,7 +99,7 @@
           </template>
           <template #item-header>
             <span class="username">用户名</span>
-            <el-rate class="user-rate" value="4" disabled />
+            <el-rate class="user-rate" :value="4" disabled />
           </template>
           <template #item-main>
             <p class="evaluate-content">
@@ -126,9 +132,20 @@ export default {
   name: 'GameDetail',
   data() {
     return {
-      platform: ['NS', 'PS4', 'XB1', 'PC', 'iOS', 'Android', 'PS3', 'PSP', 'PS'],
-      game_type: ['动作', '角色扮演', '沙箱', '第三人称', '射击', '开放世界', '剧情'],
-      from_content: '',
+      gameDetail: {
+        game_id: '',
+        game_name: '',
+        origin_name: '',
+        platform: [],
+        game_type: [],
+        game_cover: '',
+        game_date: '',
+        game_developer: '',
+        game_publisher: '',
+        game_img_list: [],
+        game_brief: '',
+      },
+      form_content: '',
       form_score: null,
       rules: {
         content: [{ required: true, message: '请输入评价内容', trigger: 'blur' }],
@@ -145,6 +162,29 @@ export default {
     },
   },
   methods: {
+    async getGameDetail() {
+      try {
+        const { data } = await this.$http.get(`/rest/gameInfo/${this.$route.params.id}`);
+        // const { data } = await this.$http.get(`/rest/gameInfo/62397eb5fed748be053e7c76`);
+        this.gameDetail = data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    goToHeader() {
+      this.$nextTick(() => {
+        // console.log(this.$refs.gameTitle.scrollTop);
+        // console.log(this.$root);
+        // this.$root.scrollTop = 0;
+        // this.$refs.gameTitle.scrollTop = 0;
+        // const app = document.getElementById('app');
+        // console.log(app);
+        // window.scrollTop = 0;
+        // window.addEventListener('scroll', function () {
+        //   console.log('scrollTop: ', window.scrollTop);
+        // });
+      });
+    },
     changeInput($event) {
       this.$forceUpdate();
     },
@@ -159,6 +199,12 @@ export default {
         this.dianzanNum--;
       }
     },
+  },
+  created() {
+    this.getGameDetail();
+  },
+  mounted() {
+    this.goToHeader();
   },
 };
 </script>
@@ -181,32 +227,29 @@ export default {
       .game-cover {
         width: 100%;
       }
-      .game-score,
-      .platform,
-      .game-type,
-      .game-date {
-        display: flex;
-        font-size: 14px;
-        margin: 10px 0 0 0;
-        color: #646464;
-        p {
-          margin: 0;
-          width: 40%;
-          line-height: 32px;
-        }
-        .score {
-          font-size: 50px;
-        }
-        .score,
-        .date {
-          margin-left: 15px;
-          color: #333;
-        }
-        .tag-box {
-          span {
-            margin: 2px 2px;
-            color: #333;
-            border-color: #d1d1d1;
+      .game-descri {
+        & > * {
+          display: flex;
+          font-size: 14px;
+          margin: 10px 0 0 0;
+          color: #646464;
+          .score {
+            font-size: 50px;
+          }
+          .score,
+          .date,
+          .developer,
+          .publisher {
+            margin-left: 15px;
+          }
+          .tag-box {
+            margin-left: 20px;
+            width: 210px;
+            span {
+              margin: 2px 2px;
+              color: #333;
+              border-color: #d1d1d1;
+            }
           }
         }
       }

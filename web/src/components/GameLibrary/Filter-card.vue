@@ -146,62 +146,72 @@ export default {
       font-weight: 600;
     }
   }
+  /deep/ .filter-form {
+    .el-form-item__label {
+      font-size: 16px;
+    }
+    // el-checkbox 样式
+    .el-checkbox__input.is-checked {
+      & .el-checkbox__inner {
+        background-color: #333;
+        border-color: #333;
+      }
+      & + .el-checkbox__label {
+        color: #333;
+      }
+    }
+    .el-checkbox__input.is-focus {
+      & .el-checkbox__inner {
+        border-color: #333;
+      }
+    }
+    .el-checkbox__inner:hover {
+      border-color: #333;
+    }
+    // el-select 样式
+    .el-select {
+      .el-input {
+        .el-input__inner {
+          border-color: #c6cbd7;
+          color: #333;
+          &:hover,
+          &:focus {
+            border-color: #333;
+          }
+        }
+      }
+    }
+    // el-button 样式
+    .el-button {
+      background-color: #fff;
+      border-color: #c6cbd7;
+      &:hover,
+      &:focus {
+        border-color: #333;
+        color: #333;
+      }
+    }
+    .el-button--primary {
+      color: #fff;
+      background-color: #333;
+      border-color: #333;
+      &:hover,
+      &:focus {
+        background: #505050;
+        border-color: #505050;
+        color: #fff;
+      }
+    }
+  }
 }
-</style>
-<style>
-.el-form-item__label {
-  font-size: 16px;
-}
+//  el-select下拉框 样式
+.el-select-dropdown {
+  .el-select-dropdown__item.selected {
+    color: #333;
+  }
 
-/* el-checkbox 样式 */
-.el-checkbox__input.is-checked .el-checkbox__inner,
-.el-checkbox__input.is-indeterminate .el-checkbox__inner {
-  background-color: #333;
-  border-color: #333;
-}
-.el-checkbox__input.is-checked + .el-checkbox__label {
-  color: #333;
-}
-.el-checkbox.is-bordered.is-checked {
-  border-color: #333;
-}
-.el-checkbox__input.is-focus .el-checkbox__inner {
-  border-color: #333;
-}
-.el-checkbox__inner:hover {
-  border-color: #333;
-}
-/* el-select */
-.el-select-dropdown__item.selected {
-  color: #333;
-  font-weight: 700;
-}
-.el-select .el-input__inner:focus,
-.el-select .el-input.is-focus .el-input__inner {
-  border-color: #333;
-}
-.el-input__inner {
-  color: #333;
-}
-/* el-button */
-.el-button {
-  background-color: #fff;
-}
-.el-button:focus,
-.el-button:hover {
-  background: #f5f5f5;
-  border-color: #333;
-  color: #333;
-}
-.el-button--primary {
-  color: #fff;
-  background-color: #333;
-  border-color: #333;
-}
-.el-button--primary:focus,
-.el-button--primary:hover {
-  background: #3d3d3d;
-  border-color: #646464;
-  color: #fff;
+  .el-input__inner {
+    color: #333;
+  }
 }
 </style>

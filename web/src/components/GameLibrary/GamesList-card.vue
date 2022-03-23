@@ -142,9 +142,10 @@ export default {
       .el-pager li {
         &:not(.disabled).active {
           background-color: #333;
+          color: #fff;
         }
         &:not(.disabled):hover {
-          color: #c2c2c2;
+          color: #969696;
         }
       }
     }

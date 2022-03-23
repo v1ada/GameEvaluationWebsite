@@ -132,25 +132,16 @@ export default {
   name: 'GameDetail',
   data() {
     return {
-      gameDetail: {
-        game_id: '',
-        game_name: '',
-        origin_name: '',
-        platform: [],
-        game_type: [],
-        game_cover: '',
-        game_date: '',
-        game_developer: '',
-        game_publisher: '',
-        game_img_list: [],
-        game_brief: '',
-      },
+      // 游戏详情
+      gameDetail: {},
+      // 评价
       form_content: '',
       form_score: null,
       rules: {
         content: [{ required: true, message: '请输入评价内容', trigger: 'blur' }],
         rate: [{ required: true, message: '请选择游戏评分', trigger: 'blur' }],
       },
+      // 点赞
       dianzanColor: '#ddd',
       dianzanState: false,
       dianzanNum: 0,
@@ -172,18 +163,7 @@ export default {
       }
     },
     goToHeader() {
-      this.$nextTick(() => {
-        // console.log(this.$refs.gameTitle.scrollTop);
-        // console.log(this.$root);
-        // this.$root.scrollTop = 0;
-        // this.$refs.gameTitle.scrollTop = 0;
-        // const app = document.getElementById('app');
-        // console.log(app);
-        // window.scrollTop = 0;
-        // window.addEventListener('scroll', function () {
-        //   console.log('scrollTop: ', window.scrollTop);
-        // });
-      });
+      document.documentElement.scrollTop = 0;
     },
     changeInput($event) {
       this.$forceUpdate();

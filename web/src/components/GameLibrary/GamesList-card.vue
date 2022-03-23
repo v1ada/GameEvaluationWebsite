@@ -11,28 +11,50 @@
             <p class="origin-name">{{ item.origin_name }}</p>
           </template>
           <template #item-main>
-            <p class="platform">
-              游戏平台
-              <!-- <span v-for="platform in item.platform" :key="platform">{{ platform }}</span> -->
-              <el-tag
-                v-for="platform in item.platform"
-                :key="platform"
-                effect="plain"
-                size="medium "
-              >
-                {{ platform }}
-              </el-tag>
-            </p>
-            <p class="game-type">
-              游戏类型
-              <span v-for="game_type in item.game_type" :key="game_type">{{ game_type }}</span>
-            </p>
-            <p class="game-date">
-              发售时间
-              <span>{{ item.game_date }}</span>
-            </p>
+            <div class="game-descri">
+              <div class="platform">
+                <span>游戏平台</span>
+                <div class="tag-box">
+                  <el-tag
+                    v-for="platform in item.platform"
+                    :key="platform"
+                    effect="plain"
+                    size="medium "
+                  >
+                    {{ platform }}
+                  </el-tag>
+                </div>
+              </div>
+              <div class="game-type">
+                <span>游戏类型</span>
+                <div class="tag-box">
+                  <el-tag
+                    v-for="game_type in item.game_type"
+                    :key="game_type"
+                    effect="plain"
+                    size="medium "
+                  >
+                    {{ game_type }}
+                  </el-tag>
+                </div>
+              </div>
+              <div class="game-date">
+                <span>发售时间</span>
+                <span class="date">{{ item.game_date }}</span>
+              </div>
+            </div>
           </template>
         </item-card>
+      </div>
+      <!-- 分页 -->
+      <div class="paging">
+        <el-pagination
+          layout="prev, pager, next, jumper, ->, total"
+          :total="gamesDataTotal"
+          background
+          :current-page="page"
+          @current-change="currentChange"
+        />
       </div>
     </el-card>
   </div>
@@ -46,16 +68,25 @@ export default {
   data() {
     return {
       gamesData: [],
+      gamesDataTotal: 0,
+      page: 1,
     };
   },
   methods: {
     async getGamesData() {
       try {
-        const { data } = await this.$http.get('/rest/gameInfo');
-        this.gamesData = data;
+        const { data } = await this.$http.get(`/rest/gameInfo?page=${this.page}`);
+        this.gamesData = data.result;
+        this.gamesDataTotal = data.total;
       } catch (err) {
         console.log(err);
       }
+    },
+    currentChange(currentPage) {
+      this.page = currentPage;
+      console.log(this.page);
+      this.getGamesData();
+      console.log(this.gamesData[0]);
     },
   },
   created() {
@@ -74,7 +105,7 @@ export default {
       margin-right: 10px;
     }
     .game-name {
-      font-size: 20px;
+      font-size: 24px;
       margin: 5px 0;
     }
     .origin-name {
@@ -82,30 +113,44 @@ export default {
       font-weight: 100;
       margin: 5px 0 10px 0;
     }
-    .platform,
-    .game-type,
-    .game-date {
-      margin: 20px 0 0 0;
-      color: #646464;
-      span {
-        margin-left: 15px;
-        color: #333;
+    .game-descri {
+      & > * {
+        display: flex;
+        margin: 10px 0 0 0;
+        & > span {
+          line-height: 32px;
+        }
+        .tag-box {
+          margin-left: 20px;
+          width: 410px;
+          span {
+            margin: 2px 2px;
+            border: 1px solid #a6a6a6;
+            border-radius: 5px;
+            color: #505050;
+          }
+        }
+        .date {
+          margin-left: 20px;
+        }
       }
     }
-    .platform {
-      span {
-        padding: 0 5px;
-        border: 1px solid #464646;
-        border-radius: 2px;
+  }
+  .paging {
+    margin-top: 20px;
+    /deep/.el-pagination.is-background {
+      .el-pager li {
+        &:not(.disabled).active {
+          background-color: #333;
+        }
+        &:not(.disabled):hover {
+          color: #c2c2c2;
+        }
       }
     }
-    .game-type {
-      span {
-        padding: 0 10px;
-        border: 1px solid #a6a6a6;
-        border-radius: 10px;
-      }
-    }
+    // /deep/ .el-pagination.is-background .el-pager li:not(.disabled).active {
+    //   background-color: #333;
+    // }
   }
 }
 </style>

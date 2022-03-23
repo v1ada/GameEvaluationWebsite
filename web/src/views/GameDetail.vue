@@ -2,7 +2,7 @@
   <div class="gameDetail-container">
     <!-- 游戏信息 -->
     <el-card class="game-main" :body-style="{ display: 'flex', justifyContent: 'space-between' }">
-      <div slot="header" class="game-title" ref="gameTitle">
+      <div slot="header" class="game-title">
         <h2>{{ gameDetail.game_name }}</h2>
         <p>{{ gameDetail.origin_name }}</p>
       </div>

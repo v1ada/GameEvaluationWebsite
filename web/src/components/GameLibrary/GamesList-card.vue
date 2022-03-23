@@ -1,5 +1,5 @@
 <template>
-  <div class="gamesList-card-container">
+  <div class="gamesList-card-container" ref="gamesListContainer">
     <el-card class="gamesList-card">
       <div class="gameList-item">
         <item-card v-for="item in gamesData" :key="item.game_id" :path="`/game/${item._id}`">
@@ -82,11 +82,15 @@ export default {
         console.log(err);
       }
     },
+    // 分页变化时
     currentChange(currentPage) {
       this.page = currentPage;
-      console.log(this.page);
+      // 获取分页数据
       this.getGamesData();
-      console.log(this.gamesData[0]);
+      // 获取游戏列表容器距离顶部的高度
+      const containerOffsetTop = this.$refs.gamesListContainer.offsetTop;
+      // 网页偏移对应的高度  70为导航栏和容器外边距
+      document.documentElement.scrollTop = containerOffsetTop - 70;
     },
   },
   created() {

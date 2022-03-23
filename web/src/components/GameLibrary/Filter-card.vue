@@ -5,9 +5,9 @@
         <span>游戏库</span>
       </div>
       <el-form
-        :model="ruleForm"
+        :model="filterForm"
         :rules="rules"
-        ref="ruleForm"
+        ref="filterForm"
         label-width="100px"
         class="filter-form"
       >
@@ -18,7 +18,7 @@
             v-model="allPlatform"
             @change="allPlatformChange"
           />
-          <el-checkbox-group v-model="ruleForm.platform" @change="platformCheckedChange">
+          <el-checkbox-group v-model="filterForm.platform" @change="platformCheckedChange">
             <el-checkbox label="PC" name="platform" />
             <el-checkbox label="PS4" name="platform" />
             <el-checkbox label="XB1" name="platform" />
@@ -30,7 +30,7 @@
 
         <el-form-item label="游戏类型" prop="type">
           <el-checkbox label="全部类型" name="type" v-model="allType" @change="allTypeChange" />
-          <el-checkbox-group v-model="ruleForm.type" @change="typeCheckedChange">
+          <el-checkbox-group v-model="filterForm.type" @change="typeCheckedChange">
             <el-checkbox label="动作" name="type" />
             <el-checkbox label="冒险" name="type" />
             <el-checkbox label="平台" name="type" />
@@ -55,7 +55,7 @@
         </el-form-item>
 
         <el-form-item label="排序方式" prop="sort">
-          <el-select v-model="ruleForm.sort">
+          <el-select v-model="filterForm.sort">
             <el-option label="评价从高到低" value="1" />
             <el-option label="评价从低到高" value="2" />
             <el-option label="日期从新到旧" value="3" />
@@ -64,8 +64,8 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即筛选</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button type="primary" @click="submitForm('filterForm')">立即筛选</el-button>
+          <el-button @click="resetForm('filterForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -79,7 +79,7 @@ export default {
     return {
       allPlatform: true,
       allType: true,
-      ruleForm: {
+      filterForm: {
         platform: [],
         type: [],
         sort: '1',
@@ -94,9 +94,9 @@ export default {
   methods: {
     allPlatformChange() {
       // 选中全部类型 清除其他多选框
-      if (this.allPlatform) this.ruleForm.platform = [];
+      if (this.allPlatform) this.filterForm.platform = [];
       // 没有选中其他多选框，不能取消全部类型
-      if (!this.ruleForm.platform.length) this.allPlatform = true;
+      if (!this.filterForm.platform.length) this.allPlatform = true;
     },
     platformCheckedChange(checkedArr) {
       // 判断是否有选择类型
@@ -107,9 +107,9 @@ export default {
     },
     allTypeChange() {
       // 选中全部类型 清除其他多选框
-      if (this.allType) this.ruleForm.type = [];
+      if (this.allType) this.filterForm.type = [];
       // 没有选中其他多选框，不能取消全部类型
-      if (!this.ruleForm.type.length) this.allType = true;
+      if (!this.filterForm.type.length) this.allType = true;
     },
     typeCheckedChange(checkedArr) {
       // 判断是否有选择类型
@@ -118,6 +118,7 @@ export default {
         // 没有选择 则选择全部类型
       } else this.allType = true;
     },
+    // 提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -128,6 +129,7 @@ export default {
         }
       });
     },
+    // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.allPlatformChange();
@@ -209,7 +211,6 @@ export default {
   .el-select-dropdown__item.selected {
     color: #333;
   }
-
   .el-input__inner {
     color: #333;
   }

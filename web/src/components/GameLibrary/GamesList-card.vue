@@ -2,7 +2,7 @@
   <div class="gamesList-card-container" ref="gamesListContainer">
     <el-card class="gamesList-card">
       <div class="gameList-item">
-        <item-card v-for="item in gamesData" :key="item.game_id" :path="`/game/${item._id}`">
+        <item-card v-for="item in gamesListData" :key="item.game_id" :path="`/game/${item._id}`">
           <template #img-box>
             <img class="game-cover" :src="item.game_logo" alt="" />
           </template>
@@ -50,7 +50,7 @@
       <div class="paging">
         <el-pagination
           layout="prev, pager, next, jumper, ->, total"
-          :total="gamesDataTotal"
+          :total="gamesListDataTotal"
           background
           :current-page="page"
           @current-change="currentChange"
@@ -67,17 +67,17 @@ export default {
   components: { ItemCard },
   data() {
     return {
-      gamesData: [],
-      gamesDataTotal: 0,
+      gamesListData: [],
+      gamesListDataTotal: 0,
       page: 1,
     };
   },
   methods: {
-    async getGamesData() {
+    async getGamesListData() {
       try {
         const { data } = await this.$http.get(`/rest/gameInfo?page=${this.page}`);
-        this.gamesData = data.result;
-        this.gamesDataTotal = data.total;
+        this.gamesListData = data.result;
+        this.gamesListDataTotal = data.total;
       } catch (err) {
         console.log(err);
       }
@@ -86,7 +86,7 @@ export default {
     currentChange(currentPage) {
       this.page = currentPage;
       // 获取分页数据
-      this.getGamesData();
+      this.getGamesListData();
       // 获取游戏列表容器距离顶部的高度
       const containerOffsetTop = this.$refs.gamesListContainer.offsetTop;
       // 网页偏移对应的高度  70为导航栏和容器外边距
@@ -94,7 +94,7 @@ export default {
     },
   },
   created() {
-    this.getGamesData();
+    this.getGamesListData();
   },
 };
 </script>

@@ -30,6 +30,11 @@ export default {
   data() {
     return {};
   },
+  mounted() {
+    console.log(this.$store);
+    console.log(this.$store.state);
+    console.log(this.$store.state.name);
+  },
 };
 </script>
 

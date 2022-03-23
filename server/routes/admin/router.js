@@ -18,13 +18,22 @@ const router = express.Router({
   mergeParams: true,
 });
 
-// 获取所有文档
+// 条件查询文档
 router.get('/', async (req, res) => {
   try {
     console.log(req.Model);
-    const document = await req.Model.find();
-    console.log(`查询成功：${document}`);
-    res.send(document);
+    // 查询结果数目
+    req.Model.count({}, async (err, count) => {
+      // 分页查询
+      const document = await req.Model.find({})
+        .skip(10 * (req.query.page - 1)) // 跳过十项字段，即到下一页
+        .limit(10); // 一页的字段数目
+      // 发送JSON
+      res.json({
+        result: document,
+        total: count,
+      });
+    });
   } catch (err) {
     console.log(`查询失败：${err}`);
   }

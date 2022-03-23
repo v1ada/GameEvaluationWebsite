@@ -148,9 +148,6 @@ export default {
         }
       }
     }
-    // /deep/ .el-pagination.is-background .el-pager li:not(.disabled).active {
-    //   background-color: #333;
-    // }
   }
 }
 </style>

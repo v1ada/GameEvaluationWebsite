@@ -14,23 +14,31 @@
         <el-form-item label="游戏平台" prop="platform">
           <el-checkbox
             label="全部平台"
-            name="platform"
+            name="allPlatform"
             v-model="allPlatform"
-            @change="allPlatformChange"
+            @change="allOptionChange($event, 'allPlatform')"
           />
-          <el-checkbox-group v-model="filterForm.platform" @change="platformCheckedChange">
+          <el-checkbox-group
+            v-model="filterForm.platform"
+            @change="checkGroupChange($event, 'platform')"
+          >
             <el-checkbox label="PC" name="platform" />
             <el-checkbox label="PS4" name="platform" />
             <el-checkbox label="XB1" name="platform" />
-            <el-checkbox label="Switch" name="platform" />
+            <el-checkbox label="NS" name="platform" />
             <el-checkbox label="PS5" name="platform" />
             <el-checkbox label="XSX|S" name="platform" />
           </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="游戏类型" prop="type">
-          <el-checkbox label="全部类型" name="type" v-model="allType" @change="allTypeChange" />
-          <el-checkbox-group v-model="filterForm.type" @change="typeCheckedChange">
+          <el-checkbox
+            label="全部类型"
+            name="allType"
+            v-model="allType"
+            @change="allOptionChange($event, 'allType')"
+          />
+          <el-checkbox-group v-model="filterForm.type" @change="checkGroupChange($event, 'type')">
             <el-checkbox label="动作" name="type" />
             <el-checkbox label="冒险" name="type" />
             <el-checkbox label="平台" name="type" />
@@ -38,9 +46,9 @@
             <el-checkbox label="射击" name="type" />
             <el-checkbox label="开放世界" name="type" />
             <el-checkbox label="沙箱" name="type" />
-            <el-checkbox label="解迷" name="type" />
+            <el-checkbox label="科幻" name="type" />
             <el-checkbox label="恐怖" name="type" />
-            <el-checkbox label="育成" name="type" />
+            <el-checkbox label="多人" name="type" />
             <el-checkbox label="益智" name="type" />
             <el-checkbox label="竞速" name="type" />
             <el-checkbox label="VR" name="type" />
@@ -56,10 +64,10 @@
 
         <el-form-item label="排序方式" prop="sort">
           <el-select v-model="filterForm.sort">
-            <el-option label="评价从高到低" value="1" />
-            <el-option label="评价从低到高" value="2" />
-            <el-option label="日期从新到旧" value="3" />
-            <el-option label="日期从旧到新" value="4" />
+            <el-option label="评价从高到低" value="scoreDesc" />
+            <el-option label="评价从低到高" value="scoreAsc" />
+            <el-option label="日期从新到旧" value="dateDesc" />
+            <el-option label="日期从旧到新" value="dateAsc" />
           </el-select>
         </el-form-item>
 
@@ -82,7 +90,7 @@ export default {
       filterForm: {
         platform: [],
         type: [],
-        sort: '1',
+        sort: 'scoreDesc',
       },
       rules: {
         platform: [{ type: 'array', message: '请至少选择一个游戏平台', trigger: 'change' }],
@@ -92,37 +100,41 @@ export default {
     };
   },
   methods: {
-    allPlatformChange() {
+    // 全选变化时
+    allOptionChange(event, option) {
       // 选中全部类型 清除其他多选框
-      if (this.allPlatform) this.filterForm.platform = [];
+      if (event) {
+        if (option === 'allPlatform') this.filterForm.platform = [];
+        if (option === 'allType') this.filterForm.type = [];
+      }
       // 没有选中其他多选框，不能取消全部类型
       if (!this.filterForm.platform.length) this.allPlatform = true;
-    },
-    platformCheckedChange(checkedArr) {
-      // 判断是否有选择类型
-      if (checkedArr.length) {
-        this.allPlatform = false;
-        // 没有选择 则选择全部类型
-      } else this.allPlatform = true;
-    },
-    allTypeChange() {
-      // 选中全部类型 清除其他多选框
-      if (this.allType) this.filterForm.type = [];
-      // 没有选中其他多选框，不能取消全部类型
       if (!this.filterForm.type.length) this.allType = true;
     },
-    typeCheckedChange(checkedArr) {
-      // 判断是否有选择类型
-      if (checkedArr.length) {
-        this.allType = false;
-        // 没有选择 则选择全部类型
-      } else this.allType = true;
+    // check组变化时，
+    checkGroupChange(checkedArr, option) {
+      if (option === 'platform') {
+        // 判断是否有选择
+        if (checkedArr.length) this.allPlatform = false;
+        // 没有选择 则全选
+        else this.allPlatform = true;
+      }
+      if (option === 'type') {
+        if (checkedArr.length) this.allType = false;
+        else this.allType = true;
+      }
     },
     // 提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          // 回到首页
+          this.$store.commit('changeGamesListPage', { num: 1 });
+          this.$store.commit('changeFilter', this.filterForm);
+          // 分发action
+          this.$store.dispatch('getGamesListData', {
+            filter: this.filterForm,
+          });
         } else {
           console.log('error submit!!');
           return false;
@@ -132,8 +144,7 @@ export default {
     // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields();
-      this.allPlatformChange();
-      this.allTypeChange();
+      this.allOptionChange();
     },
   },
 };
@@ -187,18 +198,20 @@ export default {
     .el-button {
       background-color: #fff;
       border-color: #c6cbd7;
-      &:hover,
-      &:focus {
+      &:hover {
         border-color: #333;
         color: #333;
       }
+      &:focus {
+        color: #606266;
+      }
     }
-    .el-button--primary {
+    .el-button--primary,
+    .el-button--primary:focus {
       color: #fff;
       background-color: #333;
       border-color: #333;
-      &:hover,
-      &:focus {
+      &:hover {
         background: #505050;
         border-color: #505050;
         color: #fff;

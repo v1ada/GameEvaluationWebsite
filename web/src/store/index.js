@@ -1,48 +1,57 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state() {
     return {
-      name: '张三',
-      age: 0,
-      from: 'china',
-      list: [
-        { id: 1, text: '111', done: true },
-        { id: 2, text: '222', done: false },
-        { id: 3, text: '333', done: true },
-      ],
+      gamesListData: [],
+      gamesListDataTotal: 0,
+      gamesListPage: 1,
+      filter: {
+        platform: [],
+        type: [],
+        sort: '1',
+      },
     };
   },
-  getters: {
-    listDone(state) {
-      return state.list.filter((item) => item.done);
-    },
-    // 可以接受第二个参数，为其他getter
-    listDoneCount(state, getters) {
-      return getters.listDone.length;
-    },
-    // 带参数
-    listFindById(state) {
-      return (id) => {
-        return state.list.find((item) => item.id === id);
-      };
-    },
-  },
+  getters: {},
   mutations: {
-    ageGrow(state) {
-      state.age++;
+    // 存储游戏列表数据
+    changeGamesListData(state, payload) {
+      state.gamesListData = payload.result;
+      state.gamesListDataTotal = payload.total;
     },
-    // 带载荷
-    ageGrowBy(state, payload) {
-      state.age += payload.num;
+    // 改变游戏列表分页
+    changeGamesListPage(state, payload) {
+      state.gamesListPage = payload.num;
+    },
+    // 存储游戏筛选条件
+    changeFilter(state, payload) {
+      state.filter = payload;
     },
   },
   actions: {
-    ageGrow(context) {
-      context.commit('ageGrow');
+    // 发送异步axios请求，获取游戏列表数据
+    async getGamesListData(context, payload) {
+      try {
+        // 游戏筛选条件
+        const filter = context.state.filter;
+        // 请求url路径
+        let url = `http://localhost:3000/admin/api/rest/gameInfo?page=${payload.page || 1}&sort=${
+          filter.sort
+        }`;
+        // 判断非必要筛选条件，若存在 添加到url
+        if (filter.platform.length) url += `&platform=${filter.platform}`;
+        if (filter.type.length) url += `&type=${filter.type}`;
+        // 发起请求，将获取的游戏列表数据存储到state中
+        const { data } = await axios.get(url);
+        context.commit('changeGamesListData', data);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 });

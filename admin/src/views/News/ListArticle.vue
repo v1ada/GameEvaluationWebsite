@@ -2,7 +2,7 @@
   <div class="ListArticle-container">
     ListArticle
     <el-table :data="articlesData">
-      <!-- <el-table-column type="index" index="1" label="序号" /> -->
+      <el-table-column type="index" :index="1" label="序号" />
       <el-table-column prop="_id" label="ID" />
       <el-table-column prop="title" label="标题" />
       <el-table-column prop="cover" label="封面">
@@ -38,8 +38,8 @@ export default {
     // 获取所有文章数据
     async getArticlesData() {
       try {
-        const result = await this.$http.get('/rest/articles');
-        this.articlesData = result.data;
+        const { data } = await this.$http.get('/rest/articles');
+        this.articlesData = data.result;
       } catch (err) {
         console.log(err);
       }

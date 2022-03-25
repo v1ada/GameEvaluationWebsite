@@ -120,7 +120,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            await this.$http.post('/rest/articles', this.article);
+            await this.$http.post('/rest/articles/add', this.article);
             this.$message({
               message: '保存成功文章成功',
               type: 'success',

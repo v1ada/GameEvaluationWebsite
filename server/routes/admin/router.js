@@ -20,26 +20,56 @@ const router = express.Router({
 
 // 条件查询文档
 router.get('/', async (req, res) => {
-  try {
-    console.log(req.Model);
-    // 查询结果数目
-    req.Model.count({}, async (err, count) => {
-      // 分页查询
-      const document = await req.Model.find({})
-        .skip(10 * (req.query.page - 1)) // 跳过十项字段，即到下一页
+  console.log(req.Model);
+  console.log(req.query);
+  // 排序条件对象
+  let sortObj = {};
+  // 添加排序条件
+  switch (req.query.sort) {
+    case 'dateDesc-':
+      sortObj.game_date = -1;
+      break;
+    case 'dateAsc':
+      sortObj.game_date = 1;
+      break;
+
+    default:
+      sortObj.game_date = -1;
+      break;
+  }
+  // 条件查询对象
+  let queryObj = {};
+  // 添加游戏平台条件
+  if (req.query.platform) {
+    const queryPlatform = req.query.platform.split(',');
+    queryObj.platform = { $elemMatch: { $in: queryPlatform } };
+  }
+  // 添加游戏类型条件
+  if (req.query.type) {
+    const queryType = req.query.type.split(',');
+    queryObj.game_type = { $elemMatch: { $in: queryType } };
+  }
+  // 查询结果数目
+  req.Model.count(queryObj, async (err, count) => {
+    // 分页查询
+    try {
+      const document = await req.Model.find(queryObj) // 条件查询
+        .sort(sortObj) // 排序
+        .skip(10 * (req.query.page - 1)) // 跳过10项字段，即到下一页
         .limit(10); // 一页的字段数目
+      // console.log(document);
       // 发送JSON
       res.json({
         result: document,
         total: count,
       });
-    });
-  } catch (err) {
-    console.log(`查询失败：${err}`);
-  }
+    } catch (err) {
+      console.log(`查询失败：${err}`);
+    }
+  });
 });
 // 添加文档
-router.post('/', (req, res) => {
+router.post('/add', (req, res) => {
   req.body.publishTime = new Date().toLocaleDateString();
   req.Model.create(req.body)
     .then((result) => {

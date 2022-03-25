@@ -52,7 +52,7 @@
           layout="prev, pager, next, jumper, ->, total"
           :total="gamesListDataTotal"
           background
-          :current-page="page"
+          :current-page="gamesListPage"
           @current-change="currentChange"
         />
       </div>
@@ -62,31 +62,26 @@
 
 <script>
 import ItemCard from '../Item-card.vue';
+import { mapState } from 'vuex';
 export default {
   name: 'GamesListCard',
   components: { ItemCard },
   data() {
-    return {
-      gamesListData: [],
-      gamesListDataTotal: 0,
-      page: 1,
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(['gamesListData', 'gamesListDataTotal', 'gamesListPage']),
   },
   methods: {
-    async getGamesListData() {
-      try {
-        const { data } = await this.$http.get(`/rest/gameInfo?page=${this.page}`);
-        this.gamesListData = data.result;
-        this.gamesListDataTotal = data.total;
-      } catch (err) {
-        console.log(err);
-      }
+    // 分发Action 发请求，获取数据改变state
+    getGamesListData(payload) {
+      this.$store.dispatch('getGamesListData', payload);
     },
     // 分页变化时
     currentChange(currentPage) {
-      this.page = currentPage;
+      this.$store.commit('changeGamesListPage', { num: currentPage });
       // 获取分页数据
-      this.getGamesListData();
+      this.getGamesListData({ page: this.gamesListPage });
       // 获取游戏列表容器距离顶部的高度
       const containerOffsetTop = this.$refs.gamesListContainer.offsetTop;
       // 网页偏移对应的高度  70为导航栏和容器外边距
@@ -94,7 +89,7 @@ export default {
     },
   },
   created() {
-    this.getGamesListData();
+    this.getGamesListData({ page: this.gamesListPage });
   },
 };
 </script>

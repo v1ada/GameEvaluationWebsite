@@ -6,12 +6,16 @@
         <h2>{{ gameDetail.game_name }}</h2>
         <p>{{ gameDetail.origin_name }}</p>
       </div>
-      <div class="game-picture">
+      <div class="game-content">
         <el-carousel trigger="click" height="500px">
           <el-carousel-item v-for="item in gameDetail.game_img_list" :key="item">
             <img :src="item" alt="" />
           </el-carousel-item>
         </el-carousel>
+        <div class="game-brief">
+          <h2 class="game-brief-title">游戏简介</h2>
+          <p class="game-brief-context">{{ gameDetail.game_brief }}</p>
+        </div>
       </div>
 
       <div class="game-info">
@@ -104,10 +108,13 @@ export default {
     .game-title * {
       margin: 0;
     }
-    .game-picture {
+    .game-content {
       width: 800px;
       img {
         width: 800px;
+      }
+      .game-brief * {
+        margin: 15px 0;
       }
     }
     .game-info {

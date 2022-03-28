@@ -13,6 +13,7 @@ const gameInfoSchema = new mongoose.Schema({
   game_publisher: { type: String },
   game_img_list: [{ type: String }],
   game_brief: { type: String },
+  game_evaluate: { type: mongoose.SchemaType.ObjectId, ref: 'Evaluate' },
 });
 
 module.exports = mongoose.model('GameInfo', gameInfoSchema);

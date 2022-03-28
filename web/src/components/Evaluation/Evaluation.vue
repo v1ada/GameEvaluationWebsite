@@ -2,12 +2,18 @@
   <div class="Evaluation-container">
     <!-- 评价表单 -->
     <el-card class="evaluate-form-card">
-      <el-form class="evaluate-form">
+      <el-form
+        class="evaluate-form"
+        ref="evaluation"
+        :model="evaluation"
+        :rules="rules"
+        @submit.native.prevent="submitEvaluation('evaluation')"
+      >
         <el-form-item prop="content">
           <el-input
             class="form-content"
             type="textarea"
-            v-model="form_content"
+            v-model="evaluation.content"
             placeholder="请输入内容"
             maxlength="200"
             rows="6"
@@ -17,9 +23,9 @@
           />
         </el-form-item>
         <div class="box">
-          <el-form-item prop="rate">
+          <el-form-item prop="score">
             <span class="rate-title">游戏评分</span>
-            <el-rate class="form-rate" v-model="form_score" />
+            <el-rate class="form-rate" v-model="evaluation.score" />
           </el-form-item>
           <el-form-item>
             <el-button native-type="submit">提交</el-button>
@@ -75,12 +81,15 @@ export default {
   name: 'Evaluation',
   data() {
     return {
-      // 评价
-      form_content: '',
-      form_score: null,
+      // 评价信息对象
+      evaluation: {
+        content: '',
+        score: 0,
+      },
+      // 校验规则
       rules: {
         content: [{ required: true, message: '请输入评价内容', trigger: 'blur' }],
-        rate: [{ required: true, message: '请选择游戏评分', trigger: 'blur' }],
+        score: [{ required: true, message: '请选择游戏评分', trigger: 'blur' }],
       },
       // 点赞
       dianzanColor: '#ddd',
@@ -89,14 +98,39 @@ export default {
     };
   },
   computed: {
-    finalScore() {
-      return this.form_score * 2;
-    },
+    // score() {
+    //   return this.score * 2;
+    // },
   },
   methods: {
+    // 提交表单
+    submitEvaluation(formName) {
+      console.log(this.evaluation);
+      // 表单校验，返回valid是否通过校验
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          try {
+            // this.evaluation.score = this.score;
+            console.log(this.evaluation);
+            // await this.$http.post('/rest/evaluations/add', this.evaluation);
+            this.$message({
+              message: '提交评价成功',
+              type: 'success',
+            });
+            // this.$router.push('/articles/list');
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
     changeInput($event) {
       this.$forceUpdate();
     },
+    // 点赞点击事件
     dianzanClick() {
       if (!this.dianzanState) {
         this.dianzanColor = '#f7ba2a';

@@ -72,7 +72,6 @@ export default {
         cover: '',
         content: '',
         pictureList: [],
-        publish: '',
       },
       // 校验规则
       rules: {
@@ -122,7 +121,7 @@ export default {
           try {
             await this.$http.post('/rest/articles/add', this.article);
             this.$message({
-              message: '保存成功文章成功',
+              message: '保存文章成功',
               type: 'success',
             });
             this.$router.push('/articles/list');

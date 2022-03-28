@@ -109,7 +109,7 @@ router.get('/:id', (req, res) => {
 // });
 // 保存修改完的文档
 router.put('/:id', (req, res) => {
-  req.body.publishTime = new Date().toLocaleDateString();
+  console.log(req.body);
   req.Model.findByIdAndUpdate(req.params.id, req.body)
     .then((result) => {
       console.log(`成功修改: ${result}`);

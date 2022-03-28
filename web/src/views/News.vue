@@ -21,14 +21,14 @@
           </p>
         </template>
         <template #item-footer>
-          <div class="new-footer">
+          <div class="new-footer" v-if="showFooter || true">
             <p class="new-author"></p>
             <p class="new-date">{{ item.publishTime }}</p>
           </div>
         </template>
       </item-card>
       <!-- 分页 -->
-      <div class="paging">
+      <div class="paging" v-if="showPaging || true">
         <el-pagination
           layout="prev, pager, next, jumper, ->, total"
           :total="articlesTotal"
@@ -48,6 +48,7 @@ export default {
   components: {
     ItemCard,
   },
+  props: ['showFooter', 'showPaging'],
   data() {
     return {
       articlesData: [],
@@ -68,10 +69,11 @@ export default {
         console.log(err);
       }
     },
+    // 分页变化事件
     currentChange(currentPage) {
       this.articlesListPage = currentPage;
       // 获取分页数据
-      this.getNewsData({ page: this.gamesListPage });
+      this.getNewsData({ page: this.articlesListPage });
       // 网页偏移到顶部
       document.documentElement.scrollTop = 0;
     },

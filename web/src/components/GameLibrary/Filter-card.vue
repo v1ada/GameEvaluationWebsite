@@ -156,7 +156,7 @@ export default {
   },
   created() {
     // 有路由参数的情况下
-    if (this.$route.params) {
+    if (this.$route.params.platform) {
       // 设置筛选器状态
       this.allPlatform = false;
       this.filterForm.platform.push(this.$route.params.platform);

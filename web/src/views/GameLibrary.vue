@@ -7,7 +7,14 @@
 
     <div class="side">
       <!-- 新闻组件 -->
-      <news />
+      <news :showFooter="false" :showPaging="false">
+        <template v-slot:show-more>
+          <router-link class="show-more-link" to="/news">
+            <span>更多</span>
+            <i class="el-icon-d-arrow-right"></i>
+          </router-link>
+        </template>
+      </news>
     </div>
   </div>
 </template>
@@ -59,7 +66,7 @@ export default {
       }
       .new-title {
         margin: 5px 0;
-        font-size: 14px;
+        font-size: 15px;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;

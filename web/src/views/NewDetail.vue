@@ -4,10 +4,10 @@
       <!-- 新闻详情 -->
       <el-card class="newDetail-card">
         <div slot="header">
-          <h1>{{ newDetail.title }}</h1>
+          <h1 class="new-title">{{ newDetail.title }}</h1>
           <div class="new-footer">
             <p class="new-author">资讯作者</p>
-            <p class="new-date">2021-12-12</p>
+            <p class="new-date">{{ newDetail.publishTime }}</p>
           </div>
         </div>
         <div class="newContent">
@@ -21,7 +21,7 @@
 
     <div class="side">
       <!-- 新闻列表 -->
-      <news>
+      <news :showFooter="false" :showPaging="false">
         <template v-slot:show-more>
           <router-link class="show-more-link" to="/news">
             <span>更多</span>
@@ -79,6 +79,9 @@ export default {
   justify-content: space-between;
   .newDetail-card {
     width: 750px;
+    .new-title {
+      margin: 10px 0;
+    }
     .new-footer {
       display: flex;
       justify-content: space-between;
@@ -86,6 +89,7 @@ export default {
       .new-date {
         font-size: 12px;
         color: #969696;
+        margin: 10px 0;
       }
     }
     .newPicture {
@@ -121,7 +125,7 @@ export default {
       }
       .new-title {
         margin: 5px 0;
-        font-size: 14px;
+        font-size: 15px;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;

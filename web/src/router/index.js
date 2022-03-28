@@ -31,7 +31,7 @@ const routes = [
   },
   {
     path: '/game/library/:platform',
-    name: 'GameLibrary',
+    name: 'GameLibraryPlatform',
     component: GameLibrary,
   },
   {

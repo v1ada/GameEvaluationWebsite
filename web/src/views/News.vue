@@ -21,14 +21,14 @@
           </p>
         </template>
         <template #item-footer>
-          <div class="new-footer" v-if="showFooter || true">
+          <div class="new-footer" v-if="showFooter">
             <p class="new-author"></p>
             <p class="new-date">{{ item.publishTime }}</p>
           </div>
         </template>
       </item-card>
       <!-- 分页 -->
-      <div class="paging" v-if="showPaging || true">
+      <div class="paging" v-if="showPaging">
         <el-pagination
           layout="prev, pager, next, jumper, ->, total"
           :total="articlesTotal"
@@ -48,7 +48,17 @@ export default {
   components: {
     ItemCard,
   },
-  props: ['showFooter', 'showPaging'],
+  // 控制是否显示 footer和分页
+  props: {
+    showFooter: {
+      type: Boolean,
+      default: true,
+    },
+    showPaging: {
+      type: Boolean,
+      default: true,
+    },
+  },
   data() {
     return {
       articlesData: [],

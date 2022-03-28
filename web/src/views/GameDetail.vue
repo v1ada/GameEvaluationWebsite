@@ -88,15 +88,13 @@ export default {
         console.log(err);
       }
     },
-    goToHeader() {
-      document.documentElement.scrollTop = 0;
-    },
   },
   created() {
     this.getGameDetail();
   },
   mounted() {
-    this.goToHeader();
+    // 页面滚动到最顶部
+    document.documentElement.scrollTop = 0;
   },
 };
 </script>

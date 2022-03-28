@@ -11,25 +11,25 @@
             <span>游戏平台</span>
           </div>
           <div class="link-container">
-            <router-link class="platform-link" to="/game/library">
+            <router-link class="platform-link" to="/game/library/PC">
               <div class="platform-link-img-div" style="background: #171a21">
                 <img src="../../assets/icon/platform/steam-white-64.png" alt="" />
               </div>
               <p>Steam</p>
             </router-link>
-            <router-link class="platform-link" to="/game/library">
+            <router-link class="platform-link" to="/game/library/PS4">
               <div class="platform-link-img-div" style="background: #00439c">
                 <img src="../../assets/icon/platform/playstation-white-64.png" alt="" />
               </div>
               <p>PlayStation</p>
             </router-link>
-            <router-link class="platform-link" to="/game/library">
+            <router-link class="platform-link" to="/game/library/XB1">
               <div class="platform-link-img-div" style="background: #0f760f">
                 <img src="../../assets/icon/platform/xbox-white-64.png" alt="" />
               </div>
               <p>Xbox</p>
             </router-link>
-            <router-link class="platform-link" to="/game/library">
+            <router-link class="platform-link" to="/game/library/NS">
               <div class="platform-link-img-div" style="background: #fa0000">
                 <img src="../../assets/icon/platform/nintendo-switch-white-64.png" alt="" />
               </div>
@@ -48,22 +48,19 @@
           </div>
           <div class="top-card-body">
             <ul class="game-list">
-              <li v-for="item in 8" :key="item">
-                <router-link class="game-link" to="/game/library">
-                  <!-- 卡片项组件 -->
-                  <item-card path="#">
-                    <template #img-box>
-                      <img class="game-cover" src="../../assets/img/图片.png" alt="" />
-                    </template>
-                    <template #item-header>
-                      <p class="game-name">游戏名 {{ item }}</p>
-                    </template>
-                    <template #item-main>
-                      <p class="game-platform">PS4 iOS</p>
-                      <p class="game-gene">动作 角色扮演 沙箱</p>
-                    </template>
-                  </item-card>
-                </router-link>
+              <li v-for="item in gamesListData" :key="item.game_id">
+                <item-card :path="`/game/${item._id}`">
+                  <template #img-box>
+                    <img class="game-cover" :src="item.game_logo" alt="" />
+                  </template>
+                  <template #item-header>
+                    <p class="game-name">{{ item.game_name }}</p>
+                  </template>
+                  <template #item-main>
+                    <p class="game-platform" v-text="item.platform.join('，')"></p>
+                    <p class="game-gene" v-text="item.game_type.join('，')"></p>
+                  </template>
+                </item-card>
               </li>
             </ul>
           </div>
@@ -75,9 +72,22 @@
 
 <script>
 import ItemCard from '../Item-card';
+import { mapState } from 'vuex';
 export default {
   components: { ItemCard },
   name: 'RecommendCard',
+  computed: {
+    ...mapState(['gamesListData']),
+  },
+  methods: {
+    // 分发Action 发请求，获取数据改变state
+    getGamesListData(payload) {
+      this.$store.dispatch('getGamesListData', payload);
+    },
+  },
+  created() {
+    this.getGamesListData({});
+  },
 };
 </script>
 

@@ -130,10 +130,17 @@ export default {
         if (valid) {
           // 回到首页
           this.$store.commit('changeGamesListPage', { num: 1 });
+          // 提交筛选条件
           this.$store.commit('changeFilter', this.filterForm);
-          // 分发action
+          // 分发action，发送请求获取数据
           this.$store.dispatch('getGamesListData', {
             filter: this.filterForm,
+          });
+          // 提交完状态修改，还原筛选器
+          this.$store.commit('changeFilter', {
+            platform: [],
+            type: [],
+            sort: 'scoreDesc',
           });
         } else {
           console.log('error submit!!');
@@ -146,6 +153,20 @@ export default {
       this.$refs[formName].resetFields();
       this.allOptionChange();
     },
+  },
+  created() {
+    // 有路由参数的情况下
+    if (this.$route.params) {
+      // 设置筛选器状态
+      this.allPlatform = false;
+      this.filterForm.platform.push(this.$route.params.platform);
+      // 提交筛选条件
+      this.$store.commit('changeFilter', this.filterForm);
+      // 分发action，发送请求获取数据
+      this.$store.dispatch('getGamesListData', {
+        filter: this.filterForm,
+      });
+    }
   },
 };
 </script>

@@ -30,6 +30,11 @@ const routes = [
     component: GameLibrary,
   },
   {
+    path: '/game/library/:platform',
+    name: 'GameLibrary',
+    component: GameLibrary,
+  },
+  {
     path: '/game/:id',
     name: 'GameDetail',
     component: GameDetail,

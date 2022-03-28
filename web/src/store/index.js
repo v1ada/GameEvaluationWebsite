@@ -13,7 +13,7 @@ const store = new Vuex.Store({
       filter: {
         platform: [],
         type: [],
-        sort: '1',
+        sort: 'scoreDesc',
       },
     };
   },

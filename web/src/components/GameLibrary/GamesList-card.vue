@@ -91,6 +91,10 @@ export default {
   created() {
     this.getGamesListData({ page: this.gamesListPage });
   },
+  mounted() {
+    // 页面滚动到最顶部
+    document.documentElement.scrollTop = 0;
+  },
 };
 </script>
 

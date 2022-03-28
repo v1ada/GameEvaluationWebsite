@@ -22,11 +22,20 @@
         </template>
         <template #item-footer>
           <div class="new-footer">
-            <p class="new-author">资讯作者</p>
+            <p class="new-author"></p>
             <p class="new-date">{{ item.publishTime }}</p>
           </div>
         </template>
       </item-card>
+      <!-- 分页 -->
+      <div class="paging">
+        <el-pagination
+          layout="prev, pager, next, jumper, ->, total"
+          :total="articlesTotal"
+          background
+          @current-change="currentChange"
+        />
+      </div>
     </el-card>
   </div>
 </template>
@@ -42,16 +51,29 @@ export default {
   data() {
     return {
       articlesData: [],
+      articlesTotal: 0,
+      articlesListPage: 1,
     };
   },
   methods: {
+    // 发送请求获取数据
     async getNewsData() {
       try {
-        const { data } = await this.$http.get('/rest/articles');
-        this.articlesData = data.result.reverse();
+        const { data } = await this.$http.get(
+          `/rest/articles?page=${this.articlesListPage}&sort=pubTimeDesc`
+        );
+        this.articlesData = data.result;
+        this.articlesTotal = data.total;
       } catch (err) {
         console.log(err);
       }
+    },
+    currentChange(currentPage) {
+      this.articlesListPage = currentPage;
+      // 获取分页数据
+      this.getNewsData({ page: this.gamesListPage });
+      // 网页偏移到顶部
+      document.documentElement.scrollTop = 0;
     },
   },
   created() {
@@ -102,6 +124,17 @@ export default {
       .new-date {
         font-size: 12px;
         color: #969696;
+      }
+    }
+  }
+  .paging {
+    margin-top: 20px;
+    /deep/.el-pagination.is-background {
+      .el-pager li {
+        &:not(.disabled).active {
+          background-color: #333;
+          color: #fff;
+        }
       }
     }
   }

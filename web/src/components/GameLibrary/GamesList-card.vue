@@ -147,9 +147,6 @@ export default {
           background-color: #333;
           color: #fff;
         }
-        &:not(.disabled):hover {
-          color: #969696;
-        }
       }
     }
   }

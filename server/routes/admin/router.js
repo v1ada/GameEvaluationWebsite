@@ -26,13 +26,15 @@ router.get('/', async (req, res) => {
   let sortObj = {};
   // 添加排序条件
   switch (req.query.sort) {
-    case 'dateDesc-':
+    case 'dateDesc':
       sortObj.game_date = -1;
       break;
     case 'dateAsc':
       sortObj.game_date = 1;
       break;
-
+    case 'pubTimeDesc':
+      sortObj._id = -1;
+      break;
     default:
       sortObj.game_date = -1;
       break;

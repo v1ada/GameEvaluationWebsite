@@ -5,7 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './assets/icon/iconfont/iconfont.css';
 
 import App from './App.vue';
-import router from './router';
+import router from './router/router';
 import store from './store';
 import axios from 'axios';
 

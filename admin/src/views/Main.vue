@@ -3,7 +3,7 @@
     <el-container style="height: 100vh; border: 1px solid #eee">
       <!-- 侧边栏 -->
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu router :default-openeds="['1']" :default-active="$route.path">
+        <el-menu router :default-openeds="['1', '2']" :default-active="$route.path">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-tickets"></i>
@@ -17,14 +17,10 @@
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-setting"></i>
+              <i class="el-icon-user"></i>
               用户管理
             </template>
-            <el-menu-item-group>
-              <template slot="title">管理员</template>
-              <el-menu-item index="/admin_users/list">管理员列表</el-menu-item>
-              <el-menu-item index="/admin_users/create">新建管理员</el-menu-item>
-            </el-menu-item-group>
+            <el-menu-item index="/users/list">用户列表</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>

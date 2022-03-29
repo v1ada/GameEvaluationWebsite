@@ -175,7 +175,7 @@ export default {
             console.log(err);
           }
           this.$message({
-            message: '保存成功文章成功',
+            message: '保存文章成功',
             type: 'success',
           });
           // 跳转到首页

@@ -6,12 +6,9 @@ import Main from '@/views/Main';
 import ListArticle from '@/views/News/ListArticle';
 import CreateArticle from '@/views/News/CreateArticle';
 import EditArticle from '@/views/News/EditArticle';
-import ListAdmin from '@/views/Admin_User/ListAdmin';
-import CreateAdmin from '@/views/Admin_User/CreateAdmin';
-import EditAdmin from '@/views/Admin_User/EditAdmin';
+import ListAdmin from '@/views/Users/ListUser';
 
 Vue.use(VueRouter);
-
 const routes = [
   { path: '/login', name: 'Login', component: Login },
   {
@@ -34,9 +31,7 @@ const routes = [
         name: 'EditArticle',
         component: EditArticle,
       },
-      { path: '/admin_users/list', name: 'ListAdmin', component: ListAdmin },
-      { path: '/admin_users/create', name: 'CreateAdmin', component: CreateAdmin },
-      { path: '/admin_users/edit/:id', name: 'EditAdmin', component: EditAdmin },
+      { path: '/users/list', name: 'ListAdmin', component: ListAdmin },
     ],
   },
 ];

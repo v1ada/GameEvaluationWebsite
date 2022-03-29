@@ -70,6 +70,7 @@ router.get('/', async (req, res) => {
     }
   });
 });
+
 // 添加文档
 router.post('/add', (req, res) => {
   if (!req.Model.modelName === 'User') req.body.publishTime = new Date().toLocaleDateString();
@@ -80,6 +81,7 @@ router.post('/add', (req, res) => {
     })
     .catch((err) => console.log(`添加失败：${err}`));
 });
+
 // 获取评价测试
 router.get('/eva', (req, res) => {
   // gameInfoModel = require('@/models/GameInfo');
@@ -92,6 +94,7 @@ router.get('/eva', (req, res) => {
     })
     .catch((err) => console.log(`查询失败：${err}`));
 });
+
 // 获取对应ID的文档
 router.get('/:id', (req, res) => {
   req.Model.findById(req.params.id)
@@ -119,16 +122,18 @@ router.get('/:id', (req, res) => {
 //     })
 //     .catch((err) => console.log(`查询失败：${err}`));
 // });
+
 // 保存修改完的文档
 router.put('/:id', (req, res) => {
   console.log(req.body);
-  req.Model.findByIdAndUpdate(req.params.id, req.body)
+  req.Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((result) => {
       console.log(`成功修改: ${result}`);
       res.send(result);
     })
     .catch((err) => console.log(`修改失败：${err}`));
 });
+
 // 删除文档
 router.delete('/delete/:id', async (req, res) => {
   try {
@@ -151,6 +156,7 @@ router.delete('/delete/:id', async (req, res) => {
   }
   res.send({ status: true });
 });
+
 // 删除图片
 router.put('/picture/delete/', async (req, res) => {
   try {

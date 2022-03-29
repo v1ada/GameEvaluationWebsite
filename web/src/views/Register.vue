@@ -57,7 +57,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            await this.$http.post('/rest/user/add', this.userData);
+            await this.$http.post('/rest/users/add', this.userData);
             this.$message({
               message: '注册成功',
               type: 'success',

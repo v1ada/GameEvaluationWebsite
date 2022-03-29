@@ -35,8 +35,8 @@ app.set('secret', '2dj12h3hu4234');
 app.post('/admin/api/login', async (req, res) => {
   // res.send('ok');
   const { username, password } = req.body;
-  const AdminUser = require('./models/AdminUser');
-  const user = await AdminUser.findOne({ username });
+  const User = require('./models/User');
+  const user = await User.findOne({ username });
   // 校验用户名
   if (!user) {
     return res.status(422).send({

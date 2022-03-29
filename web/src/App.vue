@@ -16,6 +16,7 @@
           <el-menu-item index="/">首页</el-menu-item>
           <el-menu-item index="/news">新闻资讯</el-menu-item>
           <el-menu-item index="/game/library">游戏库</el-menu-item>
+          <el-menu-item index="/login" class="login-item">登录</el-menu-item>
         </el-menu>
       </el-header>
       <el-main>
@@ -64,6 +65,9 @@ export default {
     .el-menu {
       width: 1100px;
       margin: 0 auto;
+      .login-item {
+        float: right;
+      }
     }
   }
   .el-main {

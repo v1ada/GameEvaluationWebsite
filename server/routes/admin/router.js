@@ -72,7 +72,7 @@ router.get('/', async (req, res) => {
 });
 // 添加文档
 router.post('/add', (req, res) => {
-  req.body.publishTime = new Date().toLocaleDateString();
+  if (!req.Model.modelName === 'User') req.body.publishTime = new Date().toLocaleDateString();
   req.Model.create(req.body)
     .then((result) => {
       console.log(`成功添加: ${result}`);

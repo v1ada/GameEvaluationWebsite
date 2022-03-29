@@ -5,6 +5,8 @@ import News from '@/views/News.vue';
 import NewDetail from '@/views/NewDetail.vue';
 import GameLibrary from '@/views/GameLibrary.vue';
 import GameDetail from '@/views/GameDetail.vue';
+import Login from '@/views/Login.vue';
+import Register from '@/views/Register.vue';
 
 Vue.use(VueRouter);
 
@@ -13,6 +15,16 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
   {
     path: '/news',

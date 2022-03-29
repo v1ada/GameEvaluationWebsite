@@ -8,10 +8,10 @@
       label-width="80px"
       @submit.native.prevent="saveAdminUser('admin_user')"
     >
-      <el-form-item label="用户名" prop="title">
+      <el-form-item label="用户名" prop="username">
         <el-input v-model="admin_user.username" />
       </el-form-item>
-      <el-form-item label="密码" prop="title">
+      <el-form-item label="密码" prop="password">
         <el-input v-model="admin_user.password" />
       </el-form-item>
 

@@ -82,9 +82,10 @@ router.post('/add', (req, res) => {
     .catch((err) => console.log(`添加失败：${err}`));
 });
 
-// 模糊查询
+// 模糊查询搜索
 router.get('/search', (req, res) => {
   const keyWord = req.query.search;
+  // 正则表达式，模糊查询
   const reg = new RegExp(keyWord, 'i');
   req.Model.find({ $or: [{ username: { $regex: reg } }, { nickname: { $regex: reg } }] })
     .then((result) => {
@@ -96,8 +97,7 @@ router.get('/search', (req, res) => {
 
 // 获取评价测试
 router.get('/eva', (req, res) => {
-  // gameInfoModel = require('@/models/GameInfo');
-  // let GameInfoModel = require('../..//models/GameInfo');
+  // 关联查询
   req.Model.find()
     .populate('parent_game')
     .then((result) => {

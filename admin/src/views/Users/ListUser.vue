@@ -1,15 +1,21 @@
 <template>
-  <div class="ListAdmin-container">
+  <div class="ListUser-container">
     <div class="ListHeader">
       <h2>用户列表</h2>
-      <el-input class="searchInput" v-model="searchStr" placeholder="搜索" />
-      <el-button @click="search">查询</el-button>
+      <!-- 搜索框 -->
+      <el-input
+        class="searchInput"
+        v-model="searchStr"
+        @input="searchUser"
+        placeholder="搜索用户名或昵称"
+      />
     </div>
     <el-table :data="usersData">
       <el-table-column prop="_id" label="ID" width="300" />
       <el-table-column prop="username" label="用户名" width="200" />
       <el-table-column prop="nickname" label="昵称" width="300" />
       <el-table-column prop="type" label="权限" width="150">
+        <!-- 下拉菜单改变权限 -->
         <template slot-scope="scope">
           <el-select v-model="scope.row.type">
             <el-option label="普通用户" :value="0" />
@@ -18,6 +24,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="isBan" label="封禁状态" width="100" align="center">
+        <!-- 更改封禁状态 -->
         <template slot-scope="scope">
           <el-switch v-model="scope.row.isBan" active-color="#ff4949" />
         </template>
@@ -33,7 +40,7 @@
 
 <script>
 export default {
-  name: 'ListAdmin',
+  name: 'ListUser',
   data() {
     return {
       usersData: [],
@@ -41,30 +48,26 @@ export default {
       searchStr: '',
     };
   },
-  computed: {
-    userType() {
-      if (this.usersData.type) return '管理员';
-      else return '普通用户';
-    },
-  },
   methods: {
+    // 获取全部用户信息
     async getUsersData() {
       try {
         const { data } = await this.$http.get('/rest/users');
-        console.log(data);
         this.usersData = data.result;
         this.usersDataTotal = data.total;
       } catch (err) {
         console.log(err);
       }
     },
-    async search() {
-      await this.$http.get(`/rest/users/search?search=${this.searchStr}`);
+    // 模糊搜索用户
+    async searchUser() {
+      const { data } = await this.$http.get(`/rest/users/search?search=${this.searchStr}`);
+      this.usersData = data;
     },
+    // 更新用户权限与状态
     async updateUser(id) {
       try {
         const userData = this.usersData.find((item) => (item.id = id));
-        console.log(userData);
         await this.$http.put(`/rest/users/${id}`, userData);
         this.$message({
           message: '保存成功',
@@ -73,7 +76,6 @@ export default {
       } catch (err) {
         console.log(err);
       }
-      // this.getUsersData();
     },
   },
   created() {

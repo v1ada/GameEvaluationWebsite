@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const gameInfoSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   game_id: { type: String },
   game_logo: { type: String },
   game_name: { type: String },
@@ -13,7 +13,6 @@ const gameInfoSchema = new mongoose.Schema({
   game_publisher: { type: String },
   game_img_list: [{ type: String }],
   game_brief: { type: String },
-  game_evaluate: { type: mongoose.SchemaType.ObjectId, ref: 'Evaluate' },
 });
 
-module.exports = mongoose.model('GameInfo', gameInfoSchema);
+module.exports = mongoose.model('GameInfo', schema);

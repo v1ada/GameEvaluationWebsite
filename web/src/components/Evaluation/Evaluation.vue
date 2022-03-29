@@ -98,21 +98,22 @@ export default {
     };
   },
   computed: {
-    // score() {
-    //   return this.score * 2;
-    // },
+    finalScore() {
+      return this.evaluation.score * 2;
+    },
   },
   methods: {
     // 提交表单
     submitEvaluation(formName) {
-      console.log(this.evaluation);
       // 表单校验，返回valid是否通过校验
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            // this.evaluation.score = this.score;
+            this.evaluation.score = this.finalScore;
+            this.evaluation.parent_game = this.$route.params.id;
             console.log(this.evaluation);
             // await this.$http.post('/rest/evaluations/add', this.evaluation);
+            await this.$http.post('/rest/evaluations/add', this.evaluation);
             this.$message({
               message: '提交评价成功',
               type: 'success',

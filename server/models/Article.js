@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const articleSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   title: { type: String },
   cover: { type: String },
   content: { type: String },
@@ -8,4 +8,4 @@ const articleSchema = new mongoose.Schema({
   publishTime: { type: String },
 });
 
-module.exports = mongoose.model('Article', articleSchema);
+module.exports = mongoose.model('Article', schema);

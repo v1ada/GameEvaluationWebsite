@@ -30,8 +30,8 @@ app.use(
   router
 );
 
+// 登录接口
 app.set('secret', '2dj12h3hu4234');
-
 app.post('/admin/api/login', async (req, res) => {
   // res.send('ok');
   const { username, password } = req.body;

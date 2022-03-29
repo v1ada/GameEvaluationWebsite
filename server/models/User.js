@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   username: { type: String },
   password: { type: String },
   nickname: { type: String },
   profile_photo: { type: String },
-  isAdmin: { type: Boolean },
+  type: { type: Number }, // 0为普通用户，1为管理员
   isBan: { type: Boolean },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', schema);

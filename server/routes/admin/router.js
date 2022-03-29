@@ -82,6 +82,18 @@ router.post('/add', (req, res) => {
     .catch((err) => console.log(`添加失败：${err}`));
 });
 
+// 模糊查询
+router.get('/search', (req, res) => {
+  const keyWord = req.query.search;
+  const reg = new RegExp(keyWord, 'i');
+  req.Model.find({ $or: [{ username: { $regex: reg } }, { nickname: { $regex: reg } }] })
+    .then((result) => {
+      console.log(`成功查询: ${result}`);
+      res.send(result);
+    })
+    .catch((err) => console.log(`查询失败：${err}`));
+});
+
 // 获取评价测试
 router.get('/eva', (req, res) => {
   // gameInfoModel = require('@/models/GameInfo');

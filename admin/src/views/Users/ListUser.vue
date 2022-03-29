@@ -2,7 +2,8 @@
   <div class="ListAdmin-container">
     <div class="ListHeader">
       <h2>用户列表</h2>
-      <el-input class="searchInput" v-model="search" placeholder="输入用户名搜索" />
+      <el-input class="searchInput" v-model="searchStr" placeholder="搜索" />
+      <el-button @click="search">查询</el-button>
     </div>
     <el-table :data="usersData">
       <el-table-column prop="_id" label="ID" width="300" />
@@ -37,7 +38,7 @@ export default {
     return {
       usersData: [],
       usersDataTotal: 0,
-      search: '',
+      searchStr: '',
     };
   },
   computed: {
@@ -56,6 +57,9 @@ export default {
       } catch (err) {
         console.log(err);
       }
+    },
+    async search() {
+      await this.$http.get(`/rest/users/search?search=${this.searchStr}`);
     },
     async updateUser(id) {
       try {

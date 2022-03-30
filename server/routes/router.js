@@ -150,7 +150,6 @@ router.get('/:id', (req, res) => {
 
 // 保存修改完的文档
 router.put('/:id', (req, res) => {
-  console.log(req.body);
   req.Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then((result) => {
       console.log(`成功修改: ${result}`);

@@ -60,50 +60,22 @@ app.post('/admin/api/:login', async (req, res) => {
 });
 
 // 文件上传
-const articleCoverUpload = multer({ dest: __dirname + '/public/img/article_cover' }); // dest:上传的文件保存路径
-const articlePictureUpload = multer({ dest: __dirname + '/public/img/article_picture' });
-// let upload = multer();
-// // 文件上传接口，multer会给request添加 file、files
-// app.post(
-//   '/admin/api/upload/:imgType',
-//   authMiddleware,
-//   (req, res, next) => {
-//     console.log(`${__dirname}/public/img/${req.params.imgType}`);
-//     upload = multer({ dest: `${__dirname}/public/img/${req.params.imgType}` });
-//     log
-//     next();
-//   },
-//   upload.single('file'),
-//   (req, res) => {
-//     console.log(req.file);
-//     const imgType = req.params.imgType;
-//     const file = req.file;
-//     file.url = `http://localhost:3000/public/img/${imgType}/${file.originalname}`;
-//     console.log(file);
-//     res.send(file);
-//   }
-// );
-app.post(
-  '/admin/api/upload/article_cover',
-  authMiddleware,
-  articleCoverUpload.single('file'),
-  (req, res) => {
-    const file = req.file;
-    file.url = `http://localhost:3000/public/img/article_cover/${file.filename}`;
-    res.send(file);
-  }
-);
+// diskStorage: 磁盘存储引擎可以让你控制文件的存储。
+let storage = multer.diskStorage({
+  // destination: 存储路径，可以使用request对象和文件对象
+  destination: function (req, file, cb) {
+    cb(null, `${__dirname}/public/img/${req.params.imgType}`);
+  },
+});
+let upload = multer({ storage: storage });
 
-app.post(
-  '/admin/api/upload/article_picture',
-  authMiddleware,
-  articlePictureUpload.single('file'),
-  (req, res) => {
-    const file = req.file;
-    file.url = `http://localhost:3000/public/img/article_picture/${file.filename}`;
-    res.send(file);
-  }
-);
+// 文件上传接口，multer会给request添加 file、files
+app.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
+  const imgType = req.params.imgType;
+  const file = req.file;
+  file.url = `http://localhost:3000/public/img/${imgType}/${file.filename}`;
+  res.send(file);
+});
 
 app.listen(3000, () => {
   console.log('Running at http://localhost:3000');

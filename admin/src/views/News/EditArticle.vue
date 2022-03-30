@@ -1,5 +1,5 @@
 <template>
-  <div class="CreateArticle-container">
+  <div class="EditArticle-container">
     <h1>编辑文章</h1>
     <el-form
       ref="article"
@@ -45,8 +45,6 @@
           :file-list="article.fileList"
           :auto-upload="false"
           :multiple="true"
-          :before-upload="beforePicUpload"
-          :before-remove="beforePicDel"
           :on-success="afterPicUpload"
           :on-remove="pictureDel"
         >

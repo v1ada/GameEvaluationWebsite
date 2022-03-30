@@ -10,7 +10,7 @@ import ListAdmin from '@/views/Users/ListUser';
 
 Vue.use(VueRouter);
 const routes = [
-  { path: '/login', name: 'Login', component: Login },
+  { path: '/login', name: 'Login', component: Login, meta: { isPublic: true } },
   {
     path: '/',
     name: 'Main',
@@ -31,6 +31,7 @@ const routes = [
         name: 'EditArticle',
         component: EditArticle,
       },
+
       { path: '/users/list', name: 'ListAdmin', component: ListAdmin },
     ],
   },
@@ -40,6 +41,11 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+// 没有登录token不能进入
+router.beforeEach((to, from, next) => {
+  if (!to.meta.isPublic && !localStorage.token) next('/login');
+  next();
 });
 
 export default router;

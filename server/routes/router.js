@@ -179,7 +179,7 @@ router.delete('/delete/:id', async (req, res) => {
     const result = await req.Model.findByIdAndDelete(document._id);
     console.log(`删除文档成功：${result}`);
   } catch (err) {
-    console.log(`删除错误：${err}`);
+    console.log(`删除文档错误：${err}`);
     res.send(err);
   }
   res.send({ status: true });
@@ -200,7 +200,7 @@ router.put('/picture/delete/', async (req, res) => {
     const article = await req.Model.findById(req.body.articleId);
     console.log(`删除后：${article}`);
   } catch (err) {
-    console.log(`删除错误：${err}`);
+    console.log(`删除图片错误：${err}`);
     res.send(err);
   }
 });

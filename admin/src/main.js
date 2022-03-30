@@ -28,6 +28,7 @@ http.interceptors.response.use(
   },
   // 响应失败的操作
   (err) => {
+    // 有err的响应message时
     if (err.response.data.message) {
       Vue.prototype.$message({
         type: 'error',
@@ -41,6 +42,17 @@ http.interceptors.response.use(
 );
 // 全局使用设置好的axios
 Vue.prototype.$http = http;
+
+// 全局vue实例，都包含
+Vue.mixin({
+  methods: {
+    getAuthHeaders() {
+      return {
+        Authorization: `Bearer ${localStorage.token || ''}`,
+      };
+    },
+  },
+});
 
 new Vue({
   router,

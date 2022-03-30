@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors'); //解决跨域问题
-const inflection = require('inflection'); // 处理单词大小写首字母的转换，单数复数的转换
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 
@@ -17,42 +16,16 @@ app.use(cors()); // 跨域模块
 app.use(express.json()); //识别json
 app.use('/public', express.static(__dirname + '/public')); // 静态资源
 
+// 导入中间件
+const authMiddleware = require('./middleware/auth.js')();
+const resourceMiddleware = require('./middleware/resource.js')();
+
 //挂载通用路由
 app.use(
   // 路由路径
   '/admin/api/rest/:resource',
-  //中间件函数，先执行这个再挂载路由
-  async (req, res, next) => {
-    // 校验用户是否登录
-    const token = String(req.headers.authorization || '').split(' ')[1];
-    if (!token) {
-      return res.status(401).send({
-        message: '请先登录',
-      });
-    }
-    const { id } = jwt.verify(token, app.get('secret'));
-    if (!id) {
-      return res.status(401).send({
-        message: '无效的token',
-      });
-    }
-    // 校验用户是否存在
-    req.user = await User.findById(id);
-    if (!req.user) {
-      return res.status(401).send({
-        message: '请先登录',
-      });
-    }
-    await next();
-  },
-  // 设置模型
-  (req, res, next) => {
-    // 转换成首字母大写单数的单词
-    const modelName = inflection.classify(req.params.resource);
-    // 获取相应的模型
-    req.Model = require(`./models/${modelName}`);
-    next();
-  },
+  //中间件函数，先执行中间件再挂载路由
+  resourceMiddleware,
   router
 );
 
@@ -88,18 +61,49 @@ app.post('/admin/api/:login', async (req, res) => {
 
 // 文件上传
 const articleCoverUpload = multer({ dest: __dirname + '/public/img/article_cover' }); // dest:上传的文件保存路径
-// 文件上传接口，multer会给request添加 file、files
-app.post('/admin/api/upload/article_cover', articleCoverUpload.single('file'), (req, res) => {
-  const file = req.file;
-  file.url = `http://localhost:3000/public/img/article_cover/${file.filename}`;
-  res.send(file);
-});
 const articlePictureUpload = multer({ dest: __dirname + '/public/img/article_picture' });
-app.post('/admin/api/upload/article_picture', articlePictureUpload.single('file'), (req, res) => {
-  const file = req.file;
-  file.url = `http://localhost:3000/public/img/article_picture/${file.filename}`;
-  res.send(file);
-});
+// let upload = multer();
+// // 文件上传接口，multer会给request添加 file、files
+// app.post(
+//   '/admin/api/upload/:imgType',
+//   authMiddleware,
+//   (req, res, next) => {
+//     console.log(`${__dirname}/public/img/${req.params.imgType}`);
+//     upload = multer({ dest: `${__dirname}/public/img/${req.params.imgType}` });
+//     log
+//     next();
+//   },
+//   upload.single('file'),
+//   (req, res) => {
+//     console.log(req.file);
+//     const imgType = req.params.imgType;
+//     const file = req.file;
+//     file.url = `http://localhost:3000/public/img/${imgType}/${file.originalname}`;
+//     console.log(file);
+//     res.send(file);
+//   }
+// );
+app.post(
+  '/admin/api/upload/article_cover',
+  authMiddleware,
+  articleCoverUpload.single('file'),
+  (req, res) => {
+    const file = req.file;
+    file.url = `http://localhost:3000/public/img/article_cover/${file.filename}`;
+    res.send(file);
+  }
+);
+
+app.post(
+  '/admin/api/upload/article_picture',
+  authMiddleware,
+  articlePictureUpload.single('file'),
+  (req, res) => {
+    const file = req.file;
+    file.url = `http://localhost:3000/public/img/article_picture/${file.filename}`;
+    res.send(file);
+  }
+);
 
 app.listen(3000, () => {
   console.log('Running at http://localhost:3000');

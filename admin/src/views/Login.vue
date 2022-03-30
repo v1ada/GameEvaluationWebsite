@@ -4,12 +4,22 @@
       <div slot="header" class="header">
         <span>登录</span>
       </div>
-      <el-form @submit.native.prevent="login">
-        <el-form-item label="用户名">
-          <el-input v-model="userData.username" />
+      <el-form
+        ref="loginUser"
+        :model="userData"
+        :rules="rules"
+        @submit.native.prevent="login('loginUser')"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="userData.username" placeholder="请输入用户名" />
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input type="password" v-model="userData.password" />
+        <el-form-item label="密码" prop="password">
+          <el-input
+            type="password"
+            v-model="userData.password"
+            show-password
+            placeholder="请输入密码"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" native-type="submit">登录</el-button>
@@ -28,20 +38,31 @@ export default {
         username: '',
         password: '',
       },
+      rules: {
+        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+      },
     };
   },
   methods: {
-    // login(formName) {
-    //   this.$refs[formName].validate(async (valid) => {});
-    // },
-    async login() {
-      const result = await this.$http.post('login', this.userData);
-      console.log(result.data);
-      localStorage.token = result.data;
-      this.$router.push('/');
-      this.$message({
-        type: 'success',
-        message: '登录成功',
+    async login(formName) {
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+          try {
+            const result = await this.$http.post('/adminLogin', this.userData);
+            localStorage.token = result.data;
+            this.$message({
+              message: '登录成功',
+              type: 'success',
+            });
+            this.$router.push('/');
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
       });
     },
   },
@@ -52,5 +73,20 @@ export default {
 .login-card {
   width: 25rem;
   margin: 6rem auto;
+  .header {
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+  /deep/ .el-form-item {
+    .el-form-item__label {
+      font-size: 16px;
+    }
+    .el-button--primary {
+      width: 100%;
+      font-size: 16px;
+    }
+  }
 }
 </style>

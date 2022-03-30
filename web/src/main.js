@@ -17,6 +17,15 @@ Vue.config.productionTip = false;
 const http = axios.create({
   baseURL: 'http://localhost:3000/admin/api',
 });
+// axios请求拦截器
+http.interceptors.request.use(
+  // 请求头添加 Authorization
+  (config) => {
+    if (localStorage.token) config.headers.Authorization = `Bearer ${localStorage.token}`;
+    return config;
+  },
+  (err) => Promise.reject(err)
+);
 // axios响应拦截器
 http.interceptors.response.use(
   // 响应返回成功操作
@@ -25,11 +34,14 @@ http.interceptors.response.use(
   },
   // 响应失败的操作
   (err) => {
+    // 有err的响应message时
     if (err.response.data.message) {
       Vue.prototype.$message({
         type: 'error',
         message: err.response.data.message,
       });
+      // 如果返回状态码401 说明没有登录，返回登录页
+      if (err.response.status === 401) router.push('/login');
     }
     return Promise.reject(err);
   }

@@ -13,13 +13,12 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="userData.username" placeholder="请输入用户名" />
         </el-form-item>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="password">
           <el-input
             type="password"
             v-model="userData.password"
             show-password
             placeholder="请输入密码"
-            prop="password"
           />
         </el-form-item>
         <el-form-item>
@@ -53,9 +52,8 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            const result = await this.$http.post('/login', this.userData);
-            console.log(result.data);
-            // localStorage.token = result.data;
+            const result = await this.$http.post('/webLogin', this.userData);
+            localStorage.token = result.data;
             this.$message({
               message: '登录成功',
               type: 'success',
@@ -89,18 +87,6 @@ export default {
     .el-form-item__label {
       font-size: 16px;
     }
-    // el-button 样式
-    // .el-button {
-    //   background-color: #fff;
-    //   border-color: #c6cbd7;
-    //   &:hover {
-    //     border-color: #333;
-    //     color: #333;
-    //   }
-    //   &:focus {
-    //     color: #606266;
-    //   }
-    // }
     .el-button--primary,
     .el-button--primary:focus {
       width: 100%;

@@ -4,10 +4,12 @@ const inflection = require('inflection'); // 处理单词大小写首字母的�
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
 
+const User = require('./models/User');
+
 //连接数据库
 require('./plugins/db.js')();
 //路由
-const router = require('./routes/admin/router.js');
+const router = require('./routes/router.js');
 
 let app = express();
 
@@ -20,6 +22,30 @@ app.use(
   // 路由路径
   '/admin/api/rest/:resource',
   //中间件函数，先执行这个再挂载路由
+  async (req, res, next) => {
+    // 校验用户是否登录
+    const token = String(req.headers.authorization || '').split(' ')[1];
+    if (!token) {
+      return res.status(401).send({
+        message: '请先登录',
+      });
+    }
+    const { id } = jwt.verify(token, app.get('secret'));
+    if (!id) {
+      return res.status(401).send({
+        message: '无效的token',
+      });
+    }
+    // 校验用户是否存在
+    req.user = await User.findById(id);
+    if (!req.user) {
+      return res.status(401).send({
+        message: '请先登录',
+      });
+    }
+    await next();
+  },
+  // 设置模型
   (req, res, next) => {
     // 转换成首字母大写单数的单词
     const modelName = inflection.classify(req.params.resource);
@@ -31,11 +57,9 @@ app.use(
 );
 
 // 登录接口
-app.set('secret', '2dj12h3hu4234');
-app.post('/admin/api/login', async (req, res) => {
-  // res.send('ok');
+app.set('secret', 'CB18130214');
+app.post('/admin/api/:login', async (req, res) => {
   const { username, password } = req.body;
-  const User = require('./models/User');
   const user = await User.findOne({ username });
   // 校验用户名
   if (!user) {
@@ -48,6 +72,14 @@ app.post('/admin/api/login', async (req, res) => {
     return res.status(422).send({
       message: '密码错误',
     });
+  }
+  // 登录管理后台时验证用户是否具有权限
+  if (req.params.login === 'adminLogin') {
+    if (!user.type) {
+      return res.status(422).send({
+        message: '没有权限',
+      });
+    }
   }
   // 返回token
   const token = jwt.sign({ id: user._id }, app.get('secret'));

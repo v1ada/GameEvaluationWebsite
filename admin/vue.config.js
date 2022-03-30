@@ -1,6 +1,7 @@
 module.exports = {
   devServer: {
     disableHostCheck: true,
+    port: 8082,
   },
   chainWebpack: (config) => {
     config.plugin('html').tap((args) => {

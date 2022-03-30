@@ -2,12 +2,13 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-// 根目录
-const rootDir = path.join(__dirname + '../../../');
-
 // 删除文件函数
 function delFile(imgPath, dirName) {
+  // 图片名
   const imgName = path.basename(imgPath);
+  // 根目录
+  const rootDir = path.join(__dirname + '/../');
+  // 删除操作
   fs.unlink(`${rootDir}public/img/${dirName}/${imgName}`, (err) => {
     if (err) throw err;
     console.log(`删除文件成功：${imgName}`);

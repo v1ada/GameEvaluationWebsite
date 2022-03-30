@@ -109,11 +109,9 @@ export default {
     },
     // 图片上传完成后
     afterPicUpload(res) {
-      console.log(res);
       this.article.pictureList.push({
         url: res.url,
       });
-      console.log(this.article.pictureList);
     },
     // 提交表单
     saveArticle(formName) {

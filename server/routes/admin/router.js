@@ -59,7 +59,6 @@ router.get('/', async (req, res) => {
         .sort(sortObj) // 排序
         .skip(10 * (req.query.page - 1)) // 跳过10项字段，即到下一页
         .limit(10); // 一页的字段数目
-      // console.log(document);
       // 发送JSON
       res.json({
         result: document,
@@ -67,6 +66,7 @@ router.get('/', async (req, res) => {
       });
     } catch (err) {
       console.log(`查询失败：${err}`);
+      res.send(err);
     }
   });
 });
@@ -79,7 +79,10 @@ router.post('/add', (req, res) => {
       console.log(`成功添加: ${result}`);
       res.send(result);
     })
-    .catch((err) => console.log(`添加失败：${err}`));
+    .catch((err) => {
+      console.log(`添加失败：${err}`);
+      res.send(err);
+    });
 });
 
 // 模糊查询搜索
@@ -92,7 +95,10 @@ router.get('/search', (req, res) => {
       console.log(`成功查询: ${result}`);
       res.send(result);
     })
-    .catch((err) => console.log(`查询失败：${err}`));
+    .catch((err) => {
+      console.log(`查询失败：${err}`);
+      res.send(err);
+    });
 });
 
 // 获取评价测试
@@ -104,7 +110,10 @@ router.get('/eva', (req, res) => {
       console.log(`成功查询: ${result}`);
       res.send(result);
     })
-    .catch((err) => console.log(`查询失败：${err}`));
+    .catch((err) => {
+      console.log(`查询失败：${err}`);
+      res.send(err);
+    });
 });
 
 // 获取对应ID的文档
@@ -114,7 +123,10 @@ router.get('/:id', (req, res) => {
       console.log(`成功查询: ${result}`);
       res.send(result);
     })
-    .catch((err) => console.log(`查询失败：${err}`));
+    .catch((err) => {
+      console.log(`查询失败：${err}`);
+      res.send(err);
+    });
 });
 // // 获取对应游戏名的文档
 // router.get('/game', (req, res) => {
@@ -143,7 +155,10 @@ router.put('/:id', (req, res) => {
       console.log(`成功修改: ${result}`);
       res.send(result);
     })
-    .catch((err) => console.log(`修改失败：${err}`));
+    .catch((err) => {
+      console.log(`修改失败：${err}`);
+      res.send(err);
+    });
 });
 
 // 删除文档
@@ -165,6 +180,7 @@ router.delete('/delete/:id', async (req, res) => {
     console.log(`删除文档成功：${result}`);
   } catch (err) {
     console.log(`删除错误：${err}`);
+    res.send(err);
   }
   res.send({ status: true });
 });
@@ -185,6 +201,7 @@ router.put('/picture/delete/', async (req, res) => {
     console.log(`删除后：${article}`);
   } catch (err) {
     console.log(`删除错误：${err}`);
+    res.send(err);
   }
 });
 

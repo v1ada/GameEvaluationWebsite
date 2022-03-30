@@ -31,7 +31,8 @@
       </el-table-column>
       <el-table-column label="操作" width="150">
         <template slot-scope="scope">
-          <el-button @click="updateUser(scope.row._id)" type="primary" size="small">保存</el-button>
+          <el-button @click="updateUser(scope.row)" type="primary" size="small">保存</el-button>
+          <el-button @click="removeUser(scope.row)" type="danger" size="small">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,17 +66,46 @@ export default {
       this.usersData = data;
     },
     // 更新用户权限与状态
-    async updateUser(id) {
+    async updateUser(row) {
       try {
-        const userData = this.usersData.find((item) => (item.id = id));
-        await this.$http.put(`/rest/users/${id}`, userData);
+        const userData = this.usersData.find((item) => item._id === row._id);
+        console.log(userData);
+        await this.$http.put(`/rest/users/${userData._id}`, userData);
         this.$message({
           message: '保存成功',
           type: 'success',
         });
       } catch (err) {
         console.log(err);
+        this.$message({
+          message: '保存失败',
+          type: 'error',
+        });
+        this.$router.go(0);
       }
+    },
+    async removeUser(row) {
+      this.$confirm(`是否删除用户“${row.username}”`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        try {
+          await this.$http.delete(`/rest/users/delete/${row._id}`);
+          this.$message({
+            message: '删除用户成功',
+            type: 'success',
+          });
+        } catch (err) {
+          console.log(err);
+          this.$message({
+            message: '删除用户失败',
+            type: 'error',
+          });
+        }
+        // 重新获取数据
+        this.$router.go(0);
+      });
     },
   },
   created() {
@@ -85,7 +115,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.ListAdmin-container {
+.ListUser-container {
   .ListHeader {
     .searchInput {
       width: 500px;

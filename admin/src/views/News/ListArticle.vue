@@ -80,13 +80,17 @@ export default {
       }).then(async () => {
         try {
           await this.$http.delete(`/rest/articles/delete/${row._id}`);
+          this.$message({
+            message: '删除文章成功',
+            type: 'success',
+          });
         } catch (err) {
           console.log(err);
+          this.$message({
+            message: '删除文章失败',
+            type: 'error',
+          });
         }
-        this.$message({
-          message: '删除文章成功',
-          type: 'success',
-        });
         // 重新获取文章数据
         this.getArticlesData();
       });

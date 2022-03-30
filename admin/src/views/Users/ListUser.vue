@@ -12,8 +12,8 @@
     </div>
     <el-table :data="usersData">
       <el-table-column prop="_id" label="ID" width="300" />
-      <el-table-column prop="username" label="用户名" width="200" />
-      <el-table-column prop="nickname" label="昵称" width="300" />
+      <el-table-column prop="username" label="用户名" width="250" />
+      <el-table-column prop="nickname" label="昵称" width="250" />
       <el-table-column prop="type" label="权限" width="150">
         <!-- 下拉菜单改变权限 -->
         <template slot-scope="scope">

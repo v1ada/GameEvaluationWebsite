@@ -16,7 +16,17 @@
           <el-menu-item index="/">首页</el-menu-item>
           <el-menu-item index="/news">新闻资讯</el-menu-item>
           <el-menu-item index="/game/library">游戏库</el-menu-item>
-          <el-menu-item index="/login" class="login-item">登录</el-menu-item>
+          <el-menu-item index="/login" v-if="!this.loginState" class="login-item">
+            登录
+          </el-menu-item>
+          <el-submenu index="#" v-if="this.loginState" class="login-item">
+            <template slot="title">{{ this.userData.username }}</template>
+            <el-menu-item index="#">个人资料</el-menu-item>
+            <el-menu-item index="#" @click="logout">注销</el-menu-item>
+          </el-submenu>
+          <!-- <el-menu-item index="#" v-if="this.loginState" class="login-item">
+            {{ this.userData.username }}
+          </el-menu-item> -->
         </el-menu>
       </el-header>
       <el-main>
@@ -26,10 +36,37 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'App',
   data() {
     return {};
+  },
+  computed: {
+    ...mapState(['loginState', 'userData']),
+  },
+  methods: {
+    async checkLogin() {
+      console.log(localStorage.token);
+      console.log(this.loginState);
+      if (localStorage.token) {
+        try {
+          const { data } = await this.$http.get(`/rest/users/checkLogin`);
+          console.log(data);
+          this.$store.commit('changeUserData', data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    },
+    logout() {
+      localStorage.clear();
+      this.$router.go(0);
+    },
+  },
+  created() {
+    this.checkLogin();
   },
 };
 </script>

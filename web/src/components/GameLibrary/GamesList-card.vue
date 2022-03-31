@@ -63,6 +63,7 @@
 <script>
 import ItemCard from '../Item-card.vue';
 import { mapState } from 'vuex';
+
 export default {
   name: 'GamesListCard',
   components: { ItemCard },

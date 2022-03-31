@@ -58,6 +58,8 @@ export default {
               message: '登录成功',
               type: 'success',
             });
+            const { data } = await this.$http.get(`/rest/users/checkLogin`);
+            this.$store.commit('changeUserData', data);
             this.$router.push('/');
           } catch (err) {
             console.log(err);

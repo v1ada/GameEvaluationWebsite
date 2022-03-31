@@ -1,6 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+// 导入中间件
+const authMiddleware = require('../middleware/auth.js')();
 
 // 删除文件函数
 function delFile(imgPath, dirName) {
@@ -17,6 +19,12 @@ function delFile(imgPath, dirName) {
 
 const router = express.Router({
   mergeParams: true,
+});
+
+// 检查登录信息
+router.get('/checkLogin', authMiddleware, (req, res) => {
+  console.log(req.user);
+  res.send(req.user);
 });
 
 // 条件查询文档
@@ -74,7 +82,7 @@ router.get('/', async (req, res) => {
 
 // 添加文档
 router.post('/add', (req, res) => {
-  if (!req.Model.modelName === 'User') req.body.publishTime = new Date().toLocaleDateString();
+  if (req.Model.modelName !== 'User') req.body.publishTime = new Date().toLocaleDateString();
   req.Model.create(req.body)
     .then((result) => {
       console.log(`成功添加: ${result}`);

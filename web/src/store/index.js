@@ -7,6 +7,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state() {
     return {
+      userData: {},
+      loginState: false,
       gamesListData: [],
       gamesListDataTotal: 0,
       gamesListPage: 1,
@@ -19,6 +21,11 @@ const store = new Vuex.Store({
   },
   getters: {},
   mutations: {
+    changeUserData(state, payload) {
+      state.userData = payload;
+      if (!payload) state.loginState = false;
+      else state.loginState = true;
+    },
     // 存储游戏列表数据
     changeGamesListData(state, payload) {
       state.gamesListData = payload.result;

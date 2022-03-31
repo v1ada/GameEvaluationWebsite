@@ -21,9 +21,8 @@ const router = express.Router({
   mergeParams: true,
 });
 
-// 检查登录信息
+// 中间件检查登录信息，返回登录的用户信息
 router.get('/checkLogin', authMiddleware, (req, res) => {
-  console.log(req.user);
   res.send(req.user);
 });
 

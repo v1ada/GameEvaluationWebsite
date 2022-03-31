@@ -29,7 +29,7 @@
 <script>
 import RecommendCard from '../components/Home/Recommend-card.vue';
 import EvaluateCard from '../components/Home/Evaluate-card.vue';
-import News from './News.vue';
+import News from './New/News.vue';
 
 export default {
   components: {

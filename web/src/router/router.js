@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '@/views/Home.vue';
-import News from '@/views/News.vue';
-import NewDetail from '@/views/NewDetail.vue';
-import GameLibrary from '@/views/GameLibrary.vue';
-import GameDetail from '@/views/GameDetail.vue';
-import Login from '@/views/Login.vue';
-import Register from '@/views/Register.vue';
+import News from '@/views/New/News.vue';
+import NewDetail from '@/views/New/NewDetail.vue';
+import GameLibrary from '@/views/Game/GameLibrary.vue';
+import GameDetail from '@/views/Game/GameDetail.vue';
+import Login from '@/views/User/Login.vue';
+import Register from '@/views/User/Register.vue';
+import UserData from '@/views/User/UserData.vue';
 
 Vue.use(VueRouter);
 
@@ -25,6 +26,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+  },
+  {
+    path: '/userData/:id',
+    name: 'UserData',
+    component: UserData,
   },
   {
     path: '/news',

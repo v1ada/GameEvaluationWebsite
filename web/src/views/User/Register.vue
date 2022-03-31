@@ -45,7 +45,7 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     return {
       userData: {
@@ -107,17 +107,6 @@ export default {
       font-size: 16px;
     }
     // el-button 样式
-    .el-button {
-      background-color: #fff;
-      border-color: #c6cbd7;
-      &:hover {
-        border-color: #333;
-        color: #333;
-      }
-      &:focus {
-        color: #606266;
-      }
-    }
     .el-button--primary,
     .el-button--primary:focus {
       width: 100%;

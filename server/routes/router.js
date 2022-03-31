@@ -176,6 +176,10 @@ router.delete('/delete/:id', async (req, res) => {
       // 删除封面文件
       delFile(document.cover, 'article_cover');
     }
+    if (document.profile_photo) {
+      // 删除头像文件
+      delFile(document.profile_photo, 'profile_photo');
+    }
     if (document.pictureList) {
       // 删除图片文件
       document.pictureList.forEach((element) => {

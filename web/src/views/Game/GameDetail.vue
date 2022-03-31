@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import Evaluation from '../components/Evaluation/Evaluation.vue';
+import Evaluation from '../../components/Evaluation/Evaluation.vue';
 export default {
   components: {
     Evaluation,

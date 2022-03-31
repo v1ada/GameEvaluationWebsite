@@ -19,7 +19,7 @@
           :action="$http.defaults.baseURL + '/upload/article_cover'"
           :headers="getAuthHeaders()"
           :show-file-list="false"
-          :on-change="coveHandleChange"
+          :on-change="coverHandleChange"
           :on-success="afterUpload"
           :auto-upload="false"
         >
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     // 封面选择变化时
-    coveHandleChange(file, fileList) {
+    coverHandleChange(file, fileList) {
       // 控制封面只能上传一张
       if (fileList.length > 1) {
         fileList.shift(); // 这一步，是 展示最后一次选择的文件

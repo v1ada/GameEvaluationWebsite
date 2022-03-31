@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import GameFilter from '../components/GameLibrary/Filter-card.vue';
-import GamesList from '../components/GameLibrary/GamesList-card.vue';
-import News from './News.vue';
+import GameFilter from '../../components/GameLibrary/Filter-card.vue';
+import GamesList from '../../components/GameLibrary/GamesList-card.vue';
+import News from '../New/News.vue';
 
 export default {
   name: 'GameLibrary',

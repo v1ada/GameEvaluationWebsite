@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import ItemCard from '../components/Item-card.vue';
+import ItemCard from '../../components/Item-card.vue';
 
 export default {
   name: 'News',

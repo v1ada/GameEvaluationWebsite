@@ -24,9 +24,6 @@
             <el-menu-item index="#">个人资料</el-menu-item>
             <el-menu-item index="#" @click="logout">注销</el-menu-item>
           </el-submenu>
-          <!-- <el-menu-item index="#" v-if="this.loginState" class="login-item">
-            {{ this.userData.username }}
-          </el-menu-item> -->
         </el-menu>
       </el-header>
       <el-main>

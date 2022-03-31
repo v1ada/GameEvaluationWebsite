@@ -24,6 +24,14 @@
             placeholder="请输入密码"
           />
         </el-form-item>
+        <el-form-item label="确认密码" prop="checkPass">
+          <el-input
+            type="password"
+            v-model="userData.checkPass"
+            show-password
+            placeholder="请再次输入密码"
+          />
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" native-type="submit">注册</el-button>
         </el-form-item>
@@ -44,15 +52,22 @@ export default {
         username: '',
         nickname: '',
         password: '',
+        checkPass: '',
       },
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+        checkPass: [{ validator: this.validateCheckPass, trigger: 'blur' }],
       },
     };
   },
   methods: {
+    validateCheckPass(rule, value, cb) {
+      if (!value) cb(new Error('请再次输入密码'));
+      else if (value !== this.userData.password) cb(new Error('两次输入的密码不一致'));
+      else cb();
+    },
     async registerUser(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {

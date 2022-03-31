@@ -158,7 +158,6 @@ export default {
         this.tempImgUrl = this.article.cover;
         // 深拷贝文件列表
         this.article.fileList = [...this.article.pictureList];
-        // [...this.article.fileList] = this.article.pictureList;
       } catch (err) {
         console.log(err);
       }

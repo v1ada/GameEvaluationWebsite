@@ -43,8 +43,11 @@ const router = new VueRouter({
   routes,
 });
 // 没有登录token不能进入
-router.beforeEach((to, from, next) => {
-  if (!to.meta.isPublic && !localStorage.token) next('/login');
+router.beforeEach(async (to, from, next) => {
+  if (!to.meta.isPublic) {
+    if (localStorage.token) await Vue.prototype.$http.get(`/rest/users/checkLogin`);
+    if (!localStorage.token) next('/login');
+  }
   next();
 });
 

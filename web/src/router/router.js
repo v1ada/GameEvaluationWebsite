@@ -31,6 +31,7 @@ const routes = [
     path: '/userData/:id',
     name: 'UserData',
     component: UserData,
+    meta: { isPrivate: true },
   },
   {
     path: '/news',
@@ -63,6 +64,15 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+// 没有登录token不能进入
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.isPrivate) {
+    if (localStorage.token) await Vue.prototype.$http.get(`/rest/users/checkLogin`);
+    if (!localStorage.token) next('/login');
+  }
+  next();
 });
 
 export default router;

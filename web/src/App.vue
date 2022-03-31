@@ -109,10 +109,10 @@ export default {
       .login-item {
         float: right;
         /deep/ .el-submenu__title {
-          font-size: 18px;
+          font-size: 16px;
           .profile-photo {
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
           }
         }

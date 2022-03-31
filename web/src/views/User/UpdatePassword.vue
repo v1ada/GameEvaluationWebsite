@@ -1,22 +1,16 @@
 <template>
-  <div class="userData-container">
-    <el-card class="userData-card">
+  <div class="updatePassword-container">
+    <el-card class="updatePassword-card">
       <div slot="header" class="header">
-        <span>个人资料</span>
+        <span>修改密码</span>
       </div>
       <el-form
-        ref="changePassword"
+        ref="passwordForm"
         :model="userData"
         :rules="rules"
-        @submit.native.prevent="editUserData('changePassword')"
+        @submit.native.prevent="updatePassword('passwordForm')"
       >
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="userData.username" placeholder="请输入用户名" />
-        </el-form-item>
-        <el-form-item label="昵称" prop="nickname">
-          <el-input v-model="userData.nickname" placeholder="请输入昵称" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="新密码" prop="password">
           <el-input
             type="password"
             v-model="userData.password"
@@ -34,7 +28,7 @@
         </el-form-item>
         <el-form-item class="button-item">
           <el-button type="primary" native-type="submit">确认</el-button>
-          <el-button @click="this.$router.push('/userData')">返回</el-button>
+          <el-button @click="this.$router.push('/')">返回</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -43,18 +37,14 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: 'UpdatePassword',
   data() {
     return {
       userData: {
-        username: '',
-        nickname: '',
         password: '',
         checkPass: '',
       },
       rules: {
-        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        nickname: [{ required: true, message: '请输入昵称', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         checkPass: [{ validator: this.validateCheckPass, trigger: 'blur' }],
       },
@@ -66,16 +56,24 @@ export default {
       else if (value !== this.userData.password) cb(new Error('两次输入的密码不一致'));
       else cb();
     },
-    async editUserData(formName) {
+    // 提交修改
+    updatePassword(formName) {
+      // 表单验证
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
+          // 发送修改请求
           try {
-            await this.$http.post('/rest/users/add', this.userData);
-            this.$message({
-              message: '注册成功',
+            await this.$http.put(`/rest/users/${this.$route.params.id}`, this.userData);
+            this.$alert('修改密码成功', {
               type: 'success',
+              showClose: false,
+            }).then(() => {
+              // 清空 token
+              localStorage.clear();
+              // 跳转到登录页重新登录
+              this.$router.push('/login');
+              this.$router.go(0);
             });
-            this.$router.push('/');
           } catch (err) {
             console.log(err);
           }
@@ -90,8 +88,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.userData-card {
-  width: 50rem;
+.updatePassword-card {
+  width: 25rem;
   margin: 0 auto;
   .header {
     span {

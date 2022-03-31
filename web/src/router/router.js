@@ -8,6 +8,7 @@ import GameDetail from '@/views/Game/GameDetail.vue';
 import Login from '@/views/User/Login.vue';
 import Register from '@/views/User/Register.vue';
 import UserData from '@/views/User/UserData.vue';
+import UpdatePassword from '@/views/User/UpdatePassword.vue';
 
 Vue.use(VueRouter);
 
@@ -31,6 +32,12 @@ const routes = [
     path: '/userData/:id',
     name: 'UserData',
     component: UserData,
+    meta: { isPrivate: true },
+  },
+  {
+    path: '/updatePassword/:id',
+    name: 'UpdatePassword',
+    component: UpdatePassword,
     meta: { isPrivate: true },
   },
   {

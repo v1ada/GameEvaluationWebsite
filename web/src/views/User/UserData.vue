@@ -123,11 +123,9 @@ export default {
           try {
             await this.$http.put(`/rest/users/${this.$route.params.id}`, this.userData);
             this.$message({
-              message: '保存文章成功',
+              message: '保存个人资料成功',
               type: 'success',
             });
-            // 跳转到首页
-            this.$router.go(0);
           } catch (err) {
             console.log(err);
           }

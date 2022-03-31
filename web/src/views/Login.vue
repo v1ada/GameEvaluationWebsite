@@ -52,14 +52,19 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
+            // 提交登录请求
             const result = await this.$http.post('/webLogin', this.userData);
+            // 将返回的token存进localStorage
             localStorage.token = result.data;
             this.$message({
               message: '登录成功',
               type: 'success',
             });
+            // 验证登录信息，返回登录的用户信息
             const { data } = await this.$http.get(`/rest/users/checkLogin`);
-            this.$store.commit('changeUserData', data);
+            const userData = data;
+            // 将已经登录的用户信息，提交到state上
+            this.$store.commit('changeUserData', userData);
             this.$router.push('/');
           } catch (err) {
             console.log(err);

@@ -47,19 +47,21 @@ export default {
     ...mapState(['loginState', 'userData']),
   },
   methods: {
+    // 检查是否已经登录
     async checkLogin() {
-      console.log(localStorage.token);
-      console.log(this.loginState);
       if (localStorage.token) {
         try {
+          // 验证登录信息，返回登录的用户信息
           const { data } = await this.$http.get(`/rest/users/checkLogin`);
-          console.log(data);
-          this.$store.commit('changeUserData', data);
+          const userData = data;
+          // 将已经登录的用户信息，提交到state上
+          this.$store.commit('changeUserData', userData);
         } catch (err) {
           console.log(err);
         }
       }
     },
+    // 注销登出
     logout() {
       localStorage.clear();
       this.$router.go(0);

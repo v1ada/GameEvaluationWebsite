@@ -9,6 +9,7 @@
         :rules="rules"
         @submit.native.prevent="submitEvaluation('evaluation')"
       >
+        <!-- 评价内容文本域 -->
         <el-form-item prop="content">
           <el-input
             class="form-content"
@@ -19,18 +20,24 @@
             rows="6"
             :show-word-limit="true"
             resize="none"
-            :disabled="!loginState"
+            :disabled="!loginState || userData.isBan"
             @input="changeInput($event)"
           />
         </el-form-item>
         <div class="box">
+          <!-- 星级评分 -->
           <el-form-item prop="score">
             <span class="rate-title">游戏评分</span>
-            <el-rate class="form-rate" v-model="evaluation.score" :disabled="!loginState" />
+            <el-rate
+              class="form-rate"
+              v-model="evaluation.score"
+              :disabled="!loginState || userData.isBan"
+            />
           </el-form-item>
           <el-form-item>
-            <el-button native-type="submit" v-if="loginState">提交</el-button>
-            <el-button @click="$router.push('/login')" v-else>登录</el-button>
+            <el-button native-type="submit" v-if="loginState && !userData.isBan">提交</el-button>
+            <el-button @click="$router.push('/login')" v-else-if="!userData.isBan">登录</el-button>
+            <p class="banStateTip" v-else>你已被禁言</p>
           </el-form-item>
         </div>
       </el-form>
@@ -184,12 +191,17 @@ export default {
           color: #fff;
           background-color: #333;
           border-color: #333;
+          &:focus,
+          &:hover {
+            background: #3d3d3d;
+            border-color: #646464;
+            color: #fff;
+          }
         }
-        .el-button:focus,
-        .el-button:hover {
-          background: #3d3d3d;
-          border-color: #646464;
-          color: #fff;
+        .banStateTip {
+          font-size: 20px;
+          color: red;
+          font-weight: 700;
         }
       }
     }

@@ -65,7 +65,7 @@ export default {
             const userData = data;
             // 将已经登录的用户信息，提交到state上
             this.$store.commit('changeUserData', userData);
-            this.$router.push('/');
+            this.$router.go(-1);
           } catch (err) {
             console.log(err);
           }

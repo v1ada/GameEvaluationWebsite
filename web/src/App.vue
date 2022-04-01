@@ -16,17 +16,15 @@
           <el-menu-item index="/">首页</el-menu-item>
           <el-menu-item index="/news">新闻资讯</el-menu-item>
           <el-menu-item index="/game/library">游戏库</el-menu-item>
-          <el-menu-item index="/login" v-if="!this.loginState" class="login-item">
-            登录
-          </el-menu-item>
-          <el-submenu index="#" v-if="this.loginState" class="login-item">
+          <el-menu-item index="/login" v-if="!loginState" class="login-item">登录</el-menu-item>
+          <el-submenu index="#" v-if="loginState" class="login-item">
             <template slot="title" class="login-item-title">
               <!-- 显示头像和用户名 -->
               <img class="profile-photo" :src="userData.profile_photo" alt="" />
-              {{ this.userData.username }}
+              {{ userData.username }}
             </template>
-            <el-menu-item :index="`/userData/${this.userData._id}`">个人资料</el-menu-item>
-            <el-menu-item :index="`/updatePassword/${this.userData._id}`">修改密码</el-menu-item>
+            <el-menu-item :index="`/userData/${userData._id}`">个人资料</el-menu-item>
+            <el-menu-item :index="`/updatePassword/${userData._id}`">修改密码</el-menu-item>
             <el-menu-item index="#" @click="logout">注销</el-menu-item>
           </el-submenu>
         </el-menu>

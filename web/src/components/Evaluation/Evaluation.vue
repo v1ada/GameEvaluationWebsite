@@ -14,21 +14,23 @@
             class="form-content"
             type="textarea"
             v-model="evaluation.content"
-            placeholder="请输入内容"
+            :placeholder="loginState ? '请输入评价内容' : '登录后才可发表评价'"
             maxlength="200"
             rows="6"
             :show-word-limit="true"
             resize="none"
+            :disabled="!loginState"
             @input="changeInput($event)"
           />
         </el-form-item>
         <div class="box">
           <el-form-item prop="score">
             <span class="rate-title">游戏评分</span>
-            <el-rate class="form-rate" v-model="evaluation.score" />
+            <el-rate class="form-rate" v-model="evaluation.score" :disabled="!loginState" />
           </el-form-item>
           <el-form-item>
-            <el-button native-type="submit">提交</el-button>
+            <el-button native-type="submit" v-if="loginState">提交</el-button>
+            <el-button @click="$router.push('/login')" v-else>登录</el-button>
           </el-form-item>
         </div>
       </el-form>
@@ -74,6 +76,7 @@
 
 <script>
 import ItemCard from '@/components/Item-card.vue';
+import { mapState } from 'vuex';
 export default {
   components: {
     ItemCard,
@@ -101,6 +104,7 @@ export default {
     finalScore() {
       return this.evaluation.score * 2;
     },
+    ...mapState(['userData', 'loginState']),
   },
   methods: {
     // 提交表单

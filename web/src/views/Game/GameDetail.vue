@@ -82,7 +82,7 @@ export default {
   methods: {
     async getGameDetail() {
       try {
-        const { data } = await this.$http.get(`/rest/gameInfo/${this.$route.params.id}`);
+        const { data } = await this.$http.get(`/rest/gameInfos/details/${this.$route.params.id}`);
         this.gameDetail = data;
       } catch (err) {
         console.log(err);

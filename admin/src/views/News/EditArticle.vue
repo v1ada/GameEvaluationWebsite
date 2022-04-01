@@ -152,7 +152,7 @@ export default {
     // 获取文章信息
     async getArticleData() {
       try {
-        const result = await this.$http.get(`/rest/articles/${this.$route.params.id}`);
+        const result = await this.$http.get(`/rest/articles/details/${this.$route.params.id}`);
         this.article = result.data;
         // 初始封面
         this.tempImgUrl = this.article.cover;

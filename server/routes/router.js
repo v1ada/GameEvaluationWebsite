@@ -28,7 +28,6 @@ router.get('/checkLogin', authMiddleware, (req, res) => {
 
 // 条件查询文档
 router.get('/', async (req, res) => {
-  console.log(req.Model);
   console.log(req.query);
   // 排序条件对象
   let sortObj = {};
@@ -109,23 +108,8 @@ router.get('/search', (req, res) => {
     });
 });
 
-// 获取评价测试
-router.get('/eva', (req, res) => {
-  // 关联查询
-  req.Model.find()
-    .populate('parent_game')
-    .then((result) => {
-      console.log(`成功查询: ${result}`);
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(`查询失败：${err}`);
-      res.send(err);
-    });
-});
-
 // 获取对应ID的文档
-router.get('/:id', (req, res) => {
+router.get('/details/:id', (req, res) => {
   req.Model.findById(req.params.id)
     .then((result) => {
       console.log(`成功查询: ${result}`);
@@ -136,24 +120,29 @@ router.get('/:id', (req, res) => {
       res.send(err);
     });
 });
-// // 获取对应游戏名的文档
-// router.get('/game', (req, res) => {
-//   req.Model.findOne(req.params.game_name)
-//     .then((result) => {
-//       console.log(`成功查询: ${result}`);
-//       res.send(result);
-//     })
-//     .catch((err) => console.log(`查询失败：${err}`));
-// });
-// // 获取对应游戏平台和类型的文档
-// router.get('/game', (req, res) => {
-//   req.Model.find({ platform: req.params.platform, type: req.params.type })
-//     .then((result) => {
-//       console.log(`成功查询: ${result}`);
-//       res.send(result);
-//     })
-//     .catch((err) => console.log(`查询失败：${err}`));
-// });
+
+// 获取评价
+router.get('/eva', (req, res) => {
+  console.log(req.query);
+  gameQueryObj = {};
+  if (req.query.id) gameQueryObj.parent_game = req.query.id;
+  req.Model.find(gameQueryObj)
+    // 关联查询
+    .populate([
+      { path: 'parent_game', select: ['game_logo', 'game_name'] },
+      { path: 'author', select: ['nickname', 'profile_photo'] },
+    ])
+    .sort({ publishTime: -1 })
+    .limit(8)
+    .then((result) => {
+      console.log(`成功查询: ${result}`);
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(`查询失败：${err}`);
+      res.send(err);
+    });
+});
 
 // 保存修改完的文档
 router.put('/:id', (req, res) => {

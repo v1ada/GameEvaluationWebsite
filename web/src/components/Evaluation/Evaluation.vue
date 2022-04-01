@@ -4,17 +4,17 @@
     <el-card class="evaluate-form-card">
       <el-form
         class="evaluate-form"
-        ref="evaluation"
-        :model="evaluation"
+        ref="evaluationForm"
+        :model="evaluationForm"
         :rules="rules"
-        @submit.native.prevent="submitEvaluation('evaluation')"
+        @submit.native.prevent="submitEvaluation('evaluationForm')"
       >
         <!-- 评价内容文本域 -->
         <el-form-item prop="content">
           <el-input
             class="form-content"
             type="textarea"
-            v-model="evaluation.content"
+            v-model="evaluationForm.content"
             :placeholder="loginState ? '请输入评价内容' : '登录后才可发表评价'"
             maxlength="200"
             rows="6"
@@ -30,7 +30,7 @@
             <span class="rate-title">游戏评分</span>
             <el-rate
               class="form-rate"
-              v-model="evaluation.score"
+              v-model="evaluationForm.score"
               :disabled="!loginState || userData.isBan"
             />
           </el-form-item>
@@ -47,36 +47,33 @@
       <div slot="header">
         <h2 class="card-title">游戏评价</h2>
       </div>
-      <div class="evaluate-list-body">
-        <item-card v-for="item in 5" :key="item" path="">
+
+      <div class="evaluate-list-body" v-if="evaluationsList.length !== 0">
+        <item-card v-for="item in evaluationsList" :key="item._id" path="">
           <template #img-box>
-            <img
-              src="https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132"
-              alt=""
-            />
+            <img :src="item.author.profile_photo" alt="" />
           </template>
           <template #item-header>
-            <span class="username">用户名</span>
-            <el-rate class="user-rate" :value="4" disabled />
+            <div class="box-left">
+              <span class="nickname">{{ item.author.nickname }}</span>
+              <el-rate class="user-rate" :value="item.score / 2" disabled />
+            </div>
+            <!-- 删除评价按钮 (只有本人或者管理员能删除)-->
+            <i
+              @click="removeEvaluation(item)"
+              class="el-icon-delete"
+              v-if="userData._id === item.author._id || userData.type === 1"
+            ></i>
           </template>
           <template #item-main>
-            <p class="evaluate-content">
-              评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容
-            </p>
+            <p class="evaluate-content">{{ item.content }}</p>
           </template>
           <template #item-footer>
-            <span class="evaluate-time">2022/3/21</span>
-
-            <i
-              class="iconfont icon-dianzan_kuai"
-              :style="{ color: dianzanColor }"
-              @click="dianzanClick"
-            >
-              {{ dianzanNum }}
-            </i>
+            <span class="evaluate-time">{{ item.publishTime }}</span>
           </template>
         </item-card>
       </div>
+      <el-empty description="该游戏暂无评价" v-else />
     </el-card>
   </div>
 </template>
@@ -92,7 +89,7 @@ export default {
   data() {
     return {
       // 评价信息对象
-      evaluation: {
+      evaluationForm: {
         content: '',
         score: 0,
       },
@@ -101,35 +98,53 @@ export default {
         content: [{ required: true, message: '请输入评价内容', trigger: 'blur' }],
         score: [{ required: true, message: '请选择游戏评分', trigger: 'blur' }],
       },
-      // 点赞
-      dianzanColor: '#ddd',
-      dianzanState: false,
-      dianzanNum: 0,
+      // 评价列表
+      evaluationsList: [],
     };
   },
   computed: {
-    finalScore() {
-      return this.evaluation.score * 2;
+    evaluationInfo() {
+      return {
+        parent_game: this.$route.params.id,
+        author: this.userData._id,
+        content: this.evaluationForm.content,
+        score: this.evaluationForm.score * 2,
+      };
     },
     ...mapState(['userData', 'loginState']),
   },
   methods: {
+    // 获取当前游戏的评价
+    async getGameEvaluation() {
+      const { data } = await this.$http.get(`rest/evaluations/eva?id=${this.$route.params.id}`);
+      this.evaluationsList = data;
+      console.log(this.evaluationsList);
+    },
     // 提交表单
     submitEvaluation(formName) {
       // 表单校验，返回valid是否通过校验
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            this.evaluation.score = this.finalScore;
-            this.evaluation.parent_game = this.$route.params.id;
-            console.log(this.evaluation);
-            // await this.$http.post('/rest/evaluations/add', this.evaluation);
-            await this.$http.post('/rest/evaluations/add', this.evaluation);
+            console.log(this.evaluationsList);
+            // 检查用户是否在该游戏下发表过评价，避免重复发表
+            const evaIsExist = this.evaluationsList.some((item) => {
+              return item.author._id === this.userData._id;
+            });
+            if (evaIsExist) {
+              this.$message({
+                message: '你已发表过评价',
+                type: 'error',
+              });
+              this.evaluationForm = { content: '', score: 0 };
+              throw new Error('你已发表过评价');
+            }
+            await this.$http.post('/rest/evaluations/add', this.evaluationInfo);
             this.$message({
               message: '提交评价成功',
               type: 'success',
             });
-            // this.$router.push('/articles/list');
+            this.$router.go(0);
           } catch (err) {
             console.log(err);
           }
@@ -142,18 +157,34 @@ export default {
     changeInput($event) {
       this.$forceUpdate();
     },
-    // 点赞点击事件
-    dianzanClick() {
-      if (!this.dianzanState) {
-        this.dianzanColor = '#f7ba2a';
-        this.dianzanState = true;
-        this.dianzanNum++;
-      } else {
-        this.dianzanColor = '#ddd';
-        this.dianzanState = false;
-        this.dianzanNum--;
-      }
+    // 删除评价
+    async removeEvaluation(item) {
+      console.log(item);
+      this.$confirm('是否删除评价', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        try {
+          await this.$http.delete(`/rest/evaluations/delete/${item._id}`);
+          this.$message({
+            message: '删除评价成功',
+            type: 'success',
+          });
+        } catch (err) {
+          console.log(err);
+          this.$message({
+            message: '删除评价失败',
+            type: 'error',
+          });
+        }
+        // 重新获取数据
+        this.$router.go(0);
+      });
     },
+  },
+  created() {
+    this.getGameEvaluation();
   },
 };
 </script>
@@ -219,23 +250,30 @@ export default {
       }
       /deep/ .item-header {
         display: flex;
-        padding: 10px 0;
+        justify-content: space-between;
+        margin: 10px 0;
         font-size: 18px;
-        .username {
-          margin-right: 10px;
-        }
-        .user-rate {
-          .el-rate__icon {
-            font-size: 24px;
+        .box-left {
+          display: flex;
+          .nickname {
+            margin-right: 10px;
+          }
+          .user-rate {
+            .el-rate__icon {
+              font-size: 24px;
+            }
           }
         }
       }
+      /deep/ .item-main {
+        .evaluate-content {
+          margin: 10px 0;
+        }
+      }
       /deep/ .item-footer {
-        display: flex;
-        justify-content: space-between;
-        .icon-dianzan_kuai {
-          font-size: 24px;
-          // color: #f7ba2a;
+        .evaluate-time {
+          float: right;
+          color: #969696;
         }
       }
     }

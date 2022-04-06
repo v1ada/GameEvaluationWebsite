@@ -23,7 +23,7 @@
         <div class="game-descri">
           <div class="game-score">
             <span>游戏评分</span>
-            <span class="score">9.8</span>
+            <span class="score">{{ average_score }}</span>
           </div>
           <div class="platform">
             <span>游戏平台</span>
@@ -79,10 +79,19 @@ export default {
       gameDetail: {},
     };
   },
+  // computed: {
+  //   average_score() {
+  //     const scoreArr = this.gameDetail.game_score;
+  //     console.log(scoreArr);
+  //     const scoreAvg = scoreArr.reduce((prev, item) => prev + item.score, 0) / scoreArr.length;
+  //     console.log(scoreAvg);
+  //     return scoreAvg;
+  //   },
+  // },
   methods: {
     async getGameDetail() {
       try {
-        const { data } = await this.$http.get(`/rest/gameInfos/details/${this.$route.params.id}`);
+        const { data } = await this.$http.get(`/rest/gameInfo/details/${this.$route.params.id}`);
         this.gameDetail = data;
       } catch (err) {
         console.log(err);

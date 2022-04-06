@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const Evaluation = require('./Evaluation.js');
 
 const schema = new mongoose.Schema({
   game_id: { type: String },
@@ -13,6 +14,12 @@ const schema = new mongoose.Schema({
   game_publisher: { type: String },
   game_img_list: [{ type: String }],
   game_brief: { type: String },
+  game_score: [
+    {
+      author_id: { type: String },
+      score: { type: Number },
+    },
+  ],
 });
 
 module.exports = mongoose.model('GameInfo', schema);

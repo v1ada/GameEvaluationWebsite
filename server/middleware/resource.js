@@ -5,6 +5,5 @@ module.exports = (options) => (req, res, next) => {
   console.log(`resource.js：${modelName}`);
   // 获取相应的模型
   req.Model = require(`../models/${modelName}`);
-  console.log(`resource.js：${req.Model}`);
   next();
 };

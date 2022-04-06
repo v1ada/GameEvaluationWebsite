@@ -88,7 +88,7 @@ export default {
   name: 'Evaluation',
   data() {
     return {
-      // 评价信息对象
+      // 评价表达对象
       evaluationForm: {
         content: '',
         score: 0,
@@ -103,6 +103,7 @@ export default {
     };
   },
   computed: {
+    // 评价信息
     evaluationInfo() {
       return {
         parent_game: this.$route.params.id,
@@ -120,7 +121,6 @@ export default {
         `rest/evaluations/eva?id=${this.$route.params.id}&sort=pubTimeDesc`
       );
       this.evaluationsList = data;
-      console.log(this.evaluationsList);
     },
     // 提交表单
     submitEvaluation(formName) {
@@ -128,7 +128,6 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           try {
-            console.log(this.evaluationsList);
             // 检查用户是否在该游戏下发表过评价，避免重复发表
             const evaIsExist = this.evaluationsList.some((item) => {
               return item.author._id === this.userData._id;
@@ -146,6 +145,21 @@ export default {
               message: '提交评价成功',
               type: 'success',
             });
+
+            // // 游戏信息的评分数组添加评分
+            // console.log(this.evaluationInfo);
+            // try {
+            //   await this.$http.put(`/rest/gameInfo/${this.$route.params.id}`, {
+            //     $addToSet: {
+            //       game_score: {
+            //         author_id: this.evaluationInfo.author,
+            //         score: this.evaluationInfo.score,
+            //       },
+            //     },
+            //   });
+            // } catch (err) {
+            //   console.log(err);
+            // }
             this.$router.go(0);
           } catch (err) {
             console.log(err);
@@ -161,14 +175,18 @@ export default {
     },
     // 删除评价
     async removeEvaluation(item) {
-      console.log(item);
       this.$confirm('是否删除评价', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }).then(async () => {
         try {
+          // 评价模型中删除对应ID的评价
           await this.$http.delete(`/rest/evaluations/delete/${item._id}`);
+          // // 游戏信息中删除对应用户的评分
+          // await this.$http.put(`/rest/gameInfo/${this.$route.params.id}`, {
+          //   $pull: { game_score: { author_id: item.author } },
+          // });
           this.$message({
             message: '删除评价成功',
             type: 'success',

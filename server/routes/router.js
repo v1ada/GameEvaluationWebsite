@@ -144,6 +144,20 @@ router.get('/details/:id', (req, res) => {
     });
 });
 
+// 关联查询测试
+router.get('/details/test/:id', (req, res) => {
+  req.Model.findById(req.params.id)
+    .populate('game_score')
+    .then((result) => {
+      console.log(`成功查询: ${result}`);
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(`查询失败：${err}`);
+      res.send(err);
+    });
+});
+
 // 获取评价
 router.get('/eva', (req, res) => {
   console.log(req.query);

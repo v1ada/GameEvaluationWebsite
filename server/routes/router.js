@@ -40,10 +40,10 @@ router.get('/', async (req, res) => {
       sortObj.game_date = 1;
       break;
     case 'pubTimeDesc':
-      sortObj._id = -1;
+      sortObj.publishTime = -1;
       break;
     default:
-      sortObj.game_date = -1;
+      sortObj._id = -1;
       break;
   }
   // 条件查询对象
@@ -80,7 +80,7 @@ router.get('/', async (req, res) => {
 
 // 添加文档
 router.post('/add', (req, res) => {
-  if (req.Model.modelName !== 'User') req.body.publishTime = new Date().toLocaleDateString();
+  if (req.Model.modelName !== 'User') req.body.publishTime = new Date().toLocaleString();
   req.Model.create(req.body)
     .then((result) => {
       console.log(`成功添加: ${result}`);

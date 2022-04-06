@@ -116,7 +116,9 @@ export default {
   methods: {
     // 获取当前游戏的评价
     async getGameEvaluation() {
-      const { data } = await this.$http.get(`rest/evaluations/eva?id=${this.$route.params.id}`);
+      const { data } = await this.$http.get(
+        `rest/evaluations/eva?id=${this.$route.params.id}&sort=pubTimeDesc`
+      );
       this.evaluationsList = data;
       console.log(this.evaluationsList);
     },

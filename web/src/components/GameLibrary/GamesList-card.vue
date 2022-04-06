@@ -46,13 +46,15 @@
           </template>
         </item-card>
       </div>
+      <el-empty v-if="!gamesListData.length" description="未查询到游戏" />
       <!-- 分页 -->
       <div class="paging">
         <el-pagination
           layout="prev, pager, next, jumper, ->, total"
           :total="gamesListDataTotal"
-          background
           :current-page="gamesListPage"
+          background
+          :hide-on-single-page="true"
           @current-change="currentChange"
         />
       </div>

@@ -60,6 +60,10 @@ const store = new Vuex.Store({
         console.log(err);
       }
     },
+    // 模糊查询游戏
+    async searchGameResult(context, payload) {
+      context.commit('changeGamesListData', payload);
+    },
   },
 });
 

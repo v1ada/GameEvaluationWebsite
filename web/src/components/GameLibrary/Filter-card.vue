@@ -3,6 +3,10 @@
     <el-card class="game-filter-card">
       <div slot="header" class="header">
         <span>游戏库</span>
+        <div class="search-box">
+          <el-input class="searchInput" v-model="searchStr" placeholder="输入游戏名进行搜索" />
+          <el-button type="primary" @click="searchGame">搜索</el-button>
+        </div>
       </div>
       <el-form
         :model="filterForm"
@@ -85,6 +89,7 @@ export default {
   name: 'FilterCard',
   data() {
     return {
+      searchStr: '',
       allPlatform: true,
       allType: true,
       filterForm: {
@@ -100,6 +105,11 @@ export default {
     };
   },
   methods: {
+    async searchGame() {
+      const { data } = await this.$http.get(`/rest/gameInfo/search?search=${this.searchStr}`);
+      this.$store.dispatch('searchGameResult', data);
+      this.resetForm('filterForm');
+    },
     // 全选变化时
     allOptionChange(event, option) {
       // 选中全部类型 清除其他多选框
@@ -142,6 +152,8 @@ export default {
             type: [],
             sort: 'scoreDesc',
           });
+          // 清空搜索框输入的内容
+          this.searchStr = '';
         } else {
           console.log('error submit!!');
           return false;
@@ -155,7 +167,7 @@ export default {
     },
   },
   created() {
-    // 有路由参数的情况下
+    // 有游戏平台路由参数的情况下
     if (this.$route.params.platform) {
       // 设置筛选器状态
       this.allPlatform = false;
@@ -178,6 +190,18 @@ export default {
       font-size: 20px;
       color: #2a2424;
       font-weight: 600;
+    }
+    .search-box {
+      display: flex;
+      margin-top: 15px;
+      .el-input {
+        margin-right: 20px;
+        /deep/ .el-input__inner {
+          &:focus {
+            border-color: #333;
+          }
+        }
+      }
     }
   }
   /deep/ .filter-form {
@@ -215,28 +239,28 @@ export default {
         }
       }
     }
-    // el-button 样式
-    .el-button {
-      background-color: #fff;
-      border-color: #c6cbd7;
-      &:hover {
-        border-color: #333;
-        color: #333;
-      }
-      &:focus {
-        color: #606266;
-      }
-    }
-    .el-button--primary,
-    .el-button--primary:focus {
-      color: #fff;
-      background-color: #333;
+  }
+  // el-button 样式
+  .el-button {
+    background-color: #fff;
+    border-color: #c6cbd7;
+    &:hover {
       border-color: #333;
-      &:hover {
-        background: #505050;
-        border-color: #505050;
-        color: #fff;
-      }
+      color: #333;
+    }
+    &:focus {
+      color: #606266;
+    }
+  }
+  .el-button--primary,
+  .el-button--primary:focus {
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+    &:hover {
+      background: #505050;
+      border-color: #505050;
+      color: #fff;
     }
   }
 }

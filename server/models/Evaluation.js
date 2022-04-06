@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
   parent_game: { type: mongoose.Schema.Types.ObjectId, ref: GameInfo },
   author: { type: mongoose.Schema.Types.ObjectId, ref: User },
   content: { type: String },
-  score: { type: String },
+  score: { type: Number },
   publishTime: { type: String },
 });
 

@@ -14,12 +14,7 @@ const schema = new mongoose.Schema({
   game_publisher: { type: String },
   game_img_list: [{ type: String }],
   game_brief: { type: String },
-  game_score: [
-    {
-      author_id: { type: String },
-      score: { type: Number },
-    },
-  ],
+  game_score: { type: Number },
 });
 
 module.exports = mongoose.model('GameInfo', schema);

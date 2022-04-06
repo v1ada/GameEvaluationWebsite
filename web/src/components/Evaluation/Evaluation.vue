@@ -121,6 +121,15 @@ export default {
         `rest/evaluations/eva?id=${this.$route.params.id}&sort=pubTimeDesc`
       );
       this.evaluationsList = data;
+      // 更新游戏的评价平均分
+      try {
+        const avgScore = data.reduce((sum, item) => sum + item.score, 0) / data.length;
+        await this.$http.put(`/rest/gameInfo/${this.$route.params.id}`, {
+          game_score: avgScore.toFixed(1),
+        });
+      } catch (err) {
+        console.log(err);
+      }
     },
     // 提交表单
     submitEvaluation(formName) {
@@ -145,21 +154,7 @@ export default {
               message: '提交评价成功',
               type: 'success',
             });
-
-            // // 游戏信息的评分数组添加评分
-            // console.log(this.evaluationInfo);
-            // try {
-            //   await this.$http.put(`/rest/gameInfo/${this.$route.params.id}`, {
-            //     $addToSet: {
-            //       game_score: {
-            //         author_id: this.evaluationInfo.author,
-            //         score: this.evaluationInfo.score,
-            //       },
-            //     },
-            //   });
-            // } catch (err) {
-            //   console.log(err);
-            // }
+            // 刷新页面重新获取数据
             this.$router.go(0);
           } catch (err) {
             console.log(err);
@@ -191,6 +186,8 @@ export default {
             message: '删除评价成功',
             type: 'success',
           });
+          // 刷新页面重新获取数据
+          this.$router.go(0);
         } catch (err) {
           console.log(err);
           this.$message({
@@ -198,13 +195,13 @@ export default {
             type: 'error',
           });
         }
-        // 重新获取数据
-        this.$router.go(0);
       });
     },
   },
-  created() {
-    this.getGameEvaluation();
+  async created() {
+    await this.getGameEvaluation();
+    // 调用父组件获取数据请求方法，更新平均分
+    this.$emit('getGameDetail');
   },
 };
 </script>

@@ -23,7 +23,7 @@
         <div class="game-descri">
           <div class="game-score">
             <span>游戏评分</span>
-            <span class="score">{{ average_score }}</span>
+            <span class="score">{{ gameDetail.game_score }}</span>
           </div>
           <div class="platform">
             <span>游戏平台</span>
@@ -62,7 +62,8 @@
       </div>
     </el-card>
     <!-- 评价组件 -->
-    <evaluation />
+    <!-- 传入父组件请求数据方法 -->
+    <evaluation @getGameDetail="getGameDetail" />
   </div>
 </template>
 
@@ -79,15 +80,6 @@ export default {
       gameDetail: {},
     };
   },
-  // computed: {
-  //   average_score() {
-  //     const scoreArr = this.gameDetail.game_score;
-  //     console.log(scoreArr);
-  //     const scoreAvg = scoreArr.reduce((prev, item) => prev + item.score, 0) / scoreArr.length;
-  //     console.log(scoreAvg);
-  //     return scoreAvg;
-  //   },
-  // },
   methods: {
     async getGameDetail() {
       try {

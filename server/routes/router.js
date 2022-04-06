@@ -97,10 +97,27 @@ router.get('/search', (req, res) => {
   const keyWord = req.query.search;
   // 正则表达式，模糊查询
   const reg = new RegExp(keyWord, 'i');
-  req.Model.find({ $or: [{ username: { $regex: reg } }, { nickname: { $regex: reg } }] })
+  // 判断哪个模型进行查询
+  queryArr = [];
+  switch (req.Model.modelName) {
+    case 'User':
+      queryArr = [{ username: { $regex: reg } }, { nickname: { $regex: reg } }];
+      break;
+    case 'GameInfo':
+      queryArr = [{ game_name: { $regex: reg } }, { origin_name: { $regex: reg } }];
+      break;
+    default:
+      break;
+  }
+  req.Model.find({
+    $or: queryArr,
+  })
     .then((result) => {
-      console.log(`成功查询: ${result}`);
-      res.send(result);
+      console.log(`成功查询结果数量: ${result.length}`);
+      res.json({
+        result: result,
+        total: result.length,
+      });
     })
     .catch((err) => {
       console.log(`查询失败：${err}`);

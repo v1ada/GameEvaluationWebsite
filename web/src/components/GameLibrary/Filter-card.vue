@@ -146,12 +146,6 @@ export default {
           this.$store.dispatch('getGamesListData', {
             filter: this.filterForm,
           });
-          // 提交完状态修改，还原筛选器
-          this.$store.commit('changeFilter', {
-            platform: [],
-            type: [],
-            sort: 'scoreDesc',
-          });
           // 清空搜索框输入的内容
           this.searchStr = '';
         } else {

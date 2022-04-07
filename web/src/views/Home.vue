@@ -1,9 +1,14 @@
 <template>
   <div class="home-container">
     <el-card class="carousel-card" :body-style="{ padding: '5px' }">
-      <el-carousel trigger="click">
-        <el-carousel-item v-for="item in carouselImg" :key="item">
-          <img :src="item" alt="" />
+      <el-carousel trigger="click" height="500px">
+        <el-carousel-item v-for="item in articlesData" :key="item._id">
+          <router-link :to="`/new/${item._id}`">
+            <div>
+              <p class="carousel-title">{{ item.title }}</p>
+              <img class="carousel-img" :src="item.cover" alt="" />
+            </div>
+          </router-link>
         </el-carousel-item>
       </el-carousel>
     </el-card>
@@ -40,10 +45,21 @@ export default {
   name: 'Home',
   data() {
     return {
-      carouselImg: [
-        'https://img01.vgtime.com/game/cover/2021/06/16/210616141057302_u54.jpeg?x-oss-process=image/resize,m_pad,color_000000,w_1150,h_300',
-      ],
+      articlesData: [],
     };
+  },
+  methods: {
+    async getNewsCover() {
+      try {
+        const { data } = await this.$http.get(`/rest/articles?page=1&sort=pubTimeDesc`);
+        this.articlesData = data.result;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  created() {
+    this.getNewsCover();
   },
 };
 </script>
@@ -55,9 +71,19 @@ export default {
       background-color: #444;
     }
     .el-carousel__item {
-      img {
+      .carousel-img {
         width: 100%;
-        height: 300px;
+        height: 500px;
+      }
+      .carousel-title {
+        position: absolute;
+        bottom: 0;
+        left: 10px;
+        font-size: 35px;
+        color: #fff;
+        font-weight: 700;
+        // -webkit-text-stroke: 0.5px #000;
+        text-shadow: 3px 3px 5px #000;
       }
     }
   }

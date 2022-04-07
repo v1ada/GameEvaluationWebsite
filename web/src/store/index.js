@@ -22,9 +22,11 @@ const store = new Vuex.Store({
   getters: {},
   mutations: {
     changeUserData(state, payload) {
-      state.userData = payload;
       if (!payload) state.loginState = false;
-      else state.loginState = true;
+      else {
+        state.loginState = true;
+        state.userData = payload;
+      }
     },
     // 存储游戏列表数据
     changeGamesListData(state, payload) {

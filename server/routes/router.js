@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
       sortObj.publishTime = -1;
       break;
     default:
-      sortObj._id = -1;
+      sortObj.game_score = -1;
       break;
   }
   // 条件查询对象

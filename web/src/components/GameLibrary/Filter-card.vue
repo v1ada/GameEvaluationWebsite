@@ -168,10 +168,6 @@ export default {
       this.filterForm.platform.push(this.$route.params.platform);
       // 提交筛选条件
       this.$store.commit('changeFilter', this.filterForm);
-      // 分发action，发送请求获取数据
-      this.$store.dispatch('getGamesListData', {
-        filter: this.filterForm,
-      });
     }
   },
 };

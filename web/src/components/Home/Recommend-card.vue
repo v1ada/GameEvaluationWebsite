@@ -87,12 +87,18 @@ export default {
   },
   methods: {
     // 分发Action 发请求，获取数据改变state
-    getGamesListData(payload) {
-      this.$store.dispatch('getGamesListData', payload);
+    getGamesListData() {
+      // 清空筛选条件
+      this.$store.commit('changeFilter', {
+        platform: [],
+        type: [],
+        sort: 'scoreDesc',
+      });
+      this.$store.dispatch('getGamesListData', { page: 1 });
     },
   },
   created() {
-    this.getGamesListData({});
+    this.getGamesListData();
   },
 };
 </script>

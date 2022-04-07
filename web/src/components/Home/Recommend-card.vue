@@ -168,8 +168,8 @@ export default {
       }
       .img-box {
         .game-cover {
-          width: 120px;
-          height: 120px;
+          width: 130px;
+          height: 130px;
         }
       }
       /deep/ .item-text {

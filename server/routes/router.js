@@ -169,7 +169,7 @@ router.get('/eva', (req, res) => {
       { path: 'parent_game', select: ['game_logo', 'game_name'] },
       { path: 'author', select: ['nickname', 'profile_photo'] },
     ])
-    .sort({ publishTime: -1 })
+    .sort({ _id: -1 })
     .limit(8)
     .then((result) => {
       console.log(`成功查询: ${result}`);

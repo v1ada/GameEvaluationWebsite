@@ -2,32 +2,28 @@
   <div class="evaluate-card-container">
     <el-card class="evaluate-card" shadow="false">
       <div slot="header">
-        <span>最新评价</span>
+        <span class="card-title">最新评价</span>
       </div>
       <div class="evaluate-card-body">
         <ul class="evaluate-list">
-          <li v-for="item in 6" :key="item">
-            <router-link class="evaluate-link" to="/game/library">
-              <!-- 卡片项组件 -->
-              <item-card path="#">
-                <template #img-box>
-                  <img class="game-cover" src="../../assets/img/图片.png" alt="" />
-                </template>
-                <template #item-header>
-                  <p class="game-name">游戏名 {{ item }}</p>
-                </template>
-                <template #item-main>
-                  <p class="evaluate-content">
-                    【索尼已成功为《死亡搁浅》中的道路构建功能申请到了专利】
-                    索尼已成功为《死亡搁浅》中的道路构建功能申请到了专利，该功能允许玩家在游戏中根据实时的网络数据使用其他玩家搭建的...
-                  </p>
-                  <div class="eva-footer">
-                    <p class="eva-author">评价作者</p>
-                    <p class="eva-date">2021-12-12</p>
-                  </div>
-                </template>
-              </item-card>
-            </router-link>
+          <li v-for="item in evaluationsList" :key="item._id">
+            <!-- 卡片项组件 -->
+            <item-card :path="`game/${item.parent_game._id}`">
+              <template #img-box>
+                <img class="game-cover" :src="item.parent_game.game_logo" alt="" />
+              </template>
+              <template #item-header>
+                <p class="game-name">{{ item.parent_game.game_name }}</p>
+                <el-rate class="user-rate" :value="item.score / 2" disabled />
+              </template>
+              <template #item-main>
+                <p class="evaluate-content">{{ item.content }}</p>
+              </template>
+              <template #item-footer>
+                <span class="eva-author">{{ item.author.nickname }}</span>
+                <span class="eva-date">{{ item.publishTime }}</span>
+              </template>
+            </item-card>
           </li>
         </ul>
       </div>
@@ -43,12 +39,32 @@ export default {
   components: {
     ItemCard,
   },
+  data() {
+    return {
+      // 评价列表
+      evaluationsList: [],
+    };
+  },
+  methods: {
+    // 获取当前游戏的评价
+    async getGameEvaluation() {
+      try {
+        const { data } = await this.$http.get(`rest/evaluations/eva`);
+        this.evaluationsList = data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  created() {
+    this.getGameEvaluation();
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .evaluate-card {
-  span {
+  .card-title {
     font-size: 20px;
     color: #2a2424;
     font-weight: 600;
@@ -57,39 +73,56 @@ export default {
     .evaluate-list {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
+      justify-content: space-between;
       margin: 0;
       padding: 0;
       list-style-type: none;
       li {
-        width: 500px;
-      }
-      .evaluate-link {
-        text-decoration: none;
+        margin: 0;
+        width: 550px;
       }
       .img-box {
         .game-cover {
           width: 120px;
-          height: 108px;
+          height: 150px;
         }
       }
-      .item-header {
-        p {
-          margin: 5px 0;
+      /deep/ .item-text {
+        justify-content: space-between;
+        & p {
+          margin: 0 0 20px 0;
         }
-      }
-      .item-main {
-        p {
-          margin: 5px 0;
-        }
-        .evaluate-content {
-          font-size: 16px;
-          color: #646464;
-        }
-        .eva-footer {
+        .item-header {
           display: flex;
           justify-content: space-between;
-          .eva-author,
+          .game-name {
+            font-size: 20px;
+          }
+          .user-rate {
+            margin: 0 10px;
+            min-width: 150px;
+            .el-rate__icon {
+              font-size: 24px;
+            }
+          }
+        }
+        .item-main {
+          .evaluate-content {
+            font-size: 16px;
+            color: #646464;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+        }
+        .item-footer {
+          display: flex;
+          justify-content: space-between;
+          .eva-author {
+            font-weight: 600;
+            color: #555;
+          }
           .eva-date {
             font-size: 14px;
             color: #969696;

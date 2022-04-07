@@ -54,7 +54,13 @@
                     <img class="game-cover" :src="item.game_logo" alt="" />
                   </template>
                   <template #item-header>
-                    <p class="game-name">{{ item.game_name }}</p>
+                    <div class="game-title">
+                      <p class="game-name">{{ item.game_name }}</p>
+                    </div>
+                    <div class="score-box">
+                      <span class="game-score" v-if="item.game_score">{{ item.game_score }}</span>
+                      <span class="game-score none" v-else>暂无评分</span>
+                    </div>
                   </template>
                   <template #item-main>
                     <p class="game-platform" v-text="item.platform.join('，')"></p>
@@ -157,25 +163,43 @@ export default {
       .img-box {
         .game-cover {
           width: 120px;
-          height: 108px;
+          height: 120px;
         }
       }
-      .item-header {
-        p {
-          margin: 10px 0;
+      /deep/ .item-text {
+        justify-content: space-between;
+        .item-header {
+          display: flex;
+          justify-content: space-between;
+          .game-title {
+            .game-name {
+              font-size: 20px;
+              margin: 5px 0;
+            }
+          }
+          .score-box {
+            .game-score {
+              font-size: 24px;
+              margin: 0 20px;
+              line-height: 34px;
+            }
+            .none {
+              font-size: 14px;
+            }
+          }
         }
-      }
-      .item-main {
-        p {
-          margin: 5px 0;
-        }
-        .game-platform {
-          font-size: 14px;
-          color: #646464;
-        }
-        .game-gene {
-          font-size: 14px;
-          color: #646464;
+        .item-main {
+          p {
+            margin: 5px 0;
+          }
+          .game-platform {
+            font-size: 14px;
+            color: #646464;
+          }
+          .game-gene {
+            font-size: 14px;
+            color: #646464;
+          }
         }
       }
     }

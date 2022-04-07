@@ -7,8 +7,14 @@
             <img class="game-cover" :src="item.game_logo" alt="" />
           </template>
           <template #item-header>
-            <p class="game-name">{{ item.game_name }}</p>
-            <p class="origin-name">{{ item.origin_name }}</p>
+            <div class="game-title">
+              <p class="game-name">{{ item.game_name }}</p>
+              <p class="origin-name">{{ item.origin_name }}</p>
+            </div>
+            <div class="score-box">
+              <span class="game-score" v-if="item.game_score">{{ item.game_score }}</span>
+              <span class="game-score none" v-else>暂无评分</span>
+            </div>
           </template>
           <template #item-main>
             <div class="game-descri">
@@ -110,14 +116,30 @@ export default {
       border: 1px solid #111;
       margin-right: 10px;
     }
-    .game-name {
-      font-size: 24px;
-      margin: 5px 0;
-    }
-    .origin-name {
-      font-size: 16px;
-      font-weight: 100;
-      margin: 5px 0 10px 0;
+    /deep/ .item-header {
+      display: flex;
+      justify-content: space-between;
+      .game-title {
+        .game-name {
+          font-size: 24px;
+          margin: 5px 0;
+        }
+        .origin-name {
+          font-size: 16px;
+          font-weight: 100;
+          margin: 5px 0 10px 0;
+        }
+      }
+      .score-box {
+        .game-score {
+          font-size: 40px;
+          margin: 0 20px;
+          line-height: 70px;
+        }
+        .none {
+          font-size: 20px;
+        }
+      }
     }
     .game-descri {
       & > * {

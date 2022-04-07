@@ -40,10 +40,10 @@ router.get('/', async (req, res) => {
       sortObj.game_date = 1;
       break;
     case 'scoreDesc':
-      sortObj.game_date = -1;
+      sortObj.game_score = -1;
       break;
     case 'scoreAsc':
-      sortObj.game_date = 1;
+      sortObj.game_score = 1;
       break;
     case 'pubTimeDesc':
       sortObj.publishTime = -1;

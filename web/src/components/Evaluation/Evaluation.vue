@@ -178,10 +178,6 @@ export default {
         try {
           // 评价模型中删除对应ID的评价
           await this.$http.delete(`/rest/evaluations/delete/${item._id}`);
-          // // 游戏信息中删除对应用户的评分
-          // await this.$http.put(`/rest/gameInfo/${this.$route.params.id}`, {
-          //   $pull: { game_score: { author_id: item.author } },
-          // });
           this.$message({
             message: '删除评价成功',
             type: 'success',
@@ -212,7 +208,6 @@ export default {
     margin: 10px 0;
     .evaluate-form {
       display: flex;
-      // justify-content: space-between;
       .el-form-item {
         margin: 0;
       }

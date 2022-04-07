@@ -23,7 +23,8 @@
         <div class="game-descri">
           <div class="game-score">
             <span>游戏评分</span>
-            <span class="score">{{ gameDetail.game_score }}</span>
+            <span class="score" v-if="gameDetail.game_score">{{ gameDetail.game_score }}</span>
+            <span class="score none" v-else>暂无评分</span>
           </div>
           <div class="platform">
             <span>游戏平台</span>
@@ -129,6 +130,10 @@ export default {
           color: #646464;
           .score {
             font-size: 50px;
+            color: #333;
+          }
+          .none {
+            font-size: 20px;
           }
           .score,
           .date,

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const Evaluation = require('./Evaluation.js');
 
 const schema = new mongoose.Schema({
   game_id: { type: String },

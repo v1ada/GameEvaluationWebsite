@@ -74,7 +74,7 @@ export default {
     // 获取用户信息
     async getUserData() {
       try {
-        const result = await this.$http.get(`/rest/users/${this.$route.params.id}`);
+        const result = await this.$http.get(`/rest/users/details/${this.$route.params.id}`);
         this.userData = result.data;
         // 初始头像
         this.tempImgUrl = this.userData.profile_photo;

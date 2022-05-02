@@ -120,8 +120,10 @@ export default {
       try {
         const { data } = await this.$http.get(`rest/evaluations/eva?id=${this.$route.params.id}`);
         this.evaluationsList = data;
+
         // 更新游戏的评价平均分
-        const avgScore = data.reduce((sum, item) => sum + item.score, 0) / data.length;
+        let avgScore = 0;
+        if (data.length) avgScore = data.reduce((sum, item) => sum + item.score, 0) / data.length;
         await this.$http.put(`/rest/gameInfo/${this.$route.params.id}`, {
           game_score: avgScore.toFixed(1),
         });

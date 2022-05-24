@@ -16,4 +16,8 @@ module.exports = {
     // 设置 @ 为根目录
     config.resolve.alias.set('@', resolve('src'));
   },
+  // 打包导出的目录
+  outputDir: __dirname + '/../server/web',
+  //部署时的基本URL
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
 };

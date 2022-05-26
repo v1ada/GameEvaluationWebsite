@@ -49,7 +49,7 @@ const store = new Vuex.Store({
         // 游戏筛选条件
         const filter = context.state.filter;
         // 请求url路径
-        let url = `http://localhost:3000/admin/api/rest/gameInfo?page=${payload.page || 1}&sort=${
+        let url = `http://game.v1ada.top/admin/api/rest/gameInfo?page=${payload.page || 1}&sort=${
           filter.sort
         }`;
         // 判断非必要筛选条件，若存在 添加到url

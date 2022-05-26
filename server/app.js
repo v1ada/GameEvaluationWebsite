@@ -78,7 +78,7 @@ let upload = multer({ storage: storage });
 app.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
   const imgType = req.params.imgType;
   const file = req.file;
-  file.url = `http://localhost:3000/public/img/${imgType}/${file.filename}`;
+  file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
   res.send(file);
 });
 

@@ -11,6 +11,7 @@
       />
     </div>
     <el-table :data="usersData">
+      <el-table-column type="index" :index="index" label="序号" />
       <el-table-column prop="_id" label="ID" width="300" />
       <el-table-column prop="username" label="用户名" width="250" />
       <el-table-column prop="nickname" label="昵称" width="250" />
@@ -46,14 +47,20 @@ export default {
     return {
       usersData: [],
       usersDataTotal: 0,
+      usersDataPage: 1,
       searchStr: '',
     };
+  },
+  computed: {
+    index() {
+      return (this.usersDataPage - 1) * 10 + 1;
+    },
   },
   methods: {
     // 获取全部用户信息
     async getUsersData() {
       try {
-        const { data } = await this.$http.get('/rest/users');
+        const { data } = await this.$http.get(`/rest/users?page=${this.usersDataPage}`);
         this.usersData = data.result;
         this.usersDataTotal = data.total;
       } catch (err) {

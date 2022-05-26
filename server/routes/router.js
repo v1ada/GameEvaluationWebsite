@@ -28,7 +28,7 @@ router.get('/checkLogin', authMiddleware, (req, res) => {
 
 // 条件查询文档
 router.get('/', async (req, res) => {
-  console.log(req.query);
+  console.log('请求参数：', req.query);
   // 排序条件对象
   let sortObj = {};
   // 添加排序条件
@@ -73,6 +73,7 @@ router.get('/', async (req, res) => {
         .skip(10 * (req.query.page - 1)) // 跳过10项字段，即到下一页
         .limit(10); // 一页的字段数目
       // 发送JSON
+      console.log('结果：', document);
       res.json({
         result: document,
         total: count,

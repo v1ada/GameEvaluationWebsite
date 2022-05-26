@@ -63,7 +63,7 @@ export default {
     // 模糊搜索用户
     async searchUser() {
       const { data } = await this.$http.get(`/rest/users/search?search=${this.searchStr}`);
-      this.usersData = data;
+      this.usersData = data.result;
     },
     // 更新用户权限与状态
     async updateUser(row) {

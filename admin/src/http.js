@@ -25,6 +25,7 @@ http.interceptors.response.use(
   (err) => {
     // 有err的响应message时
     if (err.response.data.message) {
+      // Vue 显示message
       Vue.prototype.$message({
         type: 'error',
         message: err.response.data.message,

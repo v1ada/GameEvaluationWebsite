@@ -3,7 +3,7 @@
     <el-container style="height: 100vh; border: 1px solid #eee">
       <!-- 侧边栏 -->
       <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-        <el-menu router :default-openeds="['1', '2']" :default-active="$route.path">
+        <el-menu router :default-openeds="['1', '2']" unique-opened :default-active="$route.path">
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-tickets"></i>

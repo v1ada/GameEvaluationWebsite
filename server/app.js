@@ -1,9 +1,6 @@
 const express = require('express');
 const cors = require('cors'); //解决跨域问题
 const multer = require('multer');
-const jwt = require('jsonwebtoken');
-
-const User = require('./models/User');
 
 //连接数据库
 require('./plugins/db.js')();
@@ -35,18 +32,20 @@ app.use(
 );
 
 // 登录接口
-app.set('secret', 'CB18130214');
 app.post('/admin/api/:login', async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findOne({ username });
+  // 查找用户
+  const User = require('./models/User');
+  const user = await User.findOne({ username }).select('+password');  // 更改select获取密码
   // 校验用户名
   if (!user) {
     return res.status(422).send({
       message: '用户不存在',
     });
   }
-  // 校验密码
-  if (password !== user.password) {
+  // 校验密码, 对照用户输入明文，和数据库密文
+  const result = require('bcrypt').compareSync(password, user.password);
+  if (result) {
     return res.status(422).send({
       message: '密码错误',
     });
@@ -60,6 +59,8 @@ app.post('/admin/api/:login', async (req, res) => {
     }
   }
   // 返回token
+  const jwt = require('jsonwebtoken');
+  app.set('secret', 'CB18130214');
   const token = jwt.sign({ id: user._id }, app.get('secret'));
   res.send(token);
 });

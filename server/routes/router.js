@@ -138,6 +138,19 @@ router.get('/details/:id', (req, res) => {
     });
 });
 
+// 保存修改完的文档
+router.put('/:id', (req, res) => {
+  req.Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((result) => {
+      console.log(`成功修改: ${result}`);
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log(`修改失败：${err}`);
+      res.send(err);
+    });
+});
+
 // 获取评价
 router.get('/eva', (req, res) => {
   console.log(req.query);

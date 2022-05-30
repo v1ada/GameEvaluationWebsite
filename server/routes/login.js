@@ -10,8 +10,8 @@ const router = express.Router({
 router.post('/admin/api/:login', async (req, res) => {
   console.log('登录接口');
   const { username, password } = req.body;
-  // 查找用户
   const User = require('../models/User');
+  // 查找用户
   const user = await User.findOne({ username }).select('+password'); // 更改select获取密码
   // 校验用户名
   if (!user) {
@@ -21,7 +21,7 @@ router.post('/admin/api/:login', async (req, res) => {
   }
   // 校验密码, 对照用户输入明文，和数据库密文
   const result = require('bcrypt').compareSync(password, user.password);
-  if (result) {
+  if (!result) {
     return res.status(422).send({
       message: '密码错误',
     });
@@ -36,7 +36,16 @@ router.post('/admin/api/:login', async (req, res) => {
   }
   // 返回token
   const jwt = require('jsonwebtoken');
-  const token = jwt.sign({ id: user._id, username: user.username }, req.app.get('secret'));
+  const token = jwt.sign(
+    {
+      id: user._id,
+      username: user.username,
+    },
+    req.app.get('secret'), // 设置密钥
+    {
+      expiresIn: 24 * 60 * 60, // 设置过期时间 单位：秒
+    }
+  );
   res.send(token);
 });
 

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+// import axios from 'axios';
 
 Vue.use(Vuex);
 
@@ -49,14 +49,12 @@ const store = new Vuex.Store({
         // 游戏筛选条件
         const filter = context.state.filter;
         // 请求url路径
-        let url = `http://game.v1ada.top/admin/api/rest/gameInfo?page=${payload.page || 1}&sort=${
-          filter.sort
-        }`;
+        let url = `/rest/gameInfo?page=${payload.page || 1}&sort=${filter.sort}`;
         // 判断非必要筛选条件，若存在 添加到url
         if (filter.platform.length) url += `&platform=${filter.platform}`;
         if (filter.type.length) url += `&type=${filter.type}`;
         // 发起请求，将获取的游戏列表数据存储到state中
-        const { data } = await axios.get(url);
+        const { data } = await Vue.prototype.$http.get(url);
         context.commit('changeGamesListData', data);
       } catch (err) {
         console.log(err);

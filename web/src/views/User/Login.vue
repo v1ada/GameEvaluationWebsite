@@ -47,6 +47,12 @@ export default {
       },
     };
   },
+  // 当修改完密码后，登录完成，跳转到首页
+  beforeRouteLeave(to, from, next) {
+    console.log(to);
+    if (to.name === 'UpdatePassword') next('/');
+    else next();
+  },
   methods: {
     async login(formName) {
       this.$refs[formName].validate(async (valid) => {
@@ -65,7 +71,7 @@ export default {
             const userData = data;
             // 将已经登录的用户信息，提交到state上
             this.$store.commit('changeUserData', userData);
-            this.$router.go(-1);
+            this.$router.back();
           } catch (err) {
             console.log(err);
           }

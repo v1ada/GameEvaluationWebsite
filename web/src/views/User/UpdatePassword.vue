@@ -70,8 +70,7 @@ export default {
             }).then(() => {
               // 清空 token
               localStorage.clear();
-              // 跳转到登录页重新登录
-              this.$router.push('/login');
+              // 刷新重新登录
               this.$router.go(0);
             });
           } catch (err) {

@@ -27,8 +27,8 @@
 
       <el-container>
         <!-- 头部 -->
-        <el-header style="text-align: right; font-size: 12px">
-          <span>Ming</span>
+        <el-header>
+          <span @click="logout">登出</span>
         </el-header>
         <!-- 主内容 -->
         <el-main style="padding: 20px 100px">
@@ -42,14 +42,23 @@
 <script>
 export default {
   name: 'Main',
+  methods: {
+    // 注销登出
+    logout() {
+      localStorage.clear();
+      this.$router.go(0);
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .el-header {
   background-color: #b3c0d1;
-  color: #333;
+  text-align: right;
   line-height: 60px;
+  color: #333;
+  font-size: 16px;
 }
 
 .el-aside {

@@ -1,3 +1,4 @@
+// 统一接口获取对应模型 中间件
 module.exports = (options) => (req, res, next) => {
   const inflection = require('inflection'); // 处理单词大小写首字母的转换，单数复数的转换
   // 转换成首字母大写单数的单词

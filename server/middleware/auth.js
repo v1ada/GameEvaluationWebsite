@@ -1,3 +1,4 @@
+// 校验用户登录状态，中间件
 module.exports = (options) => async (req, res, next) => {
   const jwt = require('jsonwebtoken');
   const User = require('../models/User');

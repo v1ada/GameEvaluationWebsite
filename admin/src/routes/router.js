@@ -35,6 +35,10 @@ const routes = [
       { path: '/users/list', name: 'ListAdmin', component: ListAdmin },
     ],
   },
+  {
+    path: '*', // 其他路由
+    redirect: '/',
+  },
 ];
 
 const router = new VueRouter({

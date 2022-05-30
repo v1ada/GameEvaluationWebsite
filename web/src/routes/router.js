@@ -65,6 +65,10 @@ const routes = [
     name: 'GameDetail',
     component: GameDetail,
   },
+  {
+    path: '*', // 其他路由
+    redirect: '/',
+  },
 ];
 
 const router = new VueRouter({

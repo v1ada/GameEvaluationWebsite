@@ -61,7 +61,7 @@ export default {
               type: 'success',
             });
             // 验证登录信息，返回登录的用户信息
-            const { data } = await this.$http.get(`/rest/users/checkLogin`);
+            const { data } = await this.$http.get(`/checkLogin`);
             const userData = data;
             // 将已经登录的用户信息，提交到state上
             this.$store.commit('changeUserData', userData);

@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors'); //解决跨域问题
-const multer = require('multer');
+// const multer = require('multer');
 
 //连接数据库
 require('./plugins/db.js')();
 //路由
 const router = require('./routes/router.js');
+const login = require('./routes/login');
 
 let app = express();
 
@@ -19,8 +20,10 @@ app.use('/', express.static(__dirname + '/web'));
 app.use('/public', express.static(__dirname + '/public')); // 上传图片静态资源
 
 // 导入中间件
-const authMiddleware = require('./middleware/auth.js')();
 const resourceMiddleware = require('./middleware/resource.js')();
+
+// jwt 密钥
+app.set('secret', 'CB18130214');
 
 //挂载通用路由
 app.use(
@@ -30,58 +33,26 @@ app.use(
   resourceMiddleware,
   router
 );
+// 挂载路由
+app.use(login);
 
-// 登录接口
-app.post('/admin/api/:login', async (req, res) => {
-  const { username, password } = req.body;
-  // 查找用户
-  const User = require('./models/User');
-  const user = await User.findOne({ username }).select('+password');  // 更改select获取密码
-  // 校验用户名
-  if (!user) {
-    return res.status(422).send({
-      message: '用户不存在',
-    });
-  }
-  // 校验密码, 对照用户输入明文，和数据库密文
-  const result = require('bcrypt').compareSync(password, user.password);
-  if (result) {
-    return res.status(422).send({
-      message: '密码错误',
-    });
-  }
-  // 登录管理后台时验证用户是否具有权限
-  if (req.params.login === 'adminLogin') {
-    if (!user.type) {
-      return res.status(422).send({
-        message: '没有权限',
-      });
-    }
-  }
-  // 返回token
-  const jwt = require('jsonwebtoken');
-  app.set('secret', 'CB18130214');
-  const token = jwt.sign({ id: user._id }, app.get('secret'));
-  res.send(token);
-});
+// // 文件上传
+// // diskStorage: 磁盘存储引擎可以让你控制文件的存储。
+// let storage = multer.diskStorage({
+//   // destination: 存储路径，可以使用request对象和文件对象
+//   destination: function (req, file, cb) {
+//     cb(null, `${__dirname}/public/img/${req.params.imgType}`);
+//   },
+// });
+// let upload = multer({ storage: storage });
 
-// 文件上传
-// diskStorage: 磁盘存储引擎可以让你控制文件的存储。
-let storage = multer.diskStorage({
-  // destination: 存储路径，可以使用request对象和文件对象
-  destination: function (req, file, cb) {
-    cb(null, `${__dirname}/public/img/${req.params.imgType}`);
-  },
-});
-let upload = multer({ storage: storage });
-
-// 文件上传接口，multer会给request添加 file、files
-app.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
-  const imgType = req.params.imgType;
-  const file = req.file;
-  file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
-  res.send(file);
-});
+// // 文件上传接口，multer会给request添加 file、files
+// app.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
+//   const imgType = req.params.imgType;
+//   const file = req.file;
+//   file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
+//   res.send(file);
+// });
 
 app.listen(3000, () => {
   console.log('Running at http://localhost:3000');

@@ -42,10 +42,10 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-// 没有登录token不能进入
+// 没有验证登录token不能进入
 router.beforeEach(async (to, from, next) => {
   if (!to.meta.isPublic) {
-    if (localStorage.token) await Vue.prototype.$http.get(`/rest/users/checkLogin`);
+    if (localStorage.token) await Vue.prototype.$http.get(`/checkLogin`);
     if (!localStorage.token) next('/login');
   }
   next();

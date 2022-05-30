@@ -1,12 +1,12 @@
 const express = require('express');
 const cors = require('cors'); //解决跨域问题
-// const multer = require('multer');
 
 //连接数据库
 require('./plugins/db.js')();
 //路由
 const router = require('./routes/router.js');
 const login = require('./routes/login');
+const upload = require('./routes/upload');
 
 let app = express();
 
@@ -35,24 +35,7 @@ app.use(
 );
 // 挂载路由
 app.use(login);
-
-// // 文件上传
-// // diskStorage: 磁盘存储引擎可以让你控制文件的存储。
-// let storage = multer.diskStorage({
-//   // destination: 存储路径，可以使用request对象和文件对象
-//   destination: function (req, file, cb) {
-//     cb(null, `${__dirname}/public/img/${req.params.imgType}`);
-//   },
-// });
-// let upload = multer({ storage: storage });
-
-// // 文件上传接口，multer会给request添加 file、files
-// app.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
-//   const imgType = req.params.imgType;
-//   const file = req.file;
-//   file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
-//   res.send(file);
-// });
+app.use(upload);
 
 app.listen(3000, () => {
   console.log('Running at http://localhost:3000');

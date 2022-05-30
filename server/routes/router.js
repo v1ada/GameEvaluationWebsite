@@ -1,9 +1,6 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const multer = require('multer');
-// 导入中间件
-const authMiddleware = require('../middleware/auth.js')();
 
 // 删除文件函数
 function delFile(imgPath, dirName) {
@@ -21,46 +18,6 @@ function delFile(imgPath, dirName) {
 const router = express.Router({
   mergeParams: true,
 });
-
-// // 登录接口
-// router.post('/adminLogin', async (req, res) => {
-//   console.log('登录接口');
-//   const { username, password } = req.body;
-//   // 查找用户
-//   const User = require('./models/User');
-//   const user = await User.findOne({ username }).select('+password'); // 更改select获取密码
-//   // 校验用户名
-//   if (!user) {
-//     return res.status(422).send({
-//       message: '用户不存在',
-//     });
-//   }
-//   // 校验密码, 对照用户输入明文，和数据库密文
-//   const result = require('bcrypt').compareSync(password, user.password);
-//   if (result) {
-//     return res.status(422).send({
-//       message: '密码错误',
-//     });
-//   }
-//   // 登录管理后台时验证用户是否具有权限
-//   if (req.params.login === 'adminLogin') {
-//     if (!user.type) {
-//       return res.status(422).send({
-//         message: '没有权限',
-//       });
-//     }
-//   }
-//   // 返回token
-//   const jwt = require('jsonwebtoken');
-//   const token = jwt.sign({ id: user._id, username: user.username }, app.get('secret'));
-//   res.send(token);
-// });
-
-// // 中间件检查登录信息，返回登录的用户信息
-// router.get('/checkLogin', authMiddleware, (req, res) => {
-//   console.log('用户登录：', req.user);
-//   res.send(req.user);
-// });
 
 // 条件查询文档
 router.get('/', async (req, res) => {
@@ -200,37 +157,6 @@ router.get('/eva', (req, res) => {
     })
     .catch((err) => {
       console.log(`查询失败：${err}`);
-      res.send(err);
-    });
-});
-
-// 文件上传
-// diskStorage: 磁盘存储引擎可以让你控制文件的存储。
-let storage = multer.diskStorage({
-  // destination: 存储路径，可以使用request对象和文件对象
-  destination: function (req, file, cb) {
-    cb(null, `${__dirname}/public/img/${req.params.imgType}`);
-  },
-});
-let upload = multer({ storage: storage });
-
-// 文件上传接口，multer会给request添加 file、files
-router.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
-  const imgType = req.params.imgType;
-  const file = req.file;
-  file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
-  res.send(file);
-});
-
-// 保存修改完的文档
-router.put('/:id', (req, res) => {
-  req.Model.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then((result) => {
-      console.log(`成功修改: ${result}`);
-      res.send(result);
-    })
-    .catch((err) => {
-      console.log(`修改失败：${err}`);
       res.send(err);
     });
 });

@@ -44,6 +44,9 @@ router.get('/', async (req, res) => {
       sortObj.game_score = 1;
       sortObj.game_date = -1;
       break;
+    // 文章发布日期降序
+    case 'pubTimeDesc':
+      sortObj.publishTime = -1;
   }
   // 条件查询对象
   let queryObj = {};
@@ -57,7 +60,6 @@ router.get('/', async (req, res) => {
     const queryType = req.query.type.split(',');
     queryObj.game_type = { $elemMatch: { $in: queryType } };
   }
-  console.log(sortObj);
   // 查询结果数目
   req.Model.count(queryObj, async (err, count) => {
     // 分页查询
@@ -67,7 +69,7 @@ router.get('/', async (req, res) => {
         .skip(10 * (req.query.page - 1)) // 跳过10项字段，即到下一页
         .limit(10); // 一页的字段数目
       // 发送JSON
-      // console.log('结果：', document);
+      console.log('结果：', document);
       res.json({
         result: document,
         total: count,

@@ -178,89 +178,18 @@ export default {
   .header {
     span {
       font-size: 20px;
-      color: #2a2424;
       font-weight: 600;
-    }
-    .search-box {
-      display: flex;
-      margin-top: 15px;
-      .el-input {
-        margin-right: 20px;
-        /deep/ .el-input__inner {
-          &:focus {
-            border-color: #333;
-          }
-        }
-      }
-    }
-  }
-  /deep/ .filter-form {
-    .el-form-item__label {
-      font-size: 16px;
-    }
-    // el-checkbox 样式
-    .el-checkbox__input.is-checked {
-      & .el-checkbox__inner {
-        background-color: #333;
-        border-color: #333;
-      }
-      & + .el-checkbox__label {
-        color: #333;
-      }
-    }
-    .el-checkbox__input.is-focus {
-      & .el-checkbox__inner {
-        border-color: #333;
-      }
-    }
-    .el-checkbox__inner:hover {
-      border-color: #333;
-    }
-    // el-select 样式
-    .el-select {
-      .el-input {
-        .el-input__inner {
-          border-color: #c6cbd7;
-          color: #333;
-          &:hover,
-          &:focus {
-            border-color: #333;
-          }
-        }
-      }
-    }
-  }
-  // el-button 样式
-  .el-button {
-    background-color: #fff;
-    border-color: #c6cbd7;
-    &:hover {
-      border-color: #333;
-      color: #333;
-    }
-    &:focus {
-      color: #606266;
-    }
-  }
-  .el-button--primary,
-  .el-button--primary:focus {
-    color: #fff;
-    background-color: #333;
-    border-color: #333;
-    &:hover {
-      background: #505050;
-      border-color: #505050;
-      color: #fff;
     }
   }
 }
-//  el-select下拉框 样式
-.el-select-dropdown {
-  .el-select-dropdown__item.selected {
-    color: #333;
+.search-box {
+  display: flex;
+  margin-top: 15px;
+  .searchInput {
+    margin-right: 10px;
   }
-  .el-input__inner {
-    color: #333;
-  }
+}
+/deep/ .el-form-item__label {
+  font-size: 16px;
 }
 </style>

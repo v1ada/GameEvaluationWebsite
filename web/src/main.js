@@ -1,7 +1,9 @@
 import Vue from 'vue';
 
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// 主题
+import './assets/theme/index.css';
+// 图标
 import './assets/icon/iconfont/iconfont.css';
 
 import App from './App.vue';

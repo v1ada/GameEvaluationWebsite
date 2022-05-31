@@ -161,13 +161,5 @@ export default {
 
 .paging {
   margin-top: 20px;
-  /deep/.el-pagination.is-background {
-    .el-pager li {
-      &:not(.disabled).active {
-        background-color: #333;
-        color: #fff;
-      }
-    }
-  }
 }
 </style>

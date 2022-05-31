@@ -12,8 +12,8 @@
               <p class="origin-name">{{ item.origin_name }}</p>
             </div>
             <div class="score-box">
-              <span class="game-score" v-if="item.game_score">{{ item.game_score }}</span>
-              <span class="game-score none" v-else>暂无评分</span>
+              <p class="game-score" v-if="item.game_score">{{ item.game_score }}</p>
+              <p class="game-score none" v-else>暂无评分</p>
             </div>
           </template>
           <template #item-main>
@@ -109,63 +109,56 @@ export default {
 
 <style lang="less" scoped>
 .gamesList-card {
+  margin-top: 10px;
+  p {
+    margin: 5px 0;
+  }
+}
+
+.game-cover {
+  width: 165px;
+  margin-right: 10px;
+}
+/deep/ .item-header {
+  display: flex;
+  justify-content: space-between;
+}
+.game-title {
+  .game-name {
+    font-size: 24px;
+  }
+  .origin-name {
+    font-size: 16px;
+    font-weight: 100;
+  }
+}
+.score-box {
+  .game-score {
+    font-size: 40px;
+    margin-right: 20px;
+  }
+  .none {
+    font-size: 20px;
+  }
+}
+.game-descri > * {
+  display: flex;
   margin: 10px 0;
-  .gameList-item {
-    .game-cover {
-      width: 165px;
-      border: 1px solid #111;
-      margin-right: 10px;
-    }
-    /deep/ .item-header {
-      display: flex;
-      justify-content: space-between;
-      .game-title {
-        .game-name {
-          font-size: 24px;
-          margin: 5px 0;
-        }
-        .origin-name {
-          font-size: 16px;
-          font-weight: 100;
-          margin: 5px 0 10px 0;
-        }
-      }
-      .score-box {
-        .game-score {
-          font-size: 40px;
-          margin: 0 20px;
-          line-height: 70px;
-        }
-        .none {
-          font-size: 20px;
-        }
-      }
-    }
-    .game-descri {
-      & > * {
-        display: flex;
-        margin: 10px 0 0 0;
-        & > span {
-          line-height: 32px;
-        }
-        .tag-box {
-          margin-left: 20px;
-          width: 410px;
-          span {
-            margin: 2px 2px;
-            border: 1px solid #a6a6a6;
-            border-radius: 5px;
-            color: #505050;
-          }
-        }
-        .date {
-          margin-left: 20px;
-        }
-      }
-    }
+  & > span {
+    margin: 5px 0;
   }
-  .paging {
-    margin-top: 20px;
-  }
+}
+.tag-box,
+.date {
+  display: inline-block;
+  max-width: 400px;
+  margin-left: 20px;
+}
+.el-tag--plain {
+  margin: 2px;
+}
+
+.paging {
+  margin-top: 20px;
 }
 </style>

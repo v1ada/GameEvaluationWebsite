@@ -63,72 +63,60 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.evaluate-card {
-  .card-title {
-    font-size: 20px;
-    color: #2a2424;
-    font-weight: 600;
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+.evaluate-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    width: 550px;
   }
-  .evaluate-card-body {
-    .evaluate-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
-      li {
-        margin: 0;
-        width: 550px;
+}
+/deep/.item-card {
+  .game-cover {
+    width: 120px;
+    height: 150px;
+  }
+  .item-text {
+    justify-content: space-between;
+  }
+  .item-header {
+    p {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+    .user-rate {
+      float: right;
+      min-width: 150px;
+      .el-rate__icon {
+        font-size: 24px;
       }
-      .img-box {
-        .game-cover {
-          width: 120px;
-          height: 150px;
-        }
-      }
-      /deep/ .item-text {
-        justify-content: space-between;
-        & p {
-          margin: 0 0 20px 0;
-        }
-        .item-header {
-          display: flex;
-          justify-content: space-between;
-          .game-name {
-            font-size: 20px;
-          }
-          .user-rate {
-            margin: 0 10px;
-            min-width: 150px;
-            .el-rate__icon {
-              font-size: 24px;
-            }
-          }
-        }
-        .item-main {
-          .evaluate-content {
-            font-size: 16px;
-            color: #646464;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-          }
-        }
-        .item-footer {
-          display: flex;
-          justify-content: space-between;
-          .eva-author {
-            font-weight: 600;
-            color: #555;
-          }
-          .eva-date {
-            font-size: 14px;
-            color: #969696;
-          }
-        }
-      }
+    }
+  }
+  .evaluate-content {
+    color: #646464;
+    // 超过 3 行 省略
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    .eva-author {
+      font-weight: 600;
+      color: #555;
+    }
+    .eva-date {
+      font-size: 14px;
+      color: #969696;
     }
   }
 }

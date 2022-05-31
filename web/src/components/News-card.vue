@@ -3,7 +3,10 @@
     <el-card class="news-card">
       <div slot="header" class="header">
         <span>最新资讯</span>
-        <slot name="show-more"></slot>
+        <router-link class="show-more-link" to="/news" v-if="showMore">
+          <span>更多</span>
+          <i class="el-icon-d-arrow-right"></i>
+        </router-link>
       </div>
       <!-- 卡片项组件 -->
       <item-card v-for="item in articlesData" :key="item._id" :path="`/new/${item._id}`">
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-import ItemCard from '../../components/Item-card.vue';
+import ItemCard from './Item-card.vue';
 
 export default {
   name: 'News',
@@ -50,14 +53,9 @@ export default {
   },
   // 控制是否显示 footer和分页
   props: {
-    showFooter: {
-      type: Boolean,
-      default: true,
-    },
-    showPaging: {
-      type: Boolean,
-      default: true,
-    },
+    showMore: { type: Boolean, default: false },
+    showFooter: { type: Boolean, default: true },
+    showPaging: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -102,6 +100,16 @@ export default {
       font-size: 20px;
       color: #2a2424;
       font-weight: 600;
+    }
+    .show-more-link {
+      float: right;
+      padding: 3px 0;
+      text-decoration: none;
+      span,
+      i {
+        font-size: 14px;
+        color: #646464;
+      }
     }
   }
   .new-cover {

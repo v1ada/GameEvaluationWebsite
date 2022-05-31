@@ -14,14 +14,7 @@
     </el-card>
 
     <!-- 新闻组件 -->
-    <news :showFooter="false" :showPaging="false">
-      <template v-slot:show-more>
-        <router-link class="show-more-link" to="/news">
-          <span>更多</span>
-          <i class="el-icon-d-arrow-right"></i>
-        </router-link>
-      </template>
-    </news>
+    <news :showMore="true" :showFooter="false" :showPaging="false" />
 
     <!-- 推荐组件 -->
     <recommend-card />
@@ -32,9 +25,9 @@
 </template>
 
 <script>
-import RecommendCard from '../components/Home/Recommend-card.vue';
-import EvaluateCard from '../components/Home/Evaluate-card.vue';
-import News from './New/News.vue';
+import RecommendCard from '@/components/Home/Recommend-card.vue';
+import EvaluateCard from '@/components/Home/Evaluate-card.vue';
+import News from '@/components/News-card.vue';
 
 export default {
   components: {
@@ -65,44 +58,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home-container {
-  .carousel-card {
-    .el-empty {
-      background-color: #444;
+.carousel-card {
+  .el-empty {
+    background-color: #444;
+  }
+  .el-carousel__item {
+    .carousel-img {
+      width: 100%;
+      height: 500px;
     }
-    .el-carousel__item {
-      .carousel-img {
-        width: 100%;
-        height: 500px;
-      }
-      .carousel-title {
-        position: absolute;
-        bottom: 0;
-        left: 10px;
-        font-size: 35px;
-        color: #fff;
-        font-weight: 700;
-        // -webkit-text-stroke: 0.5px #000;
-        text-shadow: 3px 3px 5px #000;
-      }
+    .carousel-title {
+      position: absolute;
+      bottom: 0;
+      left: 10px;
+      font-size: 35px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 3px 3px 5px #000;
     }
   }
-  .news-container {
-    /deep/ .news-card {
-      margin: 20px 0px;
-      .header {
-        .show-more-link {
-          float: right;
-          padding: 3px 0;
-          text-decoration: none;
-          span,
-          i {
-            font-size: 14px;
-            color: #646464;
-          }
-        }
-      }
-    }
+}
+.news-container {
+  /deep/ .news-card {
+    margin: 20px 0;
   }
 }
 </style>

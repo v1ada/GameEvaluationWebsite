@@ -7,22 +7,15 @@
 
     <div class="side">
       <!-- 新闻组件 -->
-      <news :showFooter="false" :showPaging="false">
-        <template v-slot:show-more>
-          <router-link class="show-more-link" to="/news">
-            <span>更多</span>
-            <i class="el-icon-d-arrow-right"></i>
-          </router-link>
-        </template>
-      </news>
+      <news :showMore="true" :showFooter="false" :showPaging="false" />
     </div>
   </div>
 </template>
 
 <script>
-import GameFilter from '../../components/GameLibrary/Filter-card.vue';
-import GamesList from '../../components/GameLibrary/GamesList-card.vue';
-import News from '../New/News.vue';
+import GameFilter from '@/components/GameLibrary/Filter-card.vue';
+import GamesList from '@/components/GameLibrary/GamesList-card.vue';
+import News from '@/components/News-card.vue';
 
 export default {
   name: 'GameLibrary',
@@ -48,18 +41,6 @@ export default {
     width: 400px;
     /deep/ .news-card {
       margin: 0;
-      .header {
-        .show-more-link {
-          float: right;
-          padding: 3px 0;
-          text-decoration: none;
-          span,
-          i {
-            font-size: 14px;
-            color: #646464;
-          }
-        }
-      }
       .new-cover {
         width: 96px;
         height: 72px;

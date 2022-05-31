@@ -21,20 +21,13 @@
 
     <div class="side">
       <!-- 新闻列表 -->
-      <news :showFooter="false" :showPaging="false">
-        <template v-slot:show-more>
-          <router-link class="show-more-link" to="/news">
-            <span>更多</span>
-            <i class="el-icon-d-arrow-right"></i>
-          </router-link>
-        </template>
-      </news>
+      <news :showMore="true" :showFooter="false" :showPaging="false" />
     </div>
   </div>
 </template>
 
 <script>
-import News from './News.vue';
+import News from '@/components/News-card.vue';
 
 export default {
   name: 'NewDetail',

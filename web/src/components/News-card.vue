@@ -101,11 +101,9 @@ export default {
   .title {
     font-size: 20px;
     font-weight: 600;
-    color: #2a2424;
   }
   .show-more-link {
     float: right;
-    padding: 3px 0;
     text-decoration: none;
     span,
     i {
@@ -145,6 +143,9 @@ export default {
     color: #969696;
   }
 }
+.paging {
+  margin-top: 20px;
+}
 // 侧边栏模式
 .news-container.side {
   width: 400px;
@@ -157,9 +158,5 @@ export default {
       font-size: 15px;
     }
   }
-}
-
-.paging {
-  margin-top: 20px;
 }
 </style>

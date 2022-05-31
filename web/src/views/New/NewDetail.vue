@@ -21,7 +21,7 @@
 
     <div class="side">
       <!-- 新闻列表 -->
-      <news :showMore="true" :showFooter="false" :showPaging="false" />
+      <news type="side" :showMore="true" :showFooter="false" :showPaging="false" />
     </div>
   </div>
 </template>
@@ -70,78 +70,30 @@ export default {
 .newDetail-container {
   display: flex;
   justify-content: space-between;
-  .newDetail-card {
-    width: 750px;
-    .new-title {
-      margin: 10px 0;
-    }
-    .new-footer {
-      display: flex;
-      justify-content: space-between;
-      .new-author,
-      .new-date {
-        font-size: 12px;
-        color: #969696;
-        margin: 10px 0;
-      }
-    }
-    .newPicture {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      img {
-        margin: 5px 0;
-        width: 100%;
-      }
-    }
+}
+.newDetail-card {
+  width: 750px;
+}
+.new-title {
+  margin: 10px 0;
+}
+.new-footer {
+  display: flex;
+  justify-content: space-between;
+  .new-author,
+  .new-date {
+    font-size: 12px;
+    color: #969696;
+    margin: 10px 0;
   }
-  // 新闻组件样式
-  .news-container {
-    width: 400px;
-    /deep/ .news-card {
-      margin: 0;
-      .header {
-        .show-more-link {
-          float: right;
-          padding: 3px 0;
-          text-decoration: none;
-          span,
-          i {
-            font-size: 14px;
-            color: #646464;
-          }
-        }
-      }
-      .new-cover {
-        width: 96px;
-        height: 72px;
-      }
-      .new-title {
-        margin: 5px 0;
-        font-size: 15px;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-      }
-      .item-info {
-        p {
-          margin: 5px 0;
-        }
-        .new-abstract {
-          display: none;
-        }
-        .new-footer {
-          display: flex;
-          justify-content: space-between;
-          .new-author,
-          .new-date {
-            font-size: 12px;
-            color: #969696;
-          }
-        }
-      }
-    }
+}
+.newPicture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  img {
+    margin: 5px 0;
+    width: 100%;
   }
 }
 </style>

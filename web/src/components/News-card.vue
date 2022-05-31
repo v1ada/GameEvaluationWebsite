@@ -1,8 +1,8 @@
 <template>
-  <div class="news-container">
+  <div :class="`news-container ${type}`">
     <el-card class="news-card">
       <div slot="header" class="header">
-        <span>最新资讯</span>
+        <span class="title">最新资讯</span>
         <router-link class="show-more-link" to="/news" v-if="showMore">
           <span>更多</span>
           <i class="el-icon-d-arrow-right"></i>
@@ -53,6 +53,7 @@ export default {
   },
   // 控制是否显示 footer和分页
   props: {
+    type: { type: String, default: '' },
     showMore: { type: Boolean, default: false },
     showFooter: { type: Boolean, default: true },
     showPaging: { type: Boolean, default: true },
@@ -95,66 +96,76 @@ export default {
 <style lang="less" scoped>
 .news-card {
   background-color: #f8f8f9;
-  .header {
-    span {
-      font-size: 20px;
-      color: #2a2424;
-      font-weight: 600;
-    }
-    .show-more-link {
-      float: right;
-      padding: 3px 0;
-      text-decoration: none;
-      span,
-      i {
-        font-size: 14px;
-        color: #646464;
-      }
-    }
+}
+.header {
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2a2424;
   }
-  .new-cover {
-    width: 192px;
-    height: 108px;
-  }
-  .new-title {
-    margin: 5px 0;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-  .item-main {
-    p {
-      margin: 5px 0;
-    }
-    .new-abstract {
+  .show-more-link {
+    float: right;
+    padding: 3px 0;
+    text-decoration: none;
+    span,
+    i {
       font-size: 14px;
       color: #646464;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
     }
   }
-  .item-footer {
-    .new-footer {
-      display: flex;
-      justify-content: space-between;
-      .new-author,
-      .new-date {
-        font-size: 12px;
-        color: #969696;
-      }
+}
+.new-cover {
+  width: 192px;
+  height: 108px;
+}
+.new-title {
+  margin: 5px 0;
+  overflow: hidden;
+  // 超过 1 行隐藏，显示省略号
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.new-abstract {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #646464;
+  overflow: hidden;
+  // 超过 2 行隐藏，显示省略号
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.new-footer {
+  display: flex;
+  justify-content: space-between;
+  .new-author,
+  .new-date {
+    font-size: 12px;
+    color: #969696;
+  }
+}
+// 侧边栏模式
+.news-container.side {
+  width: 400px;
+  /deep/ .news-card {
+    .new-cover {
+      width: 96px;
+      height: 72px;
+    }
+    .new-title {
+      font-size: 15px;
     }
   }
-  .paging {
-    margin-top: 20px;
-    /deep/.el-pagination.is-background {
-      .el-pager li {
-        &:not(.disabled).active {
-          background-color: #333;
-          color: #fff;
-        }
+}
+
+.paging {
+  margin-top: 20px;
+  /deep/.el-pagination.is-background {
+    .el-pager li {
+      &:not(.disabled).active {
+        background-color: #333;
+        color: #fff;
       }
     }
   }

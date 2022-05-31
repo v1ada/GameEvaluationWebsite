@@ -7,7 +7,7 @@
       <el-header>
         <el-menu
           mode="horizontal"
-          background-color="#151617"
+          background-color="#222"
           text-color="#fff"
           active-text-color="#ffd04b"
           :default-active="$route.path"
@@ -35,6 +35,7 @@
     </el-container>
   </div>
 </template>
+
 <script>
 import { mapState } from 'vuex';
 
@@ -73,54 +74,41 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-#app {
-  margin: 0;
-  .bg-img {
-    position: fixed;
-    margin: 0 auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: -1;
-    background: #282829;
-    display: flex;
-    justify-content: center;
-    img {
-      min-width: 2000px;
-      min-height: 100vh;
-      width: 1920px;
-      height: 100%;
-      z-index: 0;
-    }
+<style lang="scss" scoped>
+.bg-img {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  img {
+    z-index: 0;
+    min-width: 1920px;
+    min-height: 100vh;
   }
-  .el-header {
-    position: fixed;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    z-index: 100;
-    background-color: #151617;
-    .el-menu {
-      width: 1100px;
-      margin: 0 auto;
-      .login-item {
-        float: right;
-        /deep/ .el-submenu__title {
-          font-size: 16px;
-          .profile-photo {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-          }
-        }
+}
+.el-header {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  background-color: #222;
+  .el-menu {
+    width: 1100px;
+    margin: 0 auto;
+    .login-item {
+      float: right;
+      .profile-photo {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
       }
     }
   }
-  .el-main {
-    width: 1200px;
-    margin: 60px auto;
-  }
+}
+.el-main {
+  width: 1200px;
+  margin: 60px auto;
 }
 </style>
 <style lang="less">

@@ -58,8 +58,8 @@
                       <p class="game-name">{{ item.game_name }}</p>
                     </div>
                     <div class="score-box">
-                      <span class="game-score" v-if="item.game_score">{{ item.game_score }}</span>
-                      <span class="game-score none" v-else>暂无评分</span>
+                      <p class="game-score" v-if="item.game_score">{{ item.game_score }}</p>
+                      <p class="game-score none" v-else>暂无评分</p>
                     </div>
                   </template>
                   <template #item-main>
@@ -105,109 +105,83 @@ export default {
 
 <style lang="less" scoped>
 .el-card {
-  margin: 5px 0;
   border: none;
   .header {
     span {
       font-size: 20px;
-      color: #2a2424;
       font-weight: 600;
     }
   }
+  p {
+    margin: 5px 0;
+  }
 }
-.card-box {
-  .header {
-    span {
-      font-size: 18px;
+.platform-card {
+  .link-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 100px;
+    .platform-link {
+      text-decoration: none;
+      text-align: center;
+      font-weight: bold;
       color: #333;
+      .platform-link-img-div {
+        padding: 20px;
+        border-radius: 10px;
+      }
     }
   }
-  .platform-card {
-    .link-container {
+}
+.top-card {
+  margin-top: 20px;
+  .header {
+    .show-more-link {
+      float: right;
+      text-decoration: none;
+      span,
+      i {
+        font-size: 14px;
+        color: #646464;
+      }
+    }
+  }
+  .game-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    li {
+      width: 460px;
+    }
+  }
+}
+/deep/ .item-card {
+  .img-box {
+    .game-cover {
+      width: 130px;
+      height: 130px;
+    }
+  }
+  .item-text {
+    justify-content: space-between;
+    .item-header {
       display: flex;
       justify-content: space-between;
-      padding: 0 100px;
-      .platform-link {
-        text-decoration: none;
-        text-align: center;
-        color: #333;
-        font-weight: bold;
-        .platform-link-img-div {
-          display: inline-block;
-          padding: 20px;
-          border-radius: 10px;
+      .game-score {
+        font-size: 24px;
+        margin: 0 10px;
+        &.none {
+          font-size: 18px;
         }
       }
     }
-  }
-  .top-card {
-    margin-top: 20px;
-    .header {
-      .show-more-link {
-        float: right;
-        text-decoration: none;
-        span,
-        i {
-          font-size: 14px;
-          color: #646464;
-        }
-      }
-    }
-    .game-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
-      li {
-        width: 460px;
-      }
-      .game-link {
-        text-decoration: none;
-      }
-      .img-box {
-        .game-cover {
-          width: 130px;
-          height: 130px;
-        }
-      }
-      /deep/ .item-text {
-        justify-content: space-between;
-        .item-header {
-          display: flex;
-          justify-content: space-between;
-          .game-title {
-            .game-name {
-              font-size: 20px;
-              margin: 5px 0;
-            }
-          }
-          .score-box {
-            .game-score {
-              font-size: 24px;
-              margin: 0 20px;
-              line-height: 34px;
-            }
-            .none {
-              font-size: 14px;
-            }
-          }
-        }
-        .item-main {
-          p {
-            margin: 5px 0;
-          }
-          .game-platform {
-            font-size: 14px;
-            color: #646464;
-          }
-          .game-gene {
-            font-size: 14px;
-            color: #646464;
-          }
-        }
-      }
+    .game-platform,
+    .game-gene {
+      font-size: 14px;
+      color: #646464;
     }
   }
 }

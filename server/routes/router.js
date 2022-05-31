@@ -26,23 +26,23 @@ router.get('/', async (req, res) => {
   let sortObj = {};
   // 添加排序条件
   switch (req.query.sort) {
+    // 发行日期降序
     case 'dateDesc':
       sortObj.game_date = -1;
       break;
+    // 发行日期升序
     case 'dateAsc':
       sortObj.game_date = 1;
       break;
+    // 评分降序
     case 'scoreDesc':
       sortObj.game_score = -1;
+      sortObj.game_date = -1; // 相同评分的根据发行日期排序
       break;
+    // 评分降序
     case 'scoreAsc':
       sortObj.game_score = 1;
-      break;
-    case 'pubTimeDesc':
-      sortObj.publishTime = -1;
-      break;
-    default:
-      sortObj.game_score = -1;
+      sortObj.game_date = -1;
       break;
   }
   // 条件查询对象
@@ -57,6 +57,7 @@ router.get('/', async (req, res) => {
     const queryType = req.query.type.split(',');
     queryObj.game_type = { $elemMatch: { $in: queryType } };
   }
+  console.log(sortObj);
   // 查询结果数目
   req.Model.count(queryObj, async (err, count) => {
     // 分页查询
@@ -66,7 +67,7 @@ router.get('/', async (req, res) => {
         .skip(10 * (req.query.page - 1)) // 跳过10项字段，即到下一页
         .limit(10); // 一页的字段数目
       // 发送JSON
-      console.log('结果：', document);
+      // console.log('结果：', document);
       res.json({
         result: document,
         total: count,

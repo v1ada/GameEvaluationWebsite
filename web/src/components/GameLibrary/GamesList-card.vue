@@ -145,7 +145,8 @@ export default {
   display: flex;
   margin: 10px 0;
   & > span {
-    margin: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
   }
 }
 .tag-box,

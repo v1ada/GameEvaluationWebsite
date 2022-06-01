@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import router from './routes/router';
 import axios from 'axios';
 
 // 设置http基础路径
@@ -25,12 +24,13 @@ http.interceptors.response.use(
   (err) => {
     // 有err的响应message时
     if (err.response.data.message) {
-      Vue.prototype.$message({
-        type: 'error',
-        message: err.response.data.message,
-      });
-      // 如果返回状态码401 说明没有登录，返回登录页
-      if (err.response.status === 401) router.push('/login');
+      // 只有返回状态码401 没有登录，不发送message
+      if (err.response.status !== 401) {
+        Vue.prototype.$message({
+          type: 'error',
+          message: err.response.data.message,
+        });
+      }
     }
     return Promise.reject(err);
   }

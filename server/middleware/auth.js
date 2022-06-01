@@ -17,9 +17,9 @@ module.exports = (options) => async (req, res, next) => {
     // 校验用户是否存在
     req.user = await User.findById(id);
   } catch (err) {
-    console.log('token 错误：',err);
+    console.log('token 错误或用户不存在：', err);
     return res.status(401).send({
-      message: '请重新登录',
+      message: '用户凭证已过期，请重新登录',
     });
   }
   await next();

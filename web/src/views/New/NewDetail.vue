@@ -3,9 +3,9 @@
     <div class="main">
       <!-- 新闻详情 -->
       <el-card class="newDetail-card">
-        <div slot="header">
+        <div slot="header" class="header">
           <h1 class="new-title">{{ newDetail.title }}</h1>
-          <div class="new-footer">
+          <div class="header-footer">
             <p class="new-author">资讯作者</p>
             <p class="new-date">{{ newDetail.publishTime }}</p>
           </div>
@@ -77,7 +77,7 @@ export default {
 .new-title {
   margin: 10px 0;
 }
-.new-footer {
+.header-footer {
   display: flex;
   justify-content: space-between;
   .new-author,
@@ -92,7 +92,7 @@ export default {
   flex-direction: column;
   align-items: center;
   img {
-    margin: 5px 0;
+    margin-top: 10px;
     width: 100%;
   }
 }

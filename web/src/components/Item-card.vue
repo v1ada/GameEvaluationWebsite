@@ -19,22 +19,6 @@
           </div>
         </div>
       </router-link>
-      <div class="item-card-body" v-else>
-        <div class="img-box">
-          <slot name="img-box"></slot>
-        </div>
-        <div class="item-text">
-          <div class="item-header">
-            <slot name="item-header"></slot>
-          </div>
-          <div class="item-main">
-            <slot name="item-main"></slot>
-          </div>
-          <div class="item-footer">
-            <slot name="item-footer"></slot>
-          </div>
-        </div>
-      </div>
     </el-card>
   </div>
 </template>
@@ -65,23 +49,16 @@ export default {
 }
 .item-card-body {
   display: flex;
-  .img-box {
-    margin-right: 10px;
-  }
-  .item-text {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    color: #333;
-    .item-header {
-      font-size: 18px;
-      font-weight: 600;
-    }
-    .item-main {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+}
+.item-text {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 10px;
+  color: #333;
+  .item-header {
+    font-size: 18px;
+    font-weight: 600;
   }
 }
 </style>

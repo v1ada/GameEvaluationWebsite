@@ -147,13 +147,11 @@ export default {
   & > span {
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-right: 20px;
   }
 }
-.tag-box,
-.date {
-  display: inline-block;
+.tag-box {
   max-width: 400px;
-  margin-left: 20px;
 }
 .el-tag--plain {
   margin: 2px;

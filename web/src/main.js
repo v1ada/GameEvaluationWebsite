@@ -1,6 +1,9 @@
 import Vue from 'vue';
 
 import ElementUI from 'element-ui';
+// Swiper
+import VueAwesomeSwiper from 'vue-awesome-swiper';
+import 'swiper/css/swiper.css';
 // 主题
 import './assets/theme/index.css';
 // 图标
@@ -12,6 +15,7 @@ import store from './store';
 import http from './http';
 
 Vue.use(ElementUI);
+Vue.use(VueAwesomeSwiper);
 
 // 阻止显示生产模式提醒
 Vue.config.productionTip = false;

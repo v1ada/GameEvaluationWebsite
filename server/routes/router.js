@@ -9,7 +9,7 @@ function delFile(imgPath, dirName) {
   // 根目录
   const rootDir = path.join(__dirname + '/../');
   // 删除操作
-  fs.unlink(`${rootDir}public/img/${dirName}/${imgName}`, (err) => {
+  fs.rm(`${rootDir}public/img/${dirName}/${imgName}`, { force: true }, (err) => {
     if (err) throw err;
     console.log(`删除文件成功：${imgName}`);
   });

@@ -70,15 +70,21 @@
             </div>
             <div class="game-date">
               <span>发售时间</span>
-              <span class="date">{{ gameDetail.game_date }}</span>
+              <div class="date">
+                <span>{{ gameDetail.game_date }}</span>
+              </div>
             </div>
             <div class="game-developer">
               <span>开发厂商</span>
-              <span class="developer">{{ gameDetail.game_developer }}</span>
+              <div class="developer">
+                <span>{{ gameDetail.game_developer }}</span>
+              </div>
             </div>
             <div class="game-publisher">
               <span>发行厂商</span>
-              <span class="publisher">{{ gameDetail.game_publisher }}</span>
+              <div class="publisher">
+                <span>{{ gameDetail.game_publisher }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -161,6 +167,7 @@ export default {
   justify-content: space-between;
   margin-bottom: 30px;
 }
+// 轮播图部分
 .game-picture {
   width: 800px;
   background-color: #000100;
@@ -177,6 +184,7 @@ export default {
     opacity: 1;
   }
 }
+// 游戏信息部分
 .game-info {
   max-width: 300px;
 }
@@ -185,11 +193,12 @@ export default {
 }
 .game-descri > * {
   display: flex;
-  margin: 10px 0;
+  margin: 20px 0;
   & > span {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 20px;
+    // margin-top: 5px;
+    // margin-bottom: 5px;
+    margin-right: 30px;
+    font-weight: bold;
   }
 }
 .score {
@@ -197,14 +206,16 @@ export default {
   color: #f5ba49;
 }
 .none {
-  font-size: 20px;
+  font-size: 24px;
+  color: #333;
 }
 .tag-box {
   max-width: 200px;
+  .el-tag--plain {
+    margin: 2px;
+  }
 }
-.el-tag--plain {
-  margin: 2px;
-}
+// 游戏简介
 .game-brief * {
   margin: 10px 0;
 }

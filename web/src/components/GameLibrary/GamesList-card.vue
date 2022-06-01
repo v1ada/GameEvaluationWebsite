@@ -114,7 +114,7 @@ export default {
     margin: 5px 0;
   }
 }
-
+// item-card
 .game-cover {
   width: 165px;
   margin-right: 10px;
@@ -152,11 +152,11 @@ export default {
 }
 .tag-box {
   max-width: 400px;
+  .el-tag--plain {
+    margin: 2px;
+  }
 }
-.el-tag--plain {
-  margin: 2px;
-}
-
+// 分页
 .paging {
   margin-top: 20px;
 }

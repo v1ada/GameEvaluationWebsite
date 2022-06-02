@@ -77,4 +77,13 @@ const router = new VueRouter({
   routes,
 });
 
+// 没有验证登录不能进入私有页
+router.beforeEach(async (to, from, next) => {
+  if (to.meta.isPrivate) {
+    const result = await Vue.prototype.$http.get(`/checkLogin`);
+    if (result.status === 401) next('/');
+  }
+  next();
+});
+
 export default router;

@@ -71,6 +71,7 @@ export default {
               // 清空 token
               localStorage.clear();
               // 刷新重新登录
+              this.$router.push('/login');
               this.$router.go(0);
             });
           } catch (err) {

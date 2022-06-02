@@ -24,8 +24,11 @@ http.interceptors.response.use(
   (err) => {
     // 有err的响应message时
     if (err.response.data.message) {
-      // 只有返回状态码401 没有登录，不发送message
-      if (err.response.status !== 401) {
+      // 返回状态码401 没有登录，不发送message
+      if (err.response.status === 401) {
+        return err.response;
+        // 其余发送message
+      } else {
         Vue.prototype.$message({
           type: 'error',
           message: err.response.data.message,

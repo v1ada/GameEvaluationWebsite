@@ -1,7 +1,7 @@
 <template>
   <div class="item-card-container">
     <el-card class="item-card" :shadow="hover" :body-style="{ padding: '10px' }">
-      <router-link :to="path" class="router-link" v-if="path">
+      <router-link :to="path" class="router-link">
         <div class="item-card-body">
           <div class="img-box">
             <slot name="img-box"></slot>
@@ -33,9 +33,7 @@ export default {
     };
   },
   created() {
-    if (this.path) {
-      this.hover = 'hover';
-    }
+    if (this.path) this.hover = 'hover';
   },
 };
 </script>

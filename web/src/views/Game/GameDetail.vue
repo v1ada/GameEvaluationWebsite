@@ -117,9 +117,9 @@ export default {
       gameDetail: {},
       // 主swiper配置
       swiperOptionMain: {
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
+        loop: true,
+        loopedSlides: 5,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
@@ -127,9 +127,9 @@ export default {
       },
       // 缩略swiper配置
       swiperOptionThumbs: {
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
+        loop: true,
+        loopedSlides: 5,
         slidesPerView: 'auto',
         slideToClickedSlide: true,
       },

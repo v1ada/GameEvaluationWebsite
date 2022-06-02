@@ -150,8 +150,6 @@ export default {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin: 0;
-    padding: 0;
     list-style-type: none;
     li {
       width: 460px;

@@ -21,7 +21,6 @@
             :show-word-limit="true"
             resize="none"
             :disabled="!loginState || userData.isBan"
-            @input="changeInput($event)"
           />
         </el-form-item>
         <div class="box">
@@ -35,8 +34,12 @@
             />
           </el-form-item>
           <el-form-item>
-            <el-button native-type="submit" v-if="loginState && !userData.isBan">提交</el-button>
-            <el-button @click="$router.push('/login')" v-else-if="!userData.isBan">登录</el-button>
+            <el-button type="primary" native-type="submit" v-if="loginState && !userData.isBan">
+              提交
+            </el-button>
+            <el-button type="primary" @click="$router.push('/login')" v-else-if="!userData.isBan">
+              登录
+            </el-button>
             <p class="banStateTip" v-else>你已被禁言</p>
           </el-form-item>
         </div>
@@ -165,9 +168,6 @@ export default {
         }
       });
     },
-    changeInput($event) {
-      this.$forceUpdate();
-    },
     // 删除评价
     async removeEvaluation(item) {
       this.$confirm('是否删除评价', '提示', {
@@ -203,92 +203,67 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.Evaluation-container {
-  .evaluate-form-card {
-    margin: 10px 0;
-    .evaluate-form {
-      display: flex;
-      .el-form-item {
-        margin: 0;
-      }
-      .form-content {
-        width: 800px;
-        height: 150px;
-        font-size: 16px;
-      }
-      .box {
-        margin-left: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .rate-title {
-          font-size: 18px;
-        }
-        .form-rate {
-          margin-bottom: 20px;
-          /deep/ .el-rate__icon {
-            font-size: 30px;
-          }
-        }
-        .el-button {
-          color: #fff;
-          background-color: #333;
-          border-color: #333;
-          &:focus,
-          &:hover {
-            background: #3d3d3d;
-            border-color: #646464;
-            color: #fff;
-          }
-        }
-        .banStateTip {
-          font-size: 20px;
-          color: red;
-          font-weight: 700;
-        }
-      }
+// 评价表单
+.evaluate-form-card {
+  margin: 10px 0;
+}
+.evaluate-form {
+  display: flex;
+  justify-content: space-between;
+}
+.form-content {
+  width: 800px;
+  font-size: 16px;
+}
+.box {
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .rate-title {
+    font-size: 20px;
+  }
+  /deep/ .el-rate__icon {
+    font-size: 30px;
+  }
+  .banStateTip {
+    font-size: 20px;
+    color: red;
+    font-weight: 700;
+  }
+}
+
+// 评价列表
+/deep/ .img-box {
+  img {
+    border-radius: 50%;
+    width: 64px;
+  }
+}
+/deep/ .router-link {
+  cursor: default;
+}
+/deep/ .item-text > div {
+  margin: 10px 0;
+}
+/deep/ .item-header {
+  display: flex;
+  justify-content: space-between;
+  .user-rate {
+    display: inline-block;
+    margin-left: 10px;
+    .el-rate__icon {
+      font-size: 24px;
     }
   }
-  .evaluate-list-card {
-    .card-title {
-      margin: 0;
-    }
-    .evaluate-list-body {
-      /deep/ .img-box {
-        img {
-          border-radius: 50%;
-          width: 64px;
-        }
-      }
-      /deep/ .item-header {
-        display: flex;
-        justify-content: space-between;
-        margin: 10px 0;
-        font-size: 18px;
-        .box-left {
-          display: flex;
-          .nickname {
-            margin-right: 10px;
-          }
-          .user-rate {
-            .el-rate__icon {
-              font-size: 24px;
-            }
-          }
-        }
-      }
-      /deep/ .item-main {
-        .evaluate-content {
-          margin: 10px 0;
-        }
-      }
-      /deep/ .item-footer {
-        .evaluate-time {
-          float: right;
-          color: #969696;
-        }
-      }
-    }
+  .el-icon-delete {
+    cursor: pointer;
+  }
+}
+/deep/ .item-footer {
+  .evaluate-time {
+    float: right;
+    color: #969696;
   }
 }
 </style>

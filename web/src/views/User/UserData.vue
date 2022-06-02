@@ -143,103 +143,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/user_form.scss';
 .userData-card {
   width: 50rem;
-  margin: 0 auto;
-  .header {
-    span {
-      font-size: 20px;
-      color: #2a2424;
-      font-weight: 600;
-    }
-  }
-  /deep/ .el-form-item {
-    .el-form-item__label {
-      font-size: 16px;
-    }
-    &.login {
-      text-align: center;
-      a {
-        display: inline-block;
-        text-decoration: none;
-        color: #333;
-        font-size: 16px;
-      }
-    }
-  }
-  .profile-item {
+}
+.profile-item {
+  display: flex;
+  /deep/ .el-form-item__content {
     display: flex;
-    /deep/ .el-form-item__content {
-      display: flex;
-      flex-direction: column;
-    }
-    .profile-uploader {
-      /deep/ .el-upload {
-        border: 1px dashed #b4bccc;
-        border-radius: 50%;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-      }
-      /deep/ .el-upload:hover {
-        border-color: #409eff;
-      }
-      .profile-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 188px;
-        height: 188px;
-        line-height: 188px;
-        text-align: center;
-      }
-      .profile-photo {
-        width: 188px;
-        height: 188px;
-        display: block;
-      }
-    }
-    /deep/ button {
-      margin: 0 auto;
-      color: #fff;
-      background-color: #333;
-      border-color: #333;
-      &:hover {
-        background: #505050;
-        border-color: #505050;
-        color: #fff;
-      }
-    }
+    flex-direction: column;
   }
-  .button-item {
-    display: flex;
-    justify-content: center;
-    // el-button 样式
-    .el-button {
-      width: 100px;
-      margin: 0 20px;
-
-      background-color: #fff;
-      border-color: #c6cbd7;
-      &:hover {
-        border-color: #333;
-        color: #333;
-      }
-      &:focus {
-        color: #606266;
-      }
-    }
-    .el-button--primary,
-    .el-button--primary:focus {
-      font-size: 16px;
-      color: #fff;
-      background-color: #333;
-      border-color: #333;
-      &:hover {
-        background: #505050;
-        border-color: #505050;
-        color: #fff;
-      }
-    }
+}
+.profile-uploader {
+  /deep/ .el-upload {
+    border: 1px dashed #b4bccc;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
   }
+}
+.profile-photo {
+  width: 188px;
+  height: 188px;
+  display: block;
 }
 </style>

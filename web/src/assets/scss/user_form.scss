@@ -1,0 +1,34 @@
+.el-card {
+  width: 25rem;
+  margin: 6rem auto;
+  .header {
+    span {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+}
+.el-form-item {
+  /deep/.el-form-item__label {
+    font-size: 16px;
+  }
+  /deep/.el-button {
+    width: 100%;
+  }
+  &.register,
+  &.login {
+    text-align: center;
+    a {
+      display: inline-block;
+      color: #333;
+      font-size: 16px;
+    }
+  }
+  &.button-item {
+    display: flex;
+    justify-content: center;
+    /deep/.el-button {
+      width: auto;
+    }
+  }
+}

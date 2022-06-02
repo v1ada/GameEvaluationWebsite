@@ -85,43 +85,6 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-.login-card {
-  width: 25rem;
-  margin: 6rem auto;
-  .header {
-    span {
-      font-size: 20px;
-      color: #2a2424;
-      font-weight: 600;
-    }
-  }
-  /deep/ .el-form-item {
-    .el-form-item__label {
-      font-size: 16px;
-    }
-    .el-button--primary,
-    .el-button--primary:focus {
-      width: 100%;
-      font-size: 16px;
-      color: #fff;
-      background-color: #333;
-      border-color: #333;
-      &:hover {
-        background: #505050;
-        border-color: #505050;
-        color: #fff;
-      }
-    }
-    &.register {
-      text-align: center;
-      a {
-        display: inline-block;
-        text-decoration: none;
-        color: #333;
-        font-size: 16px;
-      }
-    }
-  }
-}
+<style lang="scss" scoped>
+@import '@/assets/scss/user_form.scss';
 </style>

@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-// 导入中间件
+// 导入登录验证中间件
 const authMiddleware = require('../middleware/auth.js')();
 
 const router = express.Router({
@@ -17,14 +17,15 @@ let storage = multer.diskStorage({
 });
 let upload = multer({ storage: storage });
 
-// 文件上传接口，multer会给request添加 file、files
+// 文件上传接口，multer会给request添加 file、files  （经过登录验证中间件才可以上传）
 router.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
   const imgType = req.params.imgType;
   const file = req.file;
+  file.url = `http://${req.headers.host}/public/img/${imgType}/${file.filename}`;
   // 本地链接
   // file.url = `http://localhost:3000/public/img/${imgType}/${file.filename}`;
   // 线上链接
-  file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
+  // file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
   res.send(file);
 });
 

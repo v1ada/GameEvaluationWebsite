@@ -107,7 +107,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .gamesList-card {
   margin-top: 10px;
   p {

@@ -87,7 +87,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .updatePassword-card {
   width: 25rem;
   margin: 0 auto;

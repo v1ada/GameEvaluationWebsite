@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .item-card {
   margin: 5px 0;
   .router-link {

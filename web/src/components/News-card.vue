@@ -93,7 +93,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .news-card {
   background-color: #f8f8f9;
 }

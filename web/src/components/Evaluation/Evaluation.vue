@@ -202,7 +202,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 // 评价表单
 .evaluate-form-card {
   margin: 10px 0;

@@ -62,7 +62,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .card-title {
   font-size: 20px;
   font-weight: 600;

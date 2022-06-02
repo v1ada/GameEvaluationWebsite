@@ -173,7 +173,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .game-filter-card {
   .header {
     span {

@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .gameLibrary-container {
   display: flex;
   justify-content: space-between;

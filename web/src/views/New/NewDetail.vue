@@ -65,7 +65,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 // 新闻详情样式
 .newDetail-container {
   display: flex;

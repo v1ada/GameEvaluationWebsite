@@ -111,7 +111,7 @@ export default {
   margin: 60px auto;
 }
 </style>
-<style lang="less">
+<style lang="scss">
 * {
   margin: 0;
   padding: 0;

@@ -142,7 +142,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .userData-card {
   width: 50rem;
   margin: 0 auto;

@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .carousel-card {
   .el-empty {
     background-color: #444;

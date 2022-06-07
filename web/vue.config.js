@@ -19,5 +19,5 @@ module.exports = {
   // 打包导出的目录
   outputDir: __dirname + '/../server/web',
   //部署时的基本URL
-  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/gameweb' : '/',
 };

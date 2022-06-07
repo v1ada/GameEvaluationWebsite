@@ -18,10 +18,11 @@ let storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 // 文件上传接口，multer会给request添加 file、files  （经过登录验证中间件才可以上传）
-router.post('/admin/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
+router.post('/gameweb/api/upload/:imgType', authMiddleware, upload.single('file'), (req, res) => {
   const imgType = req.params.imgType;
   const file = req.file;
-  file.url = `http://${req.headers.host}/public/img/${imgType}/${file.filename}`;
+  // 根据 host 存储文件路径
+  file.url = `http://${req.headers.host}/gameweb/public/img/${imgType}/${file.filename}`;
   // 本地链接
   // file.url = `http://localhost:3000/public/img/${imgType}/${file.filename}`;
   // 线上链接

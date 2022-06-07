@@ -28,7 +28,7 @@ app.set('secret', 'CB18130214');
 //挂载通用路由
 app.use(
   // 路由路径
-  '/admin/api/rest/:resource',
+  '/gameweb/api/rest/:resource',
   //中间件函数，先执行中间件再挂载路由
   resourceMiddleware,
   router

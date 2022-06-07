@@ -7,7 +7,7 @@ const router = express.Router({
 });
 
 // 登录接口
-router.post('/admin/api/:login', async (req, res) => {
+router.post('/gameweb/api/:login', async (req, res) => {
   console.log('登录接口');
   const { username, password } = req.body;
   const User = require('../models/User');
@@ -50,7 +50,7 @@ router.post('/admin/api/:login', async (req, res) => {
 });
 
 // 中间件检查登录信息，返回登录的用户信息
-router.get('/admin/api/checkLogin', authMiddleware, (req, res) => {
+router.get('/gameweb/api/checkLogin', authMiddleware, (req, res) => {
   console.log('用户登录：', req.user);
   res.send(req.user);
 });

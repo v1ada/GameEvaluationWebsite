@@ -14,10 +14,10 @@ app.use(cors()); // 跨域模块
 app.use(express.json()); //识别json
 
 // 设置前端页面 为静态资源
-app.use('/admin', express.static(__dirname + '/admin'));
-app.use('/', express.static(__dirname + '/web'));
+app.use('/gameweb/admin', express.static(__dirname + '/admin'));
+app.use('/gameweb', express.static(__dirname + '/web'));
 
-app.use('/public', express.static(__dirname + '/public')); // 上传图片静态资源
+app.use('/gameweb/public', express.static(__dirname + '/public')); // 上传图片静态资源
 
 // 导入中间件
 const resourceMiddleware = require('./middleware/resource.js')();

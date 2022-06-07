@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // 设置http基础路径
 const http = axios.create({
-  baseURL: process.env.VUE_APP_API_URL || '/admin/api',
+  baseURL: process.env.VUE_APP_API_URL || '/gameweb/api',
 });
 // axios请求拦截器
 http.interceptors.request.use(

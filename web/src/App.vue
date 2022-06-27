@@ -26,6 +26,10 @@
             <el-menu-item :index="`/userData/${userData._id}`">个人资料</el-menu-item>
             <el-menu-item :index="`/updatePassword/${userData._id}`">修改密码</el-menu-item>
             <el-menu-item index="#" @click="logout">注销</el-menu-item>
+            <!-- 管理后台入口 -->
+            <el-menu-item index="#" v-if="userData.type">
+              <a href="./admin" class="admin-link">管理后台</a>
+            </el-menu-item>
           </el-submenu>
         </el-menu>
       </el-header>
@@ -110,6 +114,10 @@ export default {
 .el-main {
   width: 1200px;
   margin: 60px auto;
+}
+.admin-link {
+  text-decoration: none;
+  color: #fff;
 }
 </style>
 <style lang="scss">

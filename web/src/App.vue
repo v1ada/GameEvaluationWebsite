@@ -85,6 +85,7 @@ export default {
   img {
     z-index: 0;
     min-width: 1920px;
+    width: 100%;
     min-height: 100vh;
   }
 }

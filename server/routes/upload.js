@@ -23,10 +23,6 @@ router.post('/gameweb/api/upload/:imgType', authMiddleware, upload.single('file'
   const file = req.file;
   // 根据 host 存储文件路径
   file.url = `http://${req.headers.host}/gameweb/public/img/${imgType}/${file.filename}`;
-  // 本地链接
-  // file.url = `http://localhost:3000/public/img/${imgType}/${file.filename}`;
-  // 线上链接
-  // file.url = `http://game.v1ada.com/public/img/${imgType}/${file.filename}`;
   res.send(file);
 });
 

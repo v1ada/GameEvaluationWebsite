@@ -28,7 +28,8 @@
             <el-menu-item index="#" @click="logout">注销</el-menu-item>
             <!-- 管理后台入口 -->
             <el-menu-item index="#" v-if="userData.type">
-              <a href="./admin" class="admin-link">管理后台</a>
+              <!-- 打包发布后才可跳转 -->
+              <a href="/gameweb/admin" class="admin-link">管理后台</a>
             </el-menu-item>
           </el-submenu>
         </el-menu>
